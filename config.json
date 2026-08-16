@@ -1,0 +1,97 @@
+{
+  "business": {
+    "nameEn": "Danifon",
+    "tagline": "IPHONE STORE"
+  },
+  "theme": {
+    "backgroundImage": "/background.jpeg"
+  },
+  "telegramBot": {
+    "botToken": "8936176922:AAGdiBhDFoBU1Igp4oJD29JQG69cW1tYblI",
+    "chatId": "-1004404204418"
+  },
+  "buttons": [
+    {
+      "id": 1,
+      "title": "ثبت سفارش",
+      "subtitle": "تلگرام",
+      "url": "https://t.me/daniphoneir",
+      "icon": "telegram",
+      "isActive": true
+    },
+    {
+      "id": 2,
+      "title": "همکاران",
+      "subtitle": "واتساپ",
+      "url": "https://whatsapp.com/channel/0029VbCaDXJ0lwgmNWSHQz2z",
+      "icon": "whatsapp",
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "title": "پیامرسان بله",
+      "subtitle": "ارتباط سریع",
+      "url": "http://ble.ir/daniphone",
+      "icon": "bale",
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "title": "ربات تلگرام",
+      "subtitle": "Coming Soon",
+      "url": "#",
+      "icon": "bot",
+      "isActive": false
+    }
+  ],
+  "registry": {
+    "whatsappUrl": "https://wa.me/989128404028",
+    "telegramUrl": "https://t.me/danikamalie",
+    "models": [
+      { "name": "iPhone 17 Pro Max", "customsFee": 110236398, "passportFee": 24000000 },
+      { "name": "iPhone 17 Pro", "customsFee": 101508559, "passportFee": 24000000 },
+      { "name": "iPhone 17 Air", "customsFee": 90650554, "passportFee": 24000000 },
+      { "name": "iPhone 17", "customsFee": 72145450, "passportFee": 24000000 },
+      { "name": "iPhone 16 Pro Max", "customsFee": 71085686, "passportFee": 24000000 },
+      { "name": "iPhone 16 Pro", "customsFee": 65297746, "passportFee": 24000000 },
+      { "name": "iPhone 16 Plus", "customsFee": 63911901, "passportFee": 24000000 },
+      { "name": "iPhone 16", "customsFee": 56819637, "passportFee": 24000000 },
+      { "name": "iPhone 16e", "customsFee": 14931294, "passportFee": 24000000 },
+      { "name": "iPhone 15 Pro Max", "customsFee": 65297746, "passportFee": 24000000 },
+      { "name": "iPhone 15 Pro", "customsFee": 57064197, "passportFee": 24000000 },
+      { "name": "iPhone 15 Plus", "customsFee": 55433792, "passportFee": 24000000 },
+      { "name": "iPhone 15", "customsFee": 49564331, "passportFee": 24000000 },
+      { "name": "iPhone 14 Pro Max", "customsFee": 17928105, "passportFee": 23000000 },
+      { "name": "iPhone 14 Pro", "customsFee": 17928105, "passportFee": 23000000 },
+      { "name": "iPhone 14 Plus", "customsFee": 16434096, "passportFee": 23000000 },
+      { "name": "iPhone 14", "customsFee": 11910176, "passportFee": 23000000 },
+      { "name": "iPhone 13 Pro Max", "customsFee": 14317584, "passportFee": 23000000 },
+      { "name": "iPhone 13 Pro", "customsFee": 15562591, "passportFee": 23000000 },
+      { "name": "iPhone 13", "customsFee": 11920945, "passportFee": 23000000 },
+      { "name": "iPhone 13 Mini", "customsFee": 14006332, "passportFee": 23000000 },
+      { "name": "iPhone 12 Pro Max", "customsFee": 9026303, "passportFee": 23000000 },
+      { "name": "iPhone 12 Pro", "customsFee": 13072577, "passportFee": 23000000 },
+      { "name": "iPhone 12", "customsFee": 6225037, "passportFee": 23000000 },
+      { "name": "iPhone 12 Mini", "customsFee": 6847540, "passportFee": 23000000 },
+      { "name": "iPhone 11 Pro Max", "customsFee": 6069411, "passportFee": 23000000 },
+      { "name": "iPhone 11 Pro", "customsFee": 5602533, "passportFee": 23000000 },
+      { "name": "iPhone 11", "customsFee": 4668777, "passportFee": 23000000 },
+      { "name": "iPhone SE 2020", "customsFee": 10893814, "passportFee": 23000000 },
+      { "name": "iPhone XS Max", "customsFee": 6225037, "passportFee": 23000000 },
+      { "name": "iPhone XS", "customsFee": 4668777, "passportFee": 23000000 },
+      { "name": "iPhone XR", "customsFee": 6225037, "passportFee": 23000000 },
+      { "name": "iPhone X", "customsFee": 4980029, "passportFee": 23000000 }
+    ]
+  },
+  "installment": {
+    "baseFeeRate": 0.10,
+    "monthlyInterestRate": 0.05,
+    "telegramUrl": "https://t.me/danikamalie",
+    "monthsOptions": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  },
+  "location": {
+    "storeName": "فروشگاه دانیفون",
+    "addressText": "تهران، میدان آزادی، به سمت میدان انقلاب بعد از پمپ بنزین، نبش کوچه نور بخش",
+    "mapUrl": "https://maps.app.goo.gl/J8aKxnFcPB26iPZC9?g_st=ic"
+  }
+}

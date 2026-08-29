@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import phonesData from "../data/phones.json";
 import config from "../../config.json";
 
@@ -87,21 +87,16 @@ export default function WaitlistSection({
     return ["در حد نو (کارکرده)", "فرقی ندارد"];
   }, [currentPhone.series]);
 
-  // If phone changes to non-17, ensure condition resets from Akband to Kar-karde
-  useEffect(() => {
-    if (currentPhone.series !== "17" && selectedCondition === "آکبند (پلمپ)") {
-      setSelectedCondition("در حد نو (کارکرده)");
-    }
-  }, [currentPhone.series, selectedCondition]);
-
   // Customer Contact Info
   const [customerName, setCustomerName] = useState<string>("");
   const [customerPhone, setCustomerPhone] = useState<string>("");
   const [contactMethod, setContactMethod] = useState<string>("تماس تلفنی 📞");
 
   // Submission Status
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "fallback">("idle");
   const [trackingCode, setTrackingCode] = useState<string>("");
+  const [directMessageText, setDirectMessageText] = useState<string>("");
+  const [copied, setCopied] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   // Handle series tab change
@@ -152,12 +147,32 @@ export default function WaitlistSection({
     const code = `DANI-${Math.floor(1000 + Math.random() * 9000)}`;
     const intentObj = INTENT_OPTIONS.find((i) => i.percent === selectedIntent);
 
+    const actualCondition = currentPhone.series === "17" ? selectedCondition : (selectedCondition === "آکبند (پلمپ)" ? "در حد نو (کارکرده)" : selectedCondition);
+
+    const fullMessage = `سلام وقت بخیر، درخواست رزرو در صف انتظار VIP آیفون دارم.
+━━━━━━━━━━━━━━━━━━━━
+🔢 کد رهگیری: #${code}
+📱 مدل دستگاه: ${currentPhone.name} (${selectedStorage})
+🎨 رنگ انتخابی: ${selectedColor}
+📦 وضعیت: ${actualCondition}
+⚡ درصد و فوریت خرید: ${selectedIntent}% (${intentObj?.label || "خرید فوری"})
+━━━━━━━━━━━━━━━━━━━━
+👤 نام مشتری: ${customerName.trim() || "ثبت نشده"}
+📞 شماره تماس: ${cleanPhone}
+💬 روش ترجیحی ارتباط: ${contactMethod}
+⏰ زمان ثبت: ${new Date().toLocaleString("fa-IR", { timeZone: "Asia/Tehran" })}
+━━━━━━━━━━━━━━━━━━━━
+📍 ثبت شده از وب‌سایت دانیفون`;
+
+    setTrackingCode(code);
+    setDirectMessageText(fullMessage);
+
     const payload = {
       trackingCode: code,
       model: currentPhone.name,
       storage: selectedStorage,
       color: selectedColor,
-      condition: selectedCondition,
+      condition: actualCondition,
       intentPercent: selectedIntent,
       intentLabel: intentObj?.label || "خرید فوری",
       phone: cleanPhone,
@@ -176,36 +191,23 @@ export default function WaitlistSection({
       const data = await res.json();
 
       if (res.ok && data.ok) {
-        setTrackingCode(code);
         setStatus("success");
       } else {
-        throw new Error(data.error || "خطا در برقراری ارتباط");
+        // Fallback to direct telegram/whatsapp if server bot failed
+        console.warn("Server-side bot notification failed, switching to direct messaging fallback:", data);
+        setStatus("fallback");
       }
-    } catch (err: any) {
-      console.error("Submission failed:", err);
-      // Client-side fallback if direct fetch to route failed
-      try {
-        const botToken = config.telegramBot.botToken;
-        const chatId = config.telegramBot.chatId;
-        const directText = `🎯 <b>درخواست جدید در صف انتظار آیفون دلخواه</b>\n🔢 <b>کد:</b> <code>#${code}</code>\n📱 <b>مدل:</b> ${currentPhone.name} (${selectedStorage})\n🎨 <b>رنگ:</b> ${selectedColor}\n📦 <b>وضعیت:</b> ${selectedCondition}\n⚡ <b>قطعیت:</b> ${selectedIntent}%\n👤 <b>نام:</b> ${customerName || "ثبت نشده"}\n📞 <b>تماس:</b> <code>${cleanPhone}</code>\n💬 <b>روش:</b> ${contactMethod}`;
+    } catch (err: unknown) {
+      console.warn("Network error during waitlist submit, switching to direct messaging fallback:", err);
+      setStatus("fallback");
+    }
+  };
 
-        const directRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: chatId, text: directText, parse_mode: "HTML" }),
-        });
-        const directData = await directRes.json();
-        if (directData.ok) {
-          setTrackingCode(code);
-          setStatus("success");
-          return;
-        }
-      } catch {}
-
-      setErrorMessage(
-        "ارسال خودکار با تاخیر مواجه شد. می‌توانید درخواست خود را مستقیماً در واتساپ یا تلگرام ارسال کنید."
-      );
-      setStatus("error");
+  const handleCopy = () => {
+    if (directMessageText) {
+      navigator.clipboard.writeText(directMessageText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
     }
   };
 
@@ -214,7 +216,11 @@ export default function WaitlistSection({
     setCustomerPhone("");
     setCustomerName("");
     setErrorMessage("");
+    setCopied(false);
   };
+
+  const directTelegramUrl = `https://t.me/daniphoneir?text=${encodeURIComponent(directMessageText)}`;
+  const directWhatsappUrl = `${config.registry.whatsappUrl}?text=${encodeURIComponent(directMessageText)}`;
 
   return (
     <div className="w-full flex flex-col gap-4 animate-fadeInSlide" dir="rtl">
@@ -239,8 +245,8 @@ export default function WaitlistSection({
         </span>
       </div>
 
-      {/* SUCCESS CONFIRMATION STATE */}
-      {status === "success" ? (
+      {/* 1. SUCCESS CONFIRMATION STATE */}
+      {status === "success" && (
         <div className="flex flex-col items-center text-center p-4 bg-black/40 rounded-[24px] border border-emerald-500/40 gap-3.5 animate-fadeIn">
           <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-2xl">
             ✅
@@ -277,7 +283,78 @@ export default function WaitlistSection({
             ثبت یک درخواست دیگر
           </button>
         </div>
-      ) : (
+      )}
+
+      {/* 2. DIRECT ACTION FALLBACK STATE (Guarantees zero lost leads) */}
+      {status === "fallback" && (
+        <div className="flex flex-col items-center text-center p-4 bg-black/50 rounded-[24px] border border-amber-500/50 gap-3 animate-fadeIn">
+          <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-2xl">
+            🎯
+          </div>
+          <div>
+            <h3 className={`text-base font-bold text-white mb-1 ${lalezarClassName}`}>
+              درخواست شما آماده ثبت نهایی است!
+            </h3>
+            <p className="text-xs text-neutral-200 leading-relaxed max-w-xs">
+              جهت دریافت اولویت تحویل VIP و پیگیری فوری، درخواست خود را با یک کلیک در تلگرام یا واتساپ برای ما ارسال کنید:
+            </p>
+          </div>
+
+          {/* Tracking Code Chip */}
+          <div className="py-1.5 px-3.5 rounded-xl bg-white/10 border border-white/20 flex items-center gap-2 text-xs">
+            <span className="text-neutral-400">کد رهگیری شما:</span>
+            <strong className="text-amber-300 font-mono font-bold text-sm">
+              #{trackingCode}
+            </strong>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="w-full flex flex-col gap-2 mt-1">
+            <a
+              href={directTelegramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-full py-3 px-3 rounded-[16px] bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 active:scale-[0.98] text-white font-bold text-xs shadow-[0_4px_16px_rgba(56,189,248,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer ${lalezarClassName}`}
+            >
+              <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
+                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.799-1.185-.78-.415-1.21.258-1.91.176-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.892-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+              </svg>
+              <span>✈️ ارسال درخواست در تلگرام دانیفون</span>
+            </a>
+
+            <a
+              href={directWhatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`w-full py-3 px-3 rounded-[16px] bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-white font-bold text-xs shadow-[0_4px_16px_rgba(16,185,129,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer ${lalezarClassName}`}
+            >
+              <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
+                <path d="M12.031 0C5.383 0 0 5.383 0 12.031c0 2.12.552 4.17 1.599 5.986L.071 24l6.126-1.606c1.764.957 3.742 1.464 5.83 1.464 6.645 0 12.028-5.383 12.028-12.031S18.675 0 12.031 0zm0 21.849c-1.793 0-3.548-.482-5.086-1.393l-.365-.217-3.774.989 1.008-3.682-.238-.378a10.02 10.02 0 0 1-1.543-5.318C2.033 6.309 6.471 1.867 12.031 1.867c5.556 0 9.994 4.439 9.994 9.983s-4.438 9.999-9.994 9.999zm5.485-7.485c-.301-.151-1.782-.88-2.059-.982-.276-.1-.477-.151-.678.151-.201.301-.778.982-.954 1.183-.176.201-.351.226-.653.075-2.093-1.05-3.513-1.921-4.836-3.626-.176-.226-.019-.348.131-.498.136-.136.301-.351.452-.527.151-.176.201-.301.301-.502.1-.201.05-.376-.025-.527-.075-.151-.678-1.631-.929-2.233-.245-.588-.495-.508-.678-.518-.176-.008-.376-.011-.577-.011s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.911 1.229 3.112c.151.201 2.122 3.238 5.14 4.542 1.942.836 2.709.914 3.652.766.793-.125 2.457-1.004 2.802-1.97.345-.966.345-1.792.245-1.97-.101-.176-.376-.276-.678-.427z" />
+              </svg>
+              <span>💬 ارسال درخواست در واتساپ دانیفون</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="w-full py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 active:bg-white/20 text-neutral-200 text-xs font-semibold transition-all border border-white/10 flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <span>{copied ? "✅ متن پیام کپی شد" : "📋 کپی متن کامل درخواست"}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleReset}
+              className="mt-1 text-[11px] text-neutral-400 hover:text-white underline cursor-pointer"
+            >
+              ویرایش اطلاعات فرم
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 3. FORM STATE */}
+      {status !== "success" && status !== "fallback" && (
         /* FORM STATE */
         <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 text-xs">
           {/* 1. Series Filter Tabs */}

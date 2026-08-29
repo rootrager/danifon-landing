@@ -13,7 +13,7 @@ function escapeHtml(str: string = ""): string {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    let {
+    const {
       trackingCode,
       model,
       storage,
@@ -101,6 +101,7 @@ export async function POST(request: Request) {
           text: messageText,
           parse_mode: "HTML",
         }),
+        signal: AbortSignal.timeout(7000),
       }
     );
 
@@ -115,10 +116,11 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ ok: true, trackingCode: safeTrackingCode });
-  } catch (err: any) {
-    console.error("Waitlist API Handler Error:", err);
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : "خطای داخلی در سرور";
+    console.error("Waitlist API Handler Error:", errorMsg);
     return NextResponse.json(
-      { error: "خطای داخلی در سرور" },
+      { error: "خطا در برقراری ارتباط با سرور تلگرام" },
       { status: 500 }
     );
   }

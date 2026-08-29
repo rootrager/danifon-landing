@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import config from "../../config.json";
 
 interface CalculatorsProps {
@@ -30,7 +30,8 @@ const SERIES_FILTERS = [
   { id: "15", label: "سری ۱۵", match: (name: string) => name.includes("15") },
   { id: "14", label: "سری ۱۴", match: (name: string) => name.includes("14") },
   { id: "13", label: "سری ۱۳", match: (name: string) => name.includes("13") },
-  { id: "older", label: "۱۲ و قبل‌تر", match: (name: string) => !["17", "16", "15", "14", "13"].some((s) => name.includes(s)) },
+  { id: "older", label: "۱۲ و قبل‌تر", match: (name: string) => name.startsWith("iPhone") && !["17", "16", "15", "14", "13"].some((s) => name.includes(s)) },
+  { id: "samsung", label: "سامسونگ", match: (name: string) => name.startsWith("Galaxy") || name.toLowerCase().includes("s2") || name.toLowerCase().includes("fold") },
 ];
 
 const PRESET_AMOUNTS = [

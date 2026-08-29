@@ -60,6 +60,35 @@
     ]
   },
   {
+    "id": "17-air",
+    "name": "iPhone 17 Air",
+    "series": "17",
+    "storages": [
+      "256GB",
+      "512GB",
+      "1TB"
+    ],
+    "colors": [
+      "نقره‌ای",
+      "مشکی",
+      "آبی روشن"
+    ],
+    "colorItems": [
+      {
+        "name": "نقره‌ای",
+        "hex": "#e2e4e6"
+      },
+      {
+        "name": "مشکی",
+        "hex": "#1c1c1e"
+      },
+      {
+        "name": "آبی روشن",
+        "hex": "#7dd3fc"
+      }
+    ]
+  },
+  {
     "id": "17",
     "name": "iPhone 17",
     "series": "17",
@@ -233,6 +262,29 @@
         "name": "صورتی",
         "hex": "#f472b6"
       },
+      {
+        "name": "سفید",
+        "hex": "#f5f5f7"
+      },
+      {
+        "name": "مشکی",
+        "hex": "#1c1c1e"
+      }
+    ]
+  },
+  {
+    "id": "16e",
+    "name": "iPhone 16e",
+    "series": "16",
+    "storages": [
+      "128GB",
+      "256GB"
+    ],
+    "colors": [
+      "سفید",
+      "مشکی"
+    ],
+    "colorItems": [
       {
         "name": "سفید",
         "hex": "#f5f5f7"

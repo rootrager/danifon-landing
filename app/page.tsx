@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { Lalezar } from "next/font/google";
+import Link from "next/link";
+import Image from "next/image";
 import config from "../config.json";
 import Calculators from "./components/Calculators";
 import WaitlistSection from "./components/WaitlistSection";
@@ -65,6 +67,50 @@ const TABS: TabItem[] = [
   },
 ];
 
+interface ShowcaseItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge: string;
+  badgeColor: string;
+  image: string;
+  tag: string;
+  priceNote: string;
+}
+
+const SHOWCASE_ITEMS: ShowcaseItem[] = [
+  {
+    id: "iphone-17-pro",
+    title: "آیفون 17 پرو",
+    subtitle: "تیتانیوم یخی",
+    badge: "پرچمدار 2026",
+    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/40",
+    image: "/showcase-iphone-17-pro.jpeg",
+    tag: "آکبند • نات‌اکتیو",
+    priceNote: "تحویل فوری تهران",
+  },
+  {
+    id: "watch-ultra",
+    title: "اپل واچ اولترا 2",
+    subtitle: "تیتانیوم 49mm",
+    badge: "موجود در انبار",
+    badgeColor: "bg-sky-500/20 text-sky-300 border-sky-400/40",
+    image: "/showcase-apple-watch-ultra.jpeg",
+    tag: "بند اوشن • ضدآب",
+    priceNote: "تضمین اصالت",
+  },
+  {
+    id: "airpods-pro",
+    title: "ایرپادز پرو 2",
+    subtitle: "تایپ سی (Type-C)",
+    badge: "پرفروش‌ترین",
+    badgeColor: "bg-indigo-500/20 text-indigo-300 border-indigo-400/40",
+    image: "/showcase-airpods-pro.jpeg",
+    tag: "نویزکنسلینگ ANC",
+    priceNote: "مهلت تست 10 روزه",
+  },
+];
+
 // Quick Action Channel Icons
 const TelegramIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   <svg className={`${className} fill-current text-sky-400`} viewBox="0 0 24 24">
@@ -90,6 +136,12 @@ const BotIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   </svg>
 );
 
+const AppleLogoIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 170 170" fill="currentColor">
+    <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.78-8.8-10.3-18.79-13.56-29.98-3.26-11.19-4.89-22.14-4.89-32.84 0-14.35 3.84-26.31 11.51-35.88 7.67-9.57 17.15-14.48 28.43-14.73 4.35 0 9.28 1.16 14.79 3.48 5.51 2.32 9.09 3.54 10.74 3.66 1.88 0 5.68-1.28 11.4-3.83 5.72-2.55 10.81-3.76 15.28-3.63 11.08.38 20.31 4.34 27.67 11.89 7.36 7.55 12.01 16.89 13.97 28.02-9.92 5.98-14.76 14.35-14.53 25.1.23 9.46 3.96 17.39 11.19 23.79 3.59 3.16 7.6 5.62 12.03 7.38-2.61 7.63-5.7 15.02-9.27 22.18zM119.22 31.84c0-7.38 2.65-14.18 7.95-20.4 5.3-6.23 11.83-10.15 19.59-11.77.23 1.05.35 2.12.35 3.21 0 7.38-2.73 14.36-8.2 20.93-5.46 6.57-12.05 10.36-19.78 11.38-.11-1.12-.17-2.24-.17-3.35z" />
+  </svg>
+);
+
 const LocationPinIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   <svg className={`${className} fill-current text-red-400`} viewBox="0 0 24 24">
     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
@@ -109,17 +161,17 @@ export default function Home() {
       />
 
       {/* BRAND HERO HEADER */}
-      <header className="flex flex-col items-center mb-6 text-center select-none w-full relative">
+      <header className="flex flex-col items-center mb-5 text-center select-none w-full relative">
         {/* Live Status Pill */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-[10px] font-semibold text-neutral-200 shadow-sm mb-3.5">
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[10px] font-semibold text-neutral-200 shadow-sm mb-3.5">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>فروشگاه فعال • سفارش آنلاین و تحویل فوری</span>
+          <span>فروشگاه تخصصی آیفون • خرید آنلاین و تحویل حضوری</span>
         </div>
 
         {/* Titanium Apple Emblem + Typography */}
         <div className="flex items-center justify-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl flex items-center justify-center text-white text-2xl shadow-[0_8px_20px_rgba(0,0,0,0.3)] animate-floatSlow">
-            
+          <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl flex items-center justify-center text-white shadow-[0_8px_20px_rgba(0,0,0,0.3)] animate-floatSlow">
+            <AppleLogoIcon className="w-6 h-6 fill-current text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
           </div>
           <div className="flex flex-col text-right" dir="ltr">
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight shimmer-text leading-none">
@@ -131,6 +183,98 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      {/* FEATURED INVENTORY SHOWCASE DASHBOARD */}
+      <section className="w-full mb-5 relative select-none" dir="rtl" aria-label="ویترین موجودی دانیفون">
+        <div className="bg-white/[0.07] backdrop-blur-[24px] rounded-[26px] p-3 sm:p-3.5 border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-2.5">
+          {/* Dashboard Header */}
+          <div className="flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              </span>
+              <h2 className={`text-xs sm:text-sm font-black text-white ${lalezar.className}`}>
+                ویترین منتخب موجودی
+              </h2>
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/10 text-neutral-300 font-mono">
+                Live
+              </span>
+            </div>
+            <Link
+              href="/inventory"
+              className="text-[10.5px] font-bold text-indigo-300 hover:text-white flex items-center gap-0.5 transition-colors group"
+            >
+              <span>مشاهده همه</span>
+              <span className="text-xs group-hover:-translate-x-0.5 transition-transform">←</span>
+            </Link>
+          </div>
+
+          {/* 3-Column Product Cards Grid */}
+          <div className="grid grid-cols-3 gap-2">
+            {SHOWCASE_ITEMS.map((item) => (
+              <Link
+                key={item.id}
+                href="/inventory"
+                className="group flex flex-col rounded-[18px] bg-black/30 hover:bg-black/50 border border-white/10 hover:border-white/25 p-1.5 transition-all duration-300 active:scale-[0.97] overflow-hidden"
+              >
+                {/* Image Container with specular overlay */}
+                <div className="relative w-full aspect-[3/4] rounded-[13px] overflow-hidden bg-neutral-900/80 border border-white/10">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 768px) 33vw, 150px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                  {/* Subtle top & bottom shadow gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none" />
+                  {/* Floating badge */}
+                  <span className={`absolute top-1.5 right-1.5 text-[8px] font-bold px-1.5 py-0.5 rounded-md border backdrop-blur-md ${item.badgeColor}`}>
+                    {item.badge}
+                  </span>
+                  {/* Floating price note at bottom */}
+                  <span className="absolute bottom-1.5 right-1 left-1 text-[8px] text-center font-bold py-0.5 rounded bg-black/70 backdrop-blur-md text-emerald-300 border border-white/10 truncate">
+                    {item.priceNote}
+                  </span>
+                </div>
+
+                {/* Device Title & Subtitle */}
+                <div className="flex flex-col mt-1.5 px-0.5 text-right">
+                  <span className={`text-[11.5px] font-black text-white leading-tight truncate ${lalezar.className}`}>
+                    {item.title}
+                  </span>
+                  <span className="text-[8.5px] text-neutral-400 truncate mt-0.5">
+                    {item.subtitle}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Action Explore Bar */}
+          <Link
+            href="/inventory"
+            className="w-full py-2 px-3 rounded-[15px] bg-gradient-to-r from-indigo-500/15 via-purple-500/10 to-transparent hover:from-indigo-500/25 hover:to-purple-500/20 border border-indigo-400/20 hover:border-indigo-400/40 flex items-center justify-between transition-all duration-300 active:scale-[0.98] group cursor-pointer"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-sm">📦</span>
+              <div className="flex flex-col text-right">
+                <span className={`text-xs font-bold text-white ${lalezar.className}`}>
+                  مشاهده لیست کامل موجودی انبار
+                </span>
+                <span className="text-[8.5px] text-indigo-300">
+                  آیفون، اپل واچ، ایرپاد و اکسسوری با قیمت روز
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 text-[11px] font-bold text-indigo-300 group-hover:text-white shrink-0 transition-colors">
+              <span className="text-[9.5px]">ورود به انبار</span>
+              <span className="text-xs group-hover:-translate-x-0.5 transition-transform">←</span>
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* 4-WAY GLASSMORPHISM SWITCHER MATRIX (2x2 Grid) */}
       <nav className="w-full grid grid-cols-2 gap-2.5 mb-5 select-none" dir="rtl" aria-label="خدمات اصلی">
@@ -294,6 +438,7 @@ export default function Home() {
           {/* Embedded Google Map */}
           <div className="w-full aspect-video rounded-[18px] overflow-hidden relative border border-white/10 shadow-inner">
             <iframe
+              title="موقعیت مکانی فروشگاه دانیفون روی نقشه"
               src={`https://maps.google.com/maps?q=${encodeURIComponent(config.location.addressText)}&z=15&output=embed`}
               className="w-full h-full border-0 brightness-[0.85] contrast-[1.05] pointer-events-none"
               allowFullScreen={false}

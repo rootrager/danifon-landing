@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 import config from "../config.json";
@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   description: `Order registration and contact for ${config.business.nameEn} retail store.`,
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -19,16 +25,18 @@ export default function RootLayout({
     <html lang="fa" dir="rtl">
       <body 
         className={`${vazirmatn.className} text-white antialiased min-h-screen bg-neutral-950 relative`}
-        style={{
-          backgroundImage: `url('${config.theme.backgroundImage}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-          backgroundRepeat: "no-repeat"
-        }}
+        suppressHydrationWarning
       >
+        {/* Fixed Background Image Layer (prevents iOS background-attachment: fixed lag & hydration warnings) */}
+        <div
+          className="fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none -z-20"
+          style={{
+            backgroundImage: `url('${config.theme.backgroundImage}')`,
+          }}
+        />
+
         {/* Ambient Dark Overlay to guarantee high contrast across diverse backgrounds */}
-        <div className="fixed inset-0 bg-black/40 backdrop-brightness-95 pointer-events-none z-0" />
+        <div className="fixed inset-0 bg-black/40 backdrop-brightness-95 pointer-events-none -z-10" />
         
         {/* Responsive mobile-first container with balanced padding */}
         <main className="mx-auto max-w-md min-h-screen relative shadow-2xl overflow-hidden z-10 flex flex-col bg-black/10">

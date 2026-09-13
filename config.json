@@ -6,6 +6,13 @@
   "theme": {
     "backgroundImage": "/background.jpeg"
   },
+  "contact": {
+    "phone": "09128404028",
+    "phoneUrl": "tel:+989128404028",
+    "whatsappUrl": "https://wa.me/989128404028",
+    "telegramExpertUrl": "https://t.me/danikamali",
+    "telegramChannelUrl": "https://t.me/daniphoneir"
+  },
   "telegramBot": {
     "botToken": "8936176922:AAGdiBhDFoBU1Igp4oJD29JQG69cW1tYblI",
     "chatId": "-1004404204418"
@@ -31,7 +38,7 @@
       "id": 3,
       "title": "پیامرسان بله",
       "subtitle": "ارتباط سریع",
-      "url": "http://ble.ir/daniphone",
+      "url": "https://ble.ir/daniphone",
       "icon": "bale",
       "isActive": true
     },
@@ -95,7 +102,7 @@
   },
   "appleId": {
     "telegramUrl": "https://t.me/danikamalie",
-    "deliveryTime": "زیر ۳۰ دقیقه",
+    "deliveryTime": "زیر 30 دقیقه",
     "priceText": "شخصی و قانونی",
     "features": [
       "ثبت اختصاصی روی جیمیل شخصی شما",
@@ -109,8 +116,8 @@
     "addressText": "تهران، میدان آزادی، به سمت میدان انقلاب بعد از پمپ بنزین، نبش کوچه نوربخش (لاین سمت چپ متعلق به دانیفون)",
     "laneNote": "توجه: لاین سمت چپ فروشگاه متعلق به دانیفون است",
     "mapUrl": "https://maps.app.goo.gl/J8aKxnFcPB26iPZC9?g_st=ic",
-    "neshanUrl": "https://nshn.ir",
-    "baladUrl": "https://balad.ir",
+    "neshanUrl": "https://neshan.org/maps/search/فروشگاه+دانیفون+میدان+آزادی",
+    "baladUrl": "https://balad.ir/search?q=فروشگاه+دانیفون+میدان+آزادی",
     "wazeUrl": "https://waze.com/ul?q=میدان+آزادی+تهران"
   }
 }

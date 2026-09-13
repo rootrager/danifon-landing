@@ -18,38 +18,38 @@ function toAsciiDigits(str: string): string {
 
 const SERIES_TABS = [
   { id: "all", label: "همه" },
-  { id: "17", label: "سری ۱۷" },
-  { id: "16", label: "سری ۱۶" },
-  { id: "15", label: "سری ۱۵" },
-  { id: "14", label: "سری ۱۴" },
-  { id: "13", label: "سری ۱۳" },
-  { id: "12", label: "سری ۱۲" },
-  { id: "11", label: "۱۱ و SE" },
+  { id: "17", label: "سری 17" },
+  { id: "16", label: "سری 16" },
+  { id: "15", label: "سری 15" },
+  { id: "14", label: "سری 14" },
+  { id: "13", label: "سری 13" },
+  { id: "12", label: "سری 12" },
+  { id: "11", label: "11 و SE" },
 ];
 
 const INTENT_OPTIONS = [
   {
     percent: 100,
     label: "خرید نقدی و فوری (به محض موجود شدن)",
-    badge: "⚡ ۱۰۰٪ فوری",
+    badge: "⚡ 100% فوری",
     colorClass: "border-amber-400 bg-amber-500/20 text-amber-300",
   },
   {
     percent: 80,
     label: "خرید قطعی تا چند روز آینده",
-    badge: "🔥 ۸۰٪ قطعی",
+    badge: "🔥 80% قطعی",
     colorClass: "border-sky-400 bg-sky-500/20 text-sky-300",
   },
   {
     percent: 50,
     label: "بررسی قیمت و خرید در این ماه",
-    badge: "⏳ ۵۰٪ بررسی",
+    badge: "⏳ 50% بررسی",
     colorClass: "border-emerald-400 bg-emerald-500/20 text-emerald-300",
   },
   {
     percent: 20,
     label: "صرفاً استعلام قیمت و مشاوره",
-    badge: "💬 ۲۰٪ استعلام",
+    badge: "💬 20% استعلام",
     colorClass: "border-neutral-400 bg-white/10 text-neutral-300",
   },
 ];
@@ -160,7 +160,7 @@ export default function WaitlistSection({
 👤 نام مشتری: ${customerName.trim() || "ثبت نشده"}
 📞 شماره تماس: ${cleanPhone}
 💬 روش ترجیحی ارتباط: ${contactMethod}
-⏰ زمان ثبت: ${new Date().toLocaleString("fa-IR", { timeZone: "Asia/Tehran" })}
+⏰ زمان ثبت: ${new Date().toLocaleString("en-US", { timeZone: "Asia/Tehran" })}
 ━━━━━━━━━━━━━━━━━━━━
 📍 ثبت شده از وب‌سایت دانیفون`;
 
@@ -178,7 +178,7 @@ export default function WaitlistSection({
       phone: cleanPhone,
       name: customerName.trim(),
       contactMethod: contactMethod,
-      timestamp: new Date().toLocaleString("fa-IR", { timeZone: "Asia/Tehran" }),
+      timestamp: new Date().toLocaleString("en-US", { timeZone: "Asia/Tehran" }),
     };
 
     try {
@@ -360,7 +360,7 @@ export default function WaitlistSection({
           {/* 1. Series Filter Tabs */}
           <div className="flex flex-col gap-1.5">
             <label className="font-semibold text-neutral-200">
-              ۱. سری آیفون مدنظر:
+              1. سری آیفون مدنظر:
             </label>
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none no-scrollbar">
               {SERIES_TABS.map((tab) => {
@@ -386,7 +386,7 @@ export default function WaitlistSection({
           {/* 2. Model Dropdown */}
           <div className="flex flex-col gap-1.5">
             <label className="font-semibold text-neutral-200">
-              ۲. مدل دقیق دستگاه:
+              2. مدل دقیق دستگاه:
             </label>
             <select
               value={selectedPhoneName}
@@ -406,7 +406,7 @@ export default function WaitlistSection({
             {/* Storage */}
             <div className="flex flex-col gap-1.5">
               <label className="font-semibold text-neutral-200">
-                ۳. ظرفیت حافظه:
+                3. ظرفیت حافظه:
               </label>
               <div className="flex flex-wrap gap-1">
                 {currentPhone.storages.map((st) => {
@@ -432,7 +432,7 @@ export default function WaitlistSection({
             {/* Condition */}
             <div className="flex flex-col gap-1.5">
               <label className="font-semibold text-neutral-200">
-                ۴. وضعیت دستگاه:
+                4. وضعیت دستگاه:
               </label>
               <div className="flex flex-col gap-1">
                 {availableConditions.map((cond) => {
@@ -459,7 +459,7 @@ export default function WaitlistSection({
           {/* 4. Color Swatches */}
           <div className="flex flex-col gap-1.5">
             <label className="font-semibold text-neutral-200">
-              ۵. رنگ دلخواه:
+              5. رنگ دلخواه:
             </label>
             <div className="flex flex-wrap gap-1.5">
               {currentPhone.colorItems?.map((col) => {
@@ -501,7 +501,7 @@ export default function WaitlistSection({
           <div className="flex flex-col gap-1.5 p-3 bg-black/30 rounded-[18px] border border-white/10">
             <div className="flex justify-between items-center">
               <label className="font-bold text-white text-xs">
-                ۶. درصد فوریت خرید شما:
+                6. درصد فوریت خرید شما:
               </label>
               <span className="text-[10px] font-bold text-amber-300">
                 (جهت اولویت‌بندی تماس)
@@ -532,7 +532,7 @@ export default function WaitlistSection({
           <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-1">
               <label className="font-semibold text-neutral-200">
-                ۷. شماره همراه شما (الزامی):
+                7. شماره همراه شما (الزامی):
               </label>
               <input
                 type="tel"

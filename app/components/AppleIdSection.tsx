@@ -14,6 +14,12 @@ function toAsciiDigits(str: string): string {
     .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 1632 + 48));
 }
 
+const AppleLogoIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 170 170" fill="currentColor">
+    <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.78-8.8-10.3-18.79-13.56-29.98-3.26-11.19-4.89-22.14-4.89-32.84 0-14.35 3.84-26.31 11.51-35.88 7.67-9.57 17.15-14.48 28.43-14.73 4.35 0 9.28 1.16 14.79 3.48 5.51 2.32 9.09 3.54 10.74 3.66 1.88 0 5.68-1.28 11.4-3.83 5.72-2.55 10.81-3.76 15.28-3.63 11.08.38 20.31 4.34 27.67 11.89 7.36 7.55 12.01 16.89 13.97 28.02-9.92 5.98-14.76 14.35-14.53 25.1.23 9.46 3.96 17.39 11.19 23.79 3.59 3.16 7.6 5.62 12.03 7.38-2.61 7.63-5.7 15.02-9.27 22.18zM119.22 31.84c0-7.38 2.65-14.18 7.95-20.4 5.3-6.23 11.83-10.15 19.59-11.77.23 1.05.35 2.12.35 3.21 0 7.38-2.73 14.36-8.2 20.93-5.46 6.57-12.05 10.36-19.78 11.38-.11-1.12-.17-2.24-.17-3.35z" />
+  </svg>
+);
+
 export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSectionProps) {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
@@ -74,21 +80,21 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
       {/* Header Info */}
       <div className="flex items-center justify-between pb-2 border-b border-white/10">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center text-indigo-300 text-lg shadow-[0_0_12px_rgba(99,102,241,0.3)]">
-            
+          <div className="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center text-indigo-300 shadow-[0_0_12px_rgba(99,102,241,0.3)]">
+            <AppleLogoIcon className="w-4.5 h-4.5 fill-current text-indigo-300" />
           </div>
           <div className="flex flex-col">
             <h3 className={`text-base font-black text-white ${lalezarClassName}`}>
               سفارش اپل‌آیدی اختصاصی و قانونی
             </h3>
             <span className="text-[10px] text-neutral-300">
-              ثبت مستقیم روی جیمیل شخصی شما با امنیت ۱۰۰٪
+              ثبت مستقیم روی جیمیل شخصی شما با امنیت 100%
             </span>
           </div>
         </div>
         <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center gap-1">
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
-          تحویل زیر ۳۰ دقیقه
+          تحویل زیر 30 دقیقه
         </span>
       </div>
 
@@ -97,7 +103,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
         <div className="bg-black/30 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
           <span className="text-base shrink-0">🔒</span>
           <div className="flex flex-col">
-            <strong className="text-[11px] text-white font-bold">ایمیل ۱۰۰٪ شخصی</strong>
+            <strong className="text-[11px] text-white font-bold">ایمیل 100% شخصی</strong>
             <span className="text-[9.5px] text-neutral-400 leading-tight">بدون خطر دیسیبل شدن</span>
           </div>
         </div>
@@ -114,7 +120,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
           <span className="text-base shrink-0">⚡</span>
           <div className="flex flex-col">
             <strong className="text-[11px] text-white font-bold">تحویل سریع</strong>
-            <span className="text-[9.5px] text-neutral-400 leading-tight">زیر ۳۰ دقیقه کاری</span>
+            <span className="text-[9.5px] text-neutral-400 leading-tight">زیر 30 دقیقه کاری</span>
           </div>
         </div>
 
@@ -132,7 +138,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
         {/* Gmail Input */}
         <div className="flex flex-col gap-1">
           <label className="font-semibold text-neutral-200 flex items-center justify-between">
-            <span>۱. آدرس جیمیل شما (جهت ثبت اپل آیدی):</span>
+            <span>1. آدرس جیمیل شما (جهت ثبت اپل آیدی):</span>
             <span className="text-[10px] text-indigo-300 font-normal">الزامی</span>
           </label>
           <div className="relative">
@@ -154,7 +160,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
         <div className="grid grid-cols-2 gap-2">
           <div className="flex flex-col gap-1">
             <label className="font-medium text-neutral-300 text-[11px]">
-              ۲. نام و نام خانوادگی:
+              2. نام و نام خانوادگی:
             </label>
             <input
               type="text"
@@ -167,7 +173,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
 
           <div className="flex flex-col gap-1">
             <label className="font-medium text-neutral-300 text-[11px] flex justify-between">
-              <span>۳. شماره تماس:</span>
+              <span>3. شماره تماس:</span>
               <span className="text-[9px] text-indigo-300">الزامی</span>
             </label>
             <input

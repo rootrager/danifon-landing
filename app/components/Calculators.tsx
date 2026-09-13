@@ -25,20 +25,20 @@ function formatCurrency(val: number): string {
 
 const SERIES_FILTERS = [
   { id: "all", label: "همه" },
-  { id: "17", label: "سری ۱۷", match: (name: string) => name.includes("17") },
-  { id: "16", label: "سری ۱۶", match: (name: string) => name.includes("16") },
-  { id: "15", label: "سری ۱۵", match: (name: string) => name.includes("15") },
-  { id: "14", label: "سری ۱۴", match: (name: string) => name.includes("14") },
-  { id: "13", label: "سری ۱۳", match: (name: string) => name.includes("13") },
-  { id: "older", label: "۱۲ و قبل‌تر", match: (name: string) => name.startsWith("iPhone") && !["17", "16", "15", "14", "13"].some((s) => name.includes(s)) },
+  { id: "17", label: "سری 17", match: (name: string) => name.includes("17") },
+  { id: "16", label: "سری 16", match: (name: string) => name.includes("16") },
+  { id: "15", label: "سری 15", match: (name: string) => name.includes("15") },
+  { id: "14", label: "سری 14", match: (name: string) => name.includes("14") },
+  { id: "13", label: "سری 13", match: (name: string) => name.includes("13") },
+  { id: "older", label: "12 و قبل‌تر", match: (name: string) => name.startsWith("iPhone") && !["17", "16", "15", "14", "13"].some((s) => name.includes(s)) },
   { id: "samsung", label: "سامسونگ", match: (name: string) => name.startsWith("Galaxy") || name.toLowerCase().includes("s2") || name.toLowerCase().includes("fold") },
 ];
 
 const PRESET_AMOUNTS = [
-  { label: "۳۰ م", value: 30000000 },
-  { label: "۵۰ م", value: 50000000 },
-  { label: "۷۰ م", value: 70000000 },
-  { label: "۱۰۰ م", value: 100000000 },
+  { label: "30 م", value: 30000000 },
+  { label: "50 م", value: 50000000 },
+  { label: "70 م", value: 70000000 },
+  { label: "100 م", value: 100000000 },
 ];
 
 export default function Calculators({
@@ -168,7 +168,7 @@ export default function Calculators({
               </div>
             </div>
             <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30 flex items-center gap-1">
-              سقف هر قسط ۱۵ م
+              سقف هر قسط 15 م
             </span>
           </div>
 
@@ -207,7 +207,7 @@ export default function Calculators({
                   setAmountStr(raw);
                 }}
                 placeholder="مبلغ دلخواه را وارد کنید (مثلاً 50,000,000)"
-                className={`w-full bg-black/40 border rounded-[16px] py-2.5 px-3.5 text-white text-base font-bold outline-none transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] placeholder:text-neutral-500 placeholder:font-normal placeholder:text-xs ${
+                className={`w-full bg-black/40 border rounded-[16px] py-2.5 pr-3.5 pl-14 text-white text-base font-bold outline-none transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] placeholder:text-neutral-500 placeholder:font-normal placeholder:text-xs ${
                   isInvalidAmount
                     ? "border-amber-500/50 focus:border-amber-400"
                     : isMonthlyExceeded
@@ -215,7 +215,7 @@ export default function Calculators({
                     : "border-white/20 focus:border-sky-400/80"
                 }`}
               />
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-neutral-400">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-neutral-400 pointer-events-none select-none">
                 تومان
               </span>
             </div>
@@ -288,8 +288,8 @@ export default function Calculators({
             <div className="bg-rose-950/40 border border-rose-500/40 rounded-[16px] p-2.5 text-[11px] text-rose-200 font-medium leading-relaxed flex items-start gap-2 backdrop-blur-md">
               <span className="text-base shrink-0">⚠️</span>
               <div>
-                <strong className="block mb-0.5 text-rose-300">سقف مجاز هر قسط (۱۵ میلیون):</strong>
-                مبلغ قسط ماهانه بالاتر از ۱۵ میلیون است. لطفاً تعداد ماه‌ها را افزایش دهید یا مبلغ اولیه را کم کنید.
+                <strong className="block mb-0.5 text-rose-300">سقف مجاز هر قسط (15 میلیون):</strong>
+                مبلغ قسط ماهانه بالاتر از 15 میلیون است. لطفاً تعداد ماه‌ها را افزایش دهید یا مبلغ اولیه را کم کنید.
               </div>
             </div>
           )}
@@ -304,7 +304,7 @@ export default function Calculators({
               <span className={lalezarClassName}>
                 {isInvalidAmount
                   ? "مبلغ اقساط را وارد کنید"
-                  : "مبلغ قسط بالای سقف مجاز (۱۵ میلیون) است"}
+                  : "مبلغ قسط بالای سقف مجاز (15 میلیون) است"}
               </span>
             </button>
           ) : (
@@ -351,7 +351,7 @@ export default function Calculators({
           {/* Series Quick-Filter Pills */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-neutral-200">
-              ۱. دسته‌بندی سری آیفون:
+              1. دسته‌بندی سری آیفون:
             </label>
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none no-scrollbar">
               {SERIES_FILTERS.map((s) => {
@@ -377,7 +377,7 @@ export default function Calculators({
           {/* iPhone Model Dropdown Select */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-neutral-200">
-              ۲. انتخاب مدل دقیق:
+              2. انتخاب مدل دقیق:
             </label>
             <select
               value={selectedModelName}

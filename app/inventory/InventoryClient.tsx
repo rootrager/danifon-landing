@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import Link from "next/link";
 import type { InventoryItem } from "./page";
 
@@ -123,6 +123,19 @@ const IconClose = () => (
 const IconAppleLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
   <svg className={className} viewBox="0 0 170 170" fill="currentColor">
     <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.78-8.8-10.3-18.79-13.56-29.98-3.26-11.19-4.89-22.14-4.89-32.84 0-14.35 3.84-26.31 11.51-35.88 7.67-9.57 17.15-14.48 28.43-14.73 4.35 0 9.28 1.16 14.79 3.48 5.51 2.32 9.09 3.54 10.74 3.66 1.88 0 5.68-1.28 11.4-3.83 5.72-2.55 10.81-3.76 15.28-3.63 11.08.38 20.31 4.34 27.67 11.89 7.36 7.55 12.01 16.89 13.97 28.02-9.92 5.98-14.76 14.35-14.53 25.1.23 9.46 3.96 17.39 11.19 23.79 3.59 3.16 7.6 5.62 12.03 7.38-2.61 7.63-5.7 15.02-9.27 22.18zM119.22 31.84c0-7.38 2.65-14.18 7.95-20.4 5.3-6.23 11.83-10.15 19.59-11.77.23 1.05.35 2.12.35 3.21 0 7.38-2.73 14.36-8.2 20.93-5.46 6.57-12.05 10.36-19.78 11.38-.11-1.12-.17-2.24-.17-3.35z" />
+  </svg>
+);
+
+const IconPlay = () => (
+  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+    <polygon points="5 3 19 12 5 21 5 3" />
+  </svg>
+);
+
+const IconPause = () => (
+  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+    <rect x="6" y="4" width="4" height="16" rx="1" />
+    <rect x="14" y="4" width="4" height="16" rx="1" />
   </svg>
 );
 
@@ -538,6 +551,21 @@ export default function InventoryClient({
   const [viewMode, setViewMode] = useState<"showcase" | "compact">("showcase");
   const [inspectedItem, setInspectedItem] = useState<InventoryItem | null>(null);
 
+  // Video Showcase Controls
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const toggleVideoPlay = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setIsVideoPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsVideoPlaying(false);
+    }
+  };
+
   // Filter & Sort Logic
   const filteredAndSorted = useMemo(() => {
     let result = [...items];
@@ -639,6 +667,71 @@ export default function InventoryClient({
           </div>
         </div>
       </header>
+
+      {/* ── VIDEO SHOWCASE HERO CARD ── */}
+      <section className="w-full mb-3 select-none" aria-label="ویترین زنده دانیفون">
+        <div className="relative w-full rounded-[24px] overflow-hidden border border-white/15 bg-black/40 backdrop-blur-2xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] transition-all">
+          {/* 16:9 Video Player */}
+          <div className="relative w-full aspect-video overflow-hidden bg-neutral-950">
+            <video
+              ref={videoRef}
+              src="/danifon-showcase.mp4"
+              poster="/danifon-showcase-poster.jpg"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            />
+
+            {/* Specular Ambient Glow & Top/Bottom Shadow */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/35 pointer-events-none" />
+
+            {/* Top Bar Floating Controls inside Video */}
+            <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between pointer-events-auto">
+              {/* Live Status Pill */}
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-bold text-white shadow-lg">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                </span>
+                <span>ویترین تحویل فوری دانیفون</span>
+              </div>
+
+              {/* Action Button (Play/Pause) */}
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={toggleVideoPlay}
+                  className="w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all active:scale-90 cursor-pointer"
+                  title={isVideoPlaying ? "توقف ویدیو" : "پخش ویدیو"}
+                  aria-label={isVideoPlaying ? "توقف ویدیو" : "پخش ویدیو"}
+                >
+                  {isVideoPlaying ? <IconPause /> : <IconPlay />}
+                </button>
+              </div>
+            </div>
+
+            {/* Bottom Floating Info Banner inside Video */}
+            <div className="absolute bottom-2.5 inset-x-2.5 pointer-events-none">
+              <div className="flex items-center justify-between gap-1.5 text-[9px] sm:text-[9.5px] text-neutral-200">
+                <span className="font-bold text-white flex items-center gap-1 drop-shadow-md truncate">
+                  <span>✨</span>
+                  <span className="truncate">تنوع رنگی و مدل‌های آماده تحویل</span>
+                </span>
+                <div className="flex items-center gap-1 pointer-events-auto shrink-0">
+                  <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-bold text-[8px] sm:text-[8.5px] backdrop-blur-md whitespace-nowrap">
+                    ۱۰ روز مهلت تست
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded-md bg-white/15 border border-white/20 text-white font-bold text-[8px] sm:text-[8.5px] backdrop-blur-md whitespace-nowrap">
+                    پلمپ اصلی
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ── SEARCH BAR ── */}
       <div className="w-full mb-3 select-none">

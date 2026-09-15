@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 import config from "../config.json";
+import AmbientPlayer from "./components/AmbientPlayer";
 
 const vazirmatn = Vazirmatn({ subsets: ["arabic", "latin"] });
 
@@ -42,6 +43,9 @@ export default function RootLayout({
         <main className="mx-auto max-w-md min-h-screen relative shadow-2xl overflow-hidden z-10 flex flex-col bg-black/10">
           {children}
         </main>
+
+        {/* Global Ambient Background Player */}
+        <AmbientPlayer />
       </body>
     </html>
   );

@@ -117,15 +117,15 @@ async function fetchInventory(): Promise<InventoryItem[]> {
   try {
     const res = await fetch(apiUrl, {
       headers: { "x-api-key": apiKey },
-      next: { revalidate: 60 },
+      next: { revalidate: 30 },
       signal: AbortSignal.timeout(6000),
     });
-    if (!res.ok) return FALLBACK_INVENTORY;
+    if (!res.ok) return [];
     const data = await res.json();
     const list = data.inventory ?? (Array.isArray(data) ? data : []);
-    return list.length > 0 ? list : FALLBACK_INVENTORY;
+    return list;
   } catch {
-    return FALLBACK_INVENTORY;
+    return [];
   }
 }
 

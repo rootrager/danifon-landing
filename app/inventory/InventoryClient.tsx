@@ -143,20 +143,19 @@ const IconPause = () => (
    Categories & Detection
    ═══════════════════════════════════════════════════════ */
 const CATEGORIES = [
-  { id: "all", label: "همه کالاها", Icon: IconAll },
-  { id: "iphone", label: "آیفون", Icon: IconIPhone },
-  { id: "watch", label: "اپل واچ", Icon: IconWatch },
-  { id: "airpods", label: "ایرپاد", Icon: IconAirPods },
-  { id: "accessory", label: "اکسسوری", Icon: IconAccessory },
+  { id: "all", label: "همه آیفون‌ها", Icon: IconAll },
+  { id: "16", label: "سری 16", Icon: IconIPhone },
+  { id: "15", label: "سری 15", Icon: IconIPhone },
+  { id: "13", label: "سری 13", Icon: IconIPhone },
 ];
 
 function detectCategory(item: InventoryItem): string {
-  const text = `${item.model ?? ""} ${item.series ?? ""}`.toLowerCase();
-  if (text.includes("iphone") || text.includes("آیفون")) return "iphone";
-  if (text.includes("watch") || text.includes("واچ")) return "watch";
-  if (text.includes("airpod") || text.includes("ایرپاد")) return "airpods";
-  if (text.includes("access") || text.includes("اکسسوری") || text.includes("cable") || text.includes("charger")) return "accessory";
-  return "other";
+  if (item.series && ["16", "15", "13"].includes(item.series)) return item.series;
+  const text = `${item.model ?? ""}`.toLowerCase();
+  if (text.includes("16")) return "16";
+  if (text.includes("15")) return "15";
+  if (text.includes("13")) return "13";
+  return "all";
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -164,12 +163,12 @@ function detectCategory(item: InventoryItem): string {
    ═══════════════════════════════════════════════════════ */
 function getPartCountry(item: InventoryItem): { flag: string; label: string } | null {
   const combined = `${item.part ?? ""} ${item.sim ?? ""}`.toUpperCase();
-  if (combined.includes("CH/A") || combined.includes("CH")) return { flag: "🇨🇳", label: "پارت چین (CH/A)" };
-  if (combined.includes("ZA/A") || combined.includes("ZA")) return { flag: "🇦🇪", label: "امارات/سنگاپور (ZA/A)" };
-  if (combined.includes("LL/A") || combined.includes("LLA")) return { flag: "🇺🇸", label: "پارت آمریکا (LLA)" };
-  if (combined.includes("JA/A") || combined.includes("JA")) return { flag: "🇯🇵", label: "پارت ژاپن (JA/A)" };
-  if (combined.includes("ZP/A") || combined.includes("ZP")) return { flag: "🇭🇰", label: "هنگ‌کنگ (ZP/A)" };
-  if (combined.includes("TH/A") || combined.includes("TH")) return { flag: "🇹🇭", label: "تایلند (TH/A)" };
+  if (combined.includes("CH/A") || combined.includes("CH")) return { flag: "🇨🇳", label: "چین (CH)" };
+  if (combined.includes("ZA/A") || combined.includes("ZA")) return { flag: "🇸🇬", label: "سنگاپور (ZA)" };
+  if (combined.includes("LL/A") || combined.includes("LLA")) return { flag: "🇺🇸", label: "آمریکا (LL)" };
+  if (combined.includes("JA/A") || combined.includes("JA")) return { flag: "🇯🇵", label: "ژاپن (JA)" };
+  if (combined.includes("ZP/A") || combined.includes("ZP")) return { flag: "🇭🇰", label: "هنگکنگ (ZP)" };
+  if (combined.includes("TH/A") || combined.includes("TH")) return { flag: "🇹🇭", label: "تایلند (TH)" };
   if (item.part) return { flag: "🌐", label: `پارت ${item.part}` };
   return null;
 }
@@ -186,10 +185,13 @@ function formatPrice(price: string | null): { formatted: string; numOnly: string
   return { formatted: `${numOnly} تومان`, numOnly, isContact: false, rawNum: n };
 }
 
-function parseBatteryPct(battery: string | null): number | null {
-  if (!battery) return null;
-  const m = battery.match(/(\d+)/);
-  return m ? parseInt(m[1], 10) : null;
+function parseModelAndColor(modelRaw: string | null, fallbackColor: string | null = null) {
+  if (!modelRaw) return { modelName: "محصول", extractedColor: fallbackColor };
+  const match = modelRaw.match(/^(.*?)\s*\((.*?)\)$/);
+  if (match) {
+    return { modelName: match[1].trim(), extractedColor: match[2].trim() };
+  }
+  return { modelName: modelRaw, extractedColor: fallbackColor };
 }
 
 function relativeTime(isoDate: string): string {
@@ -232,16 +234,16 @@ function TechnicalInspectionSheet({
 }) {
   const isNew = item.type === "new";
   const { formatted: priceFormatted } = formatPrice(item.price);
-  const batteryPct = parseBatteryPct(item.battery);
+  const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
   const partInfo = getPartCountry(item);
 
   const prefilledMessage = `سلام دانیفون، درخواست بررسی و رزرو کالا از انبار دارم:
 ━━━━━━━━━━━━━━━━━━━━
-📱 مدل: ${item.model ?? "محصول"}
+📱 مدل: ${modelName}
 💾 ظرفیت: ${item.capacity ?? "مشخص نشده"}
 🎨 وضعیت: ${item.condition ?? (isNew ? "آکبند" : "کارکرده")}
-⚙️ پارت‌نامبر: ${partInfo?.label ?? item.part ?? "ثبت نشده"}
-🔋 سلامت باتری: ${batteryPct ? `${batteryPct}%` : (isNew ? "100% (آکبند)" : "مشخص نشده")}
+⚙️ پارتنامبر: ${partInfo?.label ?? item.part ?? "ثبت نشده"}
+🎨 رنگ: ${extractedColor ?? "ثبت نشده"}
 📋 رجیستری: ${item.registry ?? "ثبت رسمی"}
 🛡️ مهلت تست: 10 روز مهلت تست فنی قید شده در فاکتور رسمی
 💰 قیمت روز و نقدی: ${priceFormatted}
@@ -272,7 +274,7 @@ function TechnicalInspectionSheet({
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-black text-white leading-snug">
-                  {item.model ?? "محصول"}
+                  {modelName}
                 </h3>
                 <span
                   className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${
@@ -396,7 +398,7 @@ function ShowcaseCard({
 }) {
   const isNew = item.type === "new";
   const { formatted: priceText, numOnly, isContact } = formatPrice(item.price);
-  const batteryPct = parseBatteryPct(item.battery);
+  const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
   const partInfo = getPartCountry(item);
 
   return (
@@ -411,8 +413,8 @@ function ShowcaseCard({
             <IconAppleLogo className="w-4 h-4 fill-current text-white/90" />
           </div>
           <div className="flex flex-col">
-            <h3 className="text-sm font-extrabold text-white group-hover:text-indigo-200 transition-colors">
-              {item.model ?? "محصول دانیفون"}
+            <h3 className="text-sm font-extrabold text-white group-hover:text-emerald-300 transition-colors">
+              {modelName}
             </h3>
             <span className="text-[10px] text-neutral-400 font-medium">
               {item.series ? `سری ${item.series}` : "اورجینال"}
@@ -421,13 +423,13 @@ function ShowcaseCard({
         </div>
 
         <span
-          className={`shrink-0 text-[9.5px] font-bold px-2.5 py-1 rounded-full border ${
+          className={`shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-full border ${
             isNew
               ? "text-emerald-300 bg-emerald-500/15 border-emerald-500/30"
               : "text-amber-300 bg-amber-500/15 border-amber-400/30"
           }`}
         >
-          {isNew ? "آکبند (پلمپ)" : item.condition ?? "در حد نو"}
+          {isNew ? (item.condition ?? "آکبند") : (item.condition ?? "در حد نو")}
         </span>
       </div>
 
@@ -447,13 +449,21 @@ function ShowcaseCard({
         )}
 
         {item.registry && (
-          <span className="text-[10px] px-2 py-0.5 rounded-lg bg-white/[0.06] text-neutral-300 border border-white/10">
+          <span
+            className={`text-[10.5px] font-bold px-2 py-0.5 rounded-lg border ${
+              item.registry.includes("بدون")
+                ? "bg-red-500/15 border-red-500/30 text-red-400"
+                : "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"
+            }`}
+          >
             {item.registry}
           </span>
         )}
 
-        {batteryPct !== null && (
-          <BatteryHealthBadge pct={batteryPct} />
+        {extractedColor && (
+          <span className="text-[10.5px] font-bold px-2.5 py-0.5 rounded-lg bg-white/10 text-neutral-200 border border-white/10 shrink-0">
+            {extractedColor}
+          </span>
         )}
       </div>
 
@@ -473,7 +483,7 @@ function ShowcaseCard({
           )}
         </div>
 
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-500/20 group-hover:bg-indigo-500/30 text-indigo-300 border border-indigo-400/30 text-[11px] font-bold transition-all">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-500/20 group-hover:bg-sky-500/30 text-sky-300 border border-sky-400/30 text-[11.5px] font-bold transition-all">
           <span>مشخصات و رزرو</span>
           <span className="text-xs group-hover:-translate-x-0.5 transition-transform">←</span>
         </div>
@@ -494,7 +504,7 @@ function CompactRow({
 }) {
   const isNew = item.type === "new";
   const { numOnly, isContact } = formatPrice(item.price);
-  const batteryPct = parseBatteryPct(item.battery);
+  const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
   const partInfo = getPartCountry(item);
 
   return (
@@ -509,16 +519,16 @@ function CompactRow({
         <div className="flex flex-col min-w-0">
           <div className="flex items-center gap-1.5">
             <span className="font-extrabold text-white truncate text-[13px]">
-              {item.model}
+              {modelName}
             </span>
             <span className={`text-[8.5px] font-bold px-1.5 py-0.2 rounded ${isNew ? "text-emerald-300 bg-emerald-500/15" : "text-amber-300 bg-amber-500/15"}`}>
-              {isNew ? "آکبند" : "کارکرده"}
+              {isNew ? (item.condition ?? "آکبند") : (item.condition ?? "کارکرده")}
             </span>
           </div>
           <div className="flex items-center gap-2 text-[10px] text-neutral-400 mt-0.5">
             {item.capacity && <span>{item.capacity}</span>}
             {partInfo && <span>• {partInfo.flag} {partInfo.label.split(" ")[1] || ""}</span>}
-            {batteryPct && <span>• باتری {batteryPct}%</span>}
+            {extractedColor && <span>• {extractedColor}</span>}
           </div>
         </div>
       </div>
@@ -546,25 +556,12 @@ export default function InventoryClient({
   const [activeCategory, setActiveCategory] = useState("all");
   const [conditionFilter, setConditionFilter] = useState<"all" | "new" | "used">("all");
   const [registryFilter, setRegistryFilter] = useState<"all" | "registered" | "unregistered">("all");
-  const [sortOption, setSortOption] = useState<"newest" | "price-asc" | "price-desc" | "battery-desc">("newest");
+  const [sortOption, setSortOption] = useState<"newest" | "price-asc" | "price-desc">("newest");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"showcase" | "compact">("showcase");
   const [inspectedItem, setInspectedItem] = useState<InventoryItem | null>(null);
 
-  // Video Showcase Controls
-  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const toggleVideoPlay = () => {
-    if (!videoRef.current) return;
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsVideoPlaying(true);
-    } else {
-      videoRef.current.pause();
-      setIsVideoPlaying(false);
-    }
-  };
 
   // Filter & Sort Logic
   const filteredAndSorted = useMemo(() => {
@@ -602,16 +599,12 @@ export default function InventoryClient({
     result.sort((a, b) => {
       const priceA = formatPrice(a.price).rawNum;
       const priceB = formatPrice(b.price).rawNum;
-      const batA = parseBatteryPct(a.battery) || (a.type === "new" ? 100 : 0);
-      const batB = parseBatteryPct(b.battery) || (b.type === "new" ? 100 : 0);
 
       switch (sortOption) {
         case "price-asc":
           return priceA - priceB;
         case "price-desc":
           return priceB - priceA;
-        case "battery-desc":
-          return batB - batA;
         case "newest":
         default:
           return 0;
@@ -658,36 +651,32 @@ export default function InventoryClient({
             </div>
             <div className="flex flex-col">
               <h1 className="text-xl font-black text-white leading-tight">
-                موجودی انبار و ویترین دانیفون
+                موجودی آیفون‌های آکبند دانیفون
               </h1>
               <span className="text-[10px] text-neutral-400 mt-0.5">
-                بروزرسانی {relativeTime(fetchedAt)} • {items.length} دستگاه آماده تحویل فوری
+                بروزرسانی {relativeTime(fetchedAt)} • {items.length} دستگاه آکبند پلمپ آماده تحویل فوری
               </span>
             </div>
           </div>
         </div>
       </header>
 
-      {/* ── VIDEO SHOWCASE HERO CARD ── */}
-      <section className="w-full mb-3 select-none" aria-label="ویترین زنده دانیفون">
-        <div className="relative w-full rounded-[24px] overflow-hidden border border-white/15 bg-black/40 backdrop-blur-2xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] transition-all">
-          {/* 16:9 Video Player */}
-          <div className="relative w-full aspect-video overflow-hidden bg-neutral-950">
-            <video
-              ref={videoRef}
-              src="/danifon-showcase.mp4"
-              poster="/danifon-showcase-poster.jpg"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
+      {/* ── PHOTO SHOWCASE HERO CARD (WOOD & MINIMAL) ── */}
+      <section className="w-full mb-3 select-none" aria-label="ویترین دستگاه‌های آکبند دانیفون">
+        <div className="relative w-full rounded-[24px] overflow-hidden border border-white/15 bg-black/40 backdrop-blur-2xl shadow-[0_16px_40px_rgba(0,0,0,0.5)] transition-all group">
+          {/* Hero Image Container */}
+          <div className="relative w-full aspect-[16/9] overflow-hidden bg-neutral-950">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/inventory-hero-wood.jpg"
+              alt="ویترین آیفون‌های آکبند دانیفون روی میز چوبی"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             />
 
             {/* Specular Ambient Glow & Top/Bottom Shadow */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/35 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/35 pointer-events-none" />
 
-            {/* Top Bar Floating Controls inside Video */}
+            {/* Top Bar Floating Badges */}
             <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between pointer-events-auto">
               {/* Live Status Pill */}
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-bold text-white shadow-lg">
@@ -695,36 +684,29 @@ export default function InventoryClient({
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                 </span>
-                <span>ویترین تحویل فوری دانیفون</span>
+                <span>ویترین آیفون‌های آکبند دانیفون</span>
               </div>
 
-              {/* Action Button (Play/Pause) */}
-              <div className="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={toggleVideoPlay}
-                  className="w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 flex items-center justify-center text-white transition-all active:scale-90 cursor-pointer"
-                  title={isVideoPlaying ? "توقف ویدیو" : "پخش ویدیو"}
-                  aria-label={isVideoPlaying ? "توقف ویدیو" : "پخش ویدیو"}
-                >
-                  {isVideoPlaying ? <IconPause /> : <IconPlay />}
-                </button>
+              <div className="flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 font-bold text-[9px] backdrop-blur-md">
+                  Studio Wood Minimal
+                </span>
               </div>
             </div>
 
-            {/* Bottom Floating Info Banner inside Video */}
+            {/* Bottom Floating Info Banner */}
             <div className="absolute bottom-2.5 inset-x-2.5 pointer-events-none">
               <div className="flex items-center justify-between gap-1.5 text-[9px] sm:text-[9.5px] text-neutral-200">
                 <span className="font-bold text-white flex items-center gap-1 drop-shadow-md truncate">
                   <span>✨</span>
-                  <span className="truncate">تنوع رنگی و مدل‌های آماده تحویل</span>
+                  <span className="truncate">تنوع پارت‌نامبر و رنگ‌بندی کامل</span>
                 </span>
                 <div className="flex items-center gap-1 pointer-events-auto shrink-0">
                   <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-bold text-[8px] sm:text-[8.5px] backdrop-blur-md whitespace-nowrap">
                     ۱۰ روز مهلت تست
                   </span>
                   <span className="px-1.5 py-0.5 rounded-md bg-white/15 border border-white/20 text-white font-bold text-[8px] sm:text-[8.5px] backdrop-blur-md whitespace-nowrap">
-                    پلمپ اصلی
+                    پلمپ کارخانه
                   </span>
                 </div>
               </div>
@@ -770,7 +752,7 @@ export default function InventoryClient({
                 onClick={() => setActiveCategory(cat.id)}
                 className={`flex items-center gap-1.5 py-2 px-3.5 rounded-full text-xs font-bold transition-all cursor-pointer border whitespace-nowrap ${
                   active
-                    ? "bg-indigo-500/30 border-indigo-400/60 text-white shadow-[0_2px_12px_rgba(99,102,241,0.3)] scale-[1.02]"
+                    ? "bg-emerald-500/25 border-emerald-400/50 text-emerald-200 shadow-[0_2px_12px_rgba(16,185,129,0.25)] scale-[1.02]"
                     : "bg-white/[0.05] border-white/[0.08] text-neutral-400 hover:text-white hover:bg-white/10"
                 }`}
               >
@@ -778,7 +760,7 @@ export default function InventoryClient({
                 <span>{cat.label}</span>
                 <span
                   className={`text-[9px] px-1.5 py-0.2 rounded-full font-mono ${
-                    active ? "bg-indigo-400/40 text-white" : "bg-white/10 text-neutral-400"
+                    active ? "bg-emerald-400/40 text-white" : "bg-white/10 text-neutral-400"
                   }`}
                 >
                   {count}
@@ -792,27 +774,10 @@ export default function InventoryClient({
       {/* ── FILTER & SORT CONTROL BAR ── */}
       <div className="w-full mb-3 flex flex-col gap-2 select-none">
         <div className="flex items-center justify-between gap-2">
-          {/* Condition Pills */}
-          <div className="flex items-center gap-1">
-            {(
-              [
-                { id: "all", label: "همه" },
-                { id: "new", label: "آکبند" },
-                { id: "used", label: "کارکرده" },
-              ] as const
-            ).map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setConditionFilter(c.id)}
-                className={`py-1 px-2.5 rounded-xl text-[10px] font-bold border transition-all cursor-pointer ${
-                  conditionFilter === c.id
-                    ? "bg-white/20 border-white/30 text-white shadow-sm"
-                    : "bg-black/20 border-white/[0.06] text-neutral-400 hover:text-white"
-                }`}
-              >
-                {c.label}
-              </button>
-            ))}
+          {/* Guaranteed Akband Status Badge */}
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10.5px] font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>تمام موجودی ۱۰۰٪ آکبند (پلمپ اصلی)</span>
           </div>
 
           {/* View Mode & Sort Dropdown */}
@@ -825,9 +790,8 @@ export default function InventoryClient({
                 className="bg-black/40 border border-white/10 rounded-xl py-1 px-2 text-[10px] font-bold text-neutral-300 outline-none cursor-pointer appearance-none text-right pl-6"
               >
                 <option value="newest" className="bg-neutral-900 text-white">جدیدترین</option>
-                <option value="price-asc" className="bg-neutral-900 text-white">ارزان‌ترین</option>
-                <option value="price-desc" className="bg-neutral-900 text-white">گران‌ترین</option>
-                <option value="battery-desc" className="bg-neutral-900 text-white">بیشترین باتری</option>
+                <option value="price-asc" className="bg-neutral-900 text-white">ارزانترین</option>
+                <option value="price-desc" className="bg-neutral-900 text-white">گرانترین</option>
               </select>
               <span className="absolute left-2 pointer-events-none text-neutral-400 text-[10px]">
                 <IconSort />

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import InventoryClient from "./InventoryClient";
 
 export const metadata: Metadata = {
-  title: "موجودی انبار دانیفون | Danifon",
-  description: "لیست کامل محصولات آماده تحویل فوری دانیفون",
+  title: "موجودی آیفون‌های آکبند | Danifon",
+  description: "لیست کامل آیفون‌های آکبند و پلمپ اصلی آماده تحویل فوری دانیفون",
 };
 
 export const revalidate = 60;
@@ -18,6 +18,7 @@ export interface InventoryItem {
   sim: string | null;
   registry: string | null;
   battery: string | null;
+  color?: string | null;
   price: string | null;
   condition: string | null;
   photo_id: string | null;
@@ -39,7 +40,21 @@ const FALLBACK_INVENTORY: InventoryItem[] = [
     photo_id: null,
   },
   {
-    item_id: "DANI-16-02",
+    item_id: "DANI-16P-02",
+    type: "new",
+    series: "16",
+    model: "iPhone 16 Pro",
+    capacity: "128GB",
+    part: "ZA/A",
+    sim: "دو سیم‌کارت فیزیکی",
+    registry: "با رجیستری قانونی",
+    battery: "100%",
+    price: "69500000",
+    condition: "آکبند (پلمپ اصلی)",
+    photo_id: null,
+  },
+  {
+    item_id: "DANI-16-03",
     type: "new",
     series: "16",
     model: "iPhone 16",
@@ -53,58 +68,44 @@ const FALLBACK_INVENTORY: InventoryItem[] = [
     photo_id: null,
   },
   {
-    item_id: "DANI-15P-03",
-    type: "used",
-    series: "15",
-    model: "iPhone 15 Pro",
-    capacity: "128GB",
-    part: "ZA/A",
-    sim: "تک سیم + eSIM",
+    item_id: "DANI-16PL-04",
+    type: "new",
+    series: "16",
+    model: "iPhone 16 Plus",
+    capacity: "256GB",
+    part: "CH/A",
+    sim: "دو سیم‌کارت فیزیکی",
     registry: "با رجیستری قانونی",
-    battery: "89%",
-    price: "58500000",
-    condition: "در حد نو (بدون خط و خش)",
+    battery: "100%",
+    price: "68000000",
+    condition: "آکبند (پلمپ اصلی)",
     photo_id: null,
   },
   {
-    item_id: "DANI-13-04",
-    type: "used",
+    item_id: "DANI-15-05",
+    type: "new",
+    series: "15",
+    model: "iPhone 15",
+    capacity: "128GB",
+    part: "CH/A",
+    sim: "دو سیم‌کارت فیزیکی",
+    registry: "با رجیستری قانونی",
+    battery: "100%",
+    price: "54000000",
+    condition: "آکبند (پلمپ اصلی)",
+    photo_id: null,
+  },
+  {
+    item_id: "DANI-13-06",
+    type: "new",
     series: "13",
     model: "iPhone 13",
     capacity: "128GB",
     part: "CH/A",
     sim: "دو سیم‌کارت فیزیکی",
     registry: "با رجیستری قانونی",
-    battery: "85%",
-    price: "41000000",
-    condition: "در حد نو (سلامت کامل)",
-    photo_id: null,
-  },
-  {
-    item_id: "DANI-WU2-05",
-    type: "new",
-    series: "watch",
-    model: "Apple Watch Ultra 2",
-    capacity: "49mm",
-    part: "LLA",
-    sim: "Cellular",
-    registry: "بدون نیاز به رجیستری",
     battery: "100%",
-    price: "46500000",
-    condition: "آکبند (پلمپ اصلی)",
-    photo_id: null,
-  },
-  {
-    item_id: "DANI-AP2-06",
-    type: "new",
-    series: "airpods",
-    model: "AirPods Pro 2 (USB-C)",
-    capacity: "ANC",
-    part: "ZP/A",
-    sim: null,
-    registry: "بدون نیاز به رجیستری",
-    battery: "100%",
-    price: "16800000",
+    price: "44500000",
     condition: "آکبند (پلمپ اصلی)",
     photo_id: null,
   },
@@ -120,12 +121,18 @@ async function fetchInventory(): Promise<InventoryItem[]> {
       next: { revalidate: 30 },
       signal: AbortSignal.timeout(6000),
     });
-    if (!res.ok) return [];
+    if (!res.ok) return FALLBACK_INVENTORY;
     const data = await res.json();
     const list = data.inventory ?? (Array.isArray(data) ? data : []);
-    return list;
+    // Only keep brand new iPhones
+    const newItems = list.filter((i: InventoryItem) => {
+      const isNew = i.type === "new" || (i.condition && i.condition.includes("آکبند"));
+      const isIphone = !i.series || ["17", "16", "15", "14", "13", "12", "11"].includes(i.series) || (i.model && i.model.toLowerCase().includes("iphone"));
+      return isNew && isIphone;
+    });
+    return newItems.length > 0 ? newItems : FALLBACK_INVENTORY;
   } catch {
-    return [];
+    return FALLBACK_INVENTORY;
   }
 }
 

@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Lalezar } from "next/font/google";
 import Link from "next/link";
-import Image from "next/image";
 import config from "../config.json";
 import Calculators from "./components/Calculators";
 import WaitlistSection from "./components/WaitlistSection";
@@ -67,49 +66,7 @@ const TABS: TabItem[] = [
   },
 ];
 
-interface ShowcaseItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  badge: string;
-  badgeColor: string;
-  image: string;
-  tag: string;
-  priceNote: string;
-}
 
-const SHOWCASE_ITEMS: ShowcaseItem[] = [
-  {
-    id: "iphone-17-pro",
-    title: "آیفون 17 پرو",
-    subtitle: "تیتانیوم یخی",
-    badge: "پرچمدار 2026",
-    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/40",
-    image: "/showcase-iphone-17-pro.jpeg",
-    tag: "آکبند • نات‌اکتیو",
-    priceNote: "تحویل فوری تهران",
-  },
-  {
-    id: "watch-ultra",
-    title: "اپل واچ اولترا 2",
-    subtitle: "تیتانیوم 49mm",
-    badge: "موجود در انبار",
-    badgeColor: "bg-sky-500/20 text-sky-300 border-sky-400/40",
-    image: "/showcase-apple-watch-ultra.jpeg",
-    tag: "بند اوشن • ضدآب",
-    priceNote: "تضمین اصالت",
-  },
-  {
-    id: "airpods-pro",
-    title: "ایرپادز پرو 2",
-    subtitle: "تایپ سی (Type-C)",
-    badge: "پرفروش‌ترین",
-    badgeColor: "bg-indigo-500/20 text-indigo-300 border-indigo-400/40",
-    image: "/showcase-airpods-pro.jpeg",
-    tag: "نویزکنسلینگ ANC",
-    priceNote: "مهلت تست 10 روزه",
-  },
-];
 
 // Quick Action Channel Icons
 const TelegramIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
@@ -150,6 +107,12 @@ const LocationPinIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>("waitlist");
+  const [isVideoMuted, setIsVideoMuted] = useState(true);
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  const toggleVideoMute = () => {
+    setIsVideoMuted((prev) => !prev);
+  };
 
   const currentTabObj = TABS.find((t) => t.id === activeTab) || TABS[0];
 
@@ -184,95 +147,81 @@ export default function Home() {
         </div>
       </header>
 
-      {/* FEATURED INVENTORY SHOWCASE DASHBOARD */}
-      <section className="w-full mb-5 relative select-none" dir="rtl" aria-label="ویترین موجودی دانیفون">
-        <div className="bg-white/[0.07] backdrop-blur-[24px] rounded-[26px] p-3 sm:p-3.5 border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-2.5">
-          {/* Dashboard Header */}
-          <div className="flex items-center justify-between px-1">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
-              </span>
-              <h2 className={`text-xs sm:text-sm font-black text-white ${lalezar.className}`}>
-                ویترین منتخب موجودی
-              </h2>
-              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/10 text-neutral-300 font-mono">
-                Live
-              </span>
-            </div>
-            <Link
-              href="/inventory"
-              className="text-[10.5px] font-bold text-indigo-300 hover:text-white flex items-center gap-0.5 transition-colors group"
-            >
-              <span>مشاهده همه</span>
-              <span className="text-xs group-hover:-translate-x-0.5 transition-transform">←</span>
-            </Link>
-          </div>
+      {/* BRAND NEW INVENTORY SHOWCASE (CINEMATIC VIDEO) */}
+      <section className="w-full mb-5 relative select-none" dir="rtl" aria-label="ویترین موجودی دستگاه‌های آکبند">
+        <div className="bg-white/[0.07] backdrop-blur-[24px] rounded-[26px] p-3.5 border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-3">
+          
+          {/* Video Container in Sleek Frame */}
+          <div className="relative w-full aspect-video rounded-[20px] overflow-hidden bg-black/80 border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.4)] group">
+            <video
+              ref={heroVideoRef}
+              src="/videoofiphone.mp4"
+              autoPlay
+              loop
+              muted={isVideoMuted}
+              playsInline
+              className="w-full h-full object-cover"
+            />
 
-          {/* 3-Column Product Cards Grid */}
-          <div className="grid grid-cols-3 gap-2">
-            {SHOWCASE_ITEMS.map((item) => (
-              <Link
-                key={item.id}
-                href="/inventory"
-                className="group flex flex-col rounded-[18px] bg-black/30 hover:bg-black/50 border border-white/10 hover:border-white/25 p-1.5 transition-all duration-300 active:scale-[0.97] overflow-hidden"
+            {/* Specular Ambient Edge Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+
+            {/* Floating Top Controls: Live Tag & Sound Toggle */}
+            <div className="absolute top-2.5 right-2.5 left-2.5 flex items-center justify-between pointer-events-none">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-bold text-emerald-300 shadow-sm pointer-events-auto">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>فقط کالاهای آکبند • پلمپ اصلی</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={toggleVideoMute}
+                className="p-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/15 text-neutral-300 hover:text-white transition-all pointer-events-auto active:scale-95 cursor-pointer shadow-md"
+                title={isVideoMuted ? "پخش صدای ویدیو" : "بی‌صدا کردن ویدیو"}
+                aria-label={isVideoMuted ? "پخش صدای ویدیو" : "بی‌صدا کردن ویدیو"}
               >
-                {/* Image Container with specular overlay */}
-                <div className="relative w-full aspect-[3/4] rounded-[13px] overflow-hidden bg-neutral-900/80 border border-white/10">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 768px) 33vw, 150px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  />
-                  {/* Subtle top & bottom shadow gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none" />
-                  {/* Floating badge */}
-                  <span className={`absolute top-1.5 right-1.5 text-[8px] font-bold px-1.5 py-0.5 rounded-md border backdrop-blur-md ${item.badgeColor}`}>
-                    {item.badge}
-                  </span>
-                  {/* Floating price note at bottom */}
-                  <span className="absolute bottom-1.5 right-1 left-1 text-[8px] text-center font-bold py-0.5 rounded bg-black/70 backdrop-blur-md text-emerald-300 border border-white/10 truncate">
-                    {item.priceNote}
-                  </span>
-                </div>
-
-                {/* Device Title & Subtitle */}
-                <div className="flex flex-col mt-1.5 px-0.5 text-right">
-                  <span className={`text-[11.5px] font-black text-white leading-tight truncate ${lalezar.className}`}>
-                    {item.title}
-                  </span>
-                  <span className="text-[8.5px] text-neutral-400 truncate mt-0.5">
-                    {item.subtitle}
-                  </span>
-                </div>
-              </Link>
-            ))}
+                {isVideoMuted ? (
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
+                  </svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* Action Explore Bar */}
+          {/* Title & Description under Video */}
+          <div className="flex flex-col text-right px-0.5">
+            <h2 className={`text-base sm:text-lg font-black text-white ${lalezar.className}`}>
+              موجودی دستگاه های آکبند
+            </h2>
+            <p className="text-[11px] text-neutral-300 font-medium leading-relaxed mt-0.5">
+              لیست کامل آیفون‌های پلمپ، نات‌اکتیو و آماده تحویل فوری در فروشگاه دانیفون با تضمین اصالت و مهلت تست
+            </p>
+          </div>
+
+          {/* Glassmorphic Button to Enter Inventory */}
           <Link
             href="/inventory"
-            className="w-full py-2 px-3 rounded-[15px] bg-gradient-to-r from-indigo-500/15 via-purple-500/10 to-transparent hover:from-indigo-500/25 hover:to-purple-500/20 border border-indigo-400/20 hover:border-indigo-400/40 flex items-center justify-between transition-all duration-300 active:scale-[0.98] group cursor-pointer"
+            className="w-full py-3 px-4 rounded-[18px] bg-white/[0.08] hover:bg-white/[0.15] border border-white/15 hover:border-white/30 backdrop-blur-xl flex items-center justify-between transition-all duration-300 active:scale-[0.98] group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_28px_rgba(255,255,255,0.08)]"
           >
-            <div className="flex items-center gap-2">
-              <span className="text-sm">📦</span>
-              <div className="flex flex-col text-right">
-                <span className={`text-xs font-bold text-white ${lalezar.className}`}>
-                  مشاهده لیست کامل موجودی انبار
-                </span>
-                <span className="text-[8.5px] text-indigo-300">
-                  آیفون، اپل واچ، ایرپاد و اکسسوری با قیمت روز
-                </span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shrink-0">
+                <AppleLogoIcon className="w-4 h-4 fill-current" />
               </div>
+              <span className={`text-xs sm:text-[13px] font-black text-white ${lalezar.className}`}>
+                مشاهده لیست و استعلام قیمت دستگاه‌های آکبند
+              </span>
             </div>
-            <div className="flex items-center gap-1 text-[11px] font-bold text-indigo-300 group-hover:text-white shrink-0 transition-colors">
-              <span className="text-[9.5px]">ورود به انبار</span>
-              <span className="text-xs group-hover:-translate-x-0.5 transition-transform">←</span>
+            <div className="flex items-center gap-1 text-emerald-300 group-hover:text-white shrink-0 transition-colors">
+              <span className="text-[11px] font-bold">ورود به انبار</span>
+              <span className="text-sm group-hover:-translate-x-1 transition-transform">←</span>
             </div>
           </Link>
+
         </div>
       </section>
 

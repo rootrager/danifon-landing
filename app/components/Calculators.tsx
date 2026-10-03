@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import config from "../../config.json";
 
 interface CalculatorsProps {
@@ -83,7 +83,35 @@ export default function Calculators({
   const isInvalidAmount = parsedAmount <= 0;
 
   // --- Registry State ---
-  const models = config.registry.models;
+  const initialModels = config.registry.models;
+  const [liveModels, setLiveModels] = useState(initialModels);
+
+  useEffect(() => {
+    fetch("https://api.danifon.ir/api/registry-fees")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.fees && Object.keys(data.fees).length > 0) {
+          const fees = data.fees;
+          setLiveModels((prev) =>
+            prev.map((m) => {
+              if (fees[m.name]) {
+                const total = fees[m.name];
+                const pFee = m.passportFee || 20000000;
+                return {
+                  ...m,
+                  customsFee: Math.max(0, total - pFee),
+                  passportFee: pFee,
+                };
+              }
+              return m;
+            })
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const models = liveModels;
   const [selectedSeries, setSelectedSeries] = useState<string>("15");
   const [selectedModelName, setSelectedModelName] = useState<string>("iPhone 15 Pro");
 

@@ -11,13 +11,13 @@ export default function InventoryLayout({
       <div
         className="fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none -z-10"
         style={{
-          backgroundImage: "url('/inventory-bg.jpeg')",
+          backgroundImage: "url('/newback.jpeg')",
         }}
         aria-hidden="true"
       />
-      {/* Ambient dark veil for contrast & Apple glass feel */}
+      {/* Ambient veil for contrast & Apple glass feel */}
       <div
-        className="fixed inset-0 bg-black/40 backdrop-brightness-95 pointer-events-none -z-10"
+        className="fixed inset-0 bg-black/45 backdrop-brightness-95 pointer-events-none -z-10"
         aria-hidden="true"
       />
       {children}

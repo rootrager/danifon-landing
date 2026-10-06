@@ -91,19 +91,23 @@ export async function POST(request: Request) {
 📍 <i>ثبت شده از وب‌سایت دانیفون</i>
     `.trim();
 
-    const telegramRes = await fetch(
-      `https://api.telegram.org/bot${botToken}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: messageText,
-          parse_mode: "HTML",
-        }),
-        signal: AbortSignal.timeout(7000),
-      }
-    );
+    const apiUrl = process.env.INVENTORY_API_URL || "http://185.206.170.228:5354/api/inventory";
+    const relayUrl = apiUrl.replace("/api/inventory", "/api/telegram-relay");
+    const apiKey = process.env.INVENTORY_API_KEY || "dani2026inv";
+
+    const telegramRes = await fetch(relayUrl, {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "x-api-key": apiKey
+      },
+      body: JSON.stringify({
+        bot_token: botToken,
+        chat_id: chatId,
+        text: messageText
+      }),
+      signal: AbortSignal.timeout(7000),
+    });
 
     const data = await telegramRes.json();
 

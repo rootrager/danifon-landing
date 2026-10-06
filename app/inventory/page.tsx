@@ -130,7 +130,7 @@ async function fetchInventory(): Promise<InventoryItem[]> {
       const isIphone = !i.series || ["17", "16", "15", "14", "13", "12", "11"].includes(i.series) || (i.model && i.model.toLowerCase().includes("iphone"));
       return isNew && isIphone;
     });
-    return newItems.length > 0 ? newItems : FALLBACK_INVENTORY;
+    return newItems;
   } catch {
     return FALLBACK_INVENTORY;
   }

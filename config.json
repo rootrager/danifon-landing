@@ -56,198 +56,113 @@
     "telegramUrl": "https://t.me/danikamali",
     "models": [
       {
+        "name": "iPhone 18 Pro Max",
+        "customsFee": 265000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 18 Pro",
+        "customsFee": 205736440,
+        "passportFee": 28000000
+      },
+      {
         "name": "iPhone 17 Pro Max",
-        "customsFee": 112900000,
-        "passportFee": 20000000
+        "customsFee": 156490000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 17 Pro",
-        "customsFee": 101300000,
-        "passportFee": 20000000
+        "customsFee": 144080000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 17 Air",
-        "customsFee": 86300000,
-        "passportFee": 20000000
+        "customsFee": 124210000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 17",
-        "customsFee": 65490000,
-        "passportFee": 20000000
+        "customsFee": 99250000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 16 Pro Max",
-        "customsFee": 63550000,
-        "passportFee": 20000000
+        "customsFee": 99160000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 16 Pro",
-        "customsFee": 57000000,
-        "passportFee": 20000000
+        "customsFee": 91390000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 16 Plus",
-        "customsFee": 61850000,
-        "passportFee": 20000000
+        "customsFee": 97380000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 16",
-        "customsFee": 47000000,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 16e",
-        "customsFee": 37800000,
-        "passportFee": 20000000
+        "customsFee": 79740000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 15 Pro Max",
-        "customsFee": 56750000,
-        "passportFee": 20000000
+        "customsFee": 91570000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 15 Pro",
-        "customsFee": 47150000,
-        "passportFee": 20000000
+        "customsFee": 77250000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 15 Plus",
-        "customsFee": 45250000,
-        "passportFee": 20000000
+        "customsFee": 74940000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 15",
-        "customsFee": 38650000,
-        "passportFee": 20000000
+        "customsFee": 67400000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 14 Pro Max",
-        "customsFee": 1850000,
-        "passportFee": 20000000
+        "customsFee": 25250000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 14 Pro",
-        "customsFee": 1650000,
-        "passportFee": 20000000
+        "customsFee": 25080000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 14 Plus",
-        "customsFee": 0,
-        "passportFee": 20000000
+        "customsFee": 22960000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 14",
-        "customsFee": 0,
-        "passportFee": 20000000
+        "customsFee": 21040000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 13 Pro Max",
-        "customsFee": 0,
-        "passportFee": 20000000
+        "customsFee": 20390000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 13 Pro",
-        "customsFee": 0,
-        "passportFee": 20000000
+        "customsFee": 18530000,
+        "passportFee": 28000000
       },
       {
         "name": "iPhone 13",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 13 Mini",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 12 Pro Max",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 12 Pro",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 12",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 12 Mini",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 11 Pro Max",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 11 Pro",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone 11",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone XS Max",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone XS",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone XR",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "iPhone X",
-        "customsFee": 0,
-        "passportFee": 20000000
-      },
-      {
-        "name": "Galaxy S26 Ultra",
-        "customsFee": 99980000,
+        "customsFee": 16510000,
         "passportFee": 28000000
       },
       {
-        "name": "Galaxy S25 Ultra",
-        "customsFee": 73645893,
-        "passportFee": 28000000
-      },
-      {
-        "name": "Galaxy S24 Ultra",
-        "customsFee": 78538717,
-        "passportFee": 28000000
-      },
-      {
-        "name": "Galaxy S23 Ultra",
-        "customsFee": 21851834,
-        "passportFee": 27000000
-      },
-      {
-        "name": "Galaxy A57 5G",
-        "customsFee": 13042070,
-        "passportFee": 27000000
-      },
-      {
-        "name": "Galaxy Z Fold 7",
-        "customsFee": 122750000,
-        "passportFee": 28000000
-      },
-      {
-        "name": "Galaxy Z Fold 8",
-        "customsFee": 171625000,
+        "name": "iPhone 13 mini",
+        "customsFee": 19100000,
         "passportFee": 28000000
       }
     ]

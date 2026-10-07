@@ -96,7 +96,7 @@ export default function Calculators({
             prev.map((m) => {
               if (fees[m.name]) {
                 const total = fees[m.name];
-                const pFee = m.passportFee || 20000000;
+                const pFee = m.passportFee || 28000000;
                 return {
                   ...m,
                   customsFee: Math.max(0, total - pFee),

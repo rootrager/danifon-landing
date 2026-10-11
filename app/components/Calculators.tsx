@@ -25,13 +25,13 @@ function formatCurrency(val: number): string {
 
 const SERIES_FILTERS = [
   { id: "all", label: "همه" },
+  { id: "18", label: "سری 18", match: (name: string) => name.includes("18") },
   { id: "17", label: "سری 17", match: (name: string) => name.includes("17") },
   { id: "16", label: "سری 16", match: (name: string) => name.includes("16") },
   { id: "15", label: "سری 15", match: (name: string) => name.includes("15") },
   { id: "14", label: "سری 14", match: (name: string) => name.includes("14") },
   { id: "13", label: "سری 13", match: (name: string) => name.includes("13") },
-  { id: "older", label: "12 و قبل‌تر", match: (name: string) => name.startsWith("iPhone") && !["17", "16", "15", "14", "13"].some((s) => name.includes(s)) },
-  { id: "samsung", label: "سامسونگ", match: (name: string) => name.startsWith("Galaxy") || name.toLowerCase().includes("s2") || name.toLowerCase().includes("fold") },
+  { id: "older", label: "12 و قبلتر", match: (name: string) => name.startsWith("iPhone") && !["18", "17", "16", "15", "14", "13"].some((s) => name.includes(s)) },
 ];
 
 const PRESET_AMOUNTS = [

@@ -57,112 +57,172 @@
     "models": [
       {
         "name": "iPhone 18 Pro Max",
-        "customsFee": 265000000,
-        "passportFee": 28000000
+        "customsFee": 197700000,
+        "passportFee": 30000000
       },
       {
         "name": "iPhone 18 Pro",
-        "customsFee": 205736440,
-        "passportFee": 28000000
+        "customsFee": 165000000,
+        "passportFee": 30000000
       },
       {
         "name": "iPhone 17 Pro Max",
-        "customsFee": 156490000,
-        "passportFee": 28000000
+        "customsFee": 156000000,
+        "passportFee": 30000000
       },
       {
         "name": "iPhone 17 Pro",
-        "customsFee": 144080000,
-        "passportFee": 28000000
+        "customsFee": 142500000,
+        "passportFee": 30000000
       },
       {
         "name": "iPhone 17 Air",
-        "customsFee": 124210000,
-        "passportFee": 28000000
+        "customsFee": 141000000,
+        "passportFee": 30000000
       },
       {
         "name": "iPhone 17",
-        "customsFee": 99250000,
-        "passportFee": 28000000
+        "customsFee": 99500000,
+        "passportFee": 30000000
       },
       {
         "name": "iPhone 16 Pro Max",
-        "customsFee": 99160000,
+        "customsFee": 97500000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 16 Pro",
-        "customsFee": 91390000,
+        "customsFee": 90000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 16 Plus",
-        "customsFee": 97380000,
+        "customsFee": 88000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 16",
-        "customsFee": 79740000,
+        "customsFee": 78000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 16e",
+        "customsFee": 67500000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 15 Pro Max",
-        "customsFee": 91570000,
+        "customsFee": 90000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 15 Pro",
-        "customsFee": 77250000,
+        "customsFee": 78000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 15 Plus",
-        "customsFee": 74940000,
+        "customsFee": 68000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 15",
-        "customsFee": 67400000,
+        "customsFee": 68000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 14 Pro Max",
-        "customsFee": 25250000,
+        "customsFee": 25000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 14 Pro",
-        "customsFee": 25080000,
+        "customsFee": 25000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 14 Plus",
-        "customsFee": 22960000,
+        "customsFee": 20000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 14",
-        "customsFee": 21040000,
+        "customsFee": 20000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 13 Pro Max",
-        "customsFee": 20390000,
+        "customsFee": 19500000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 13 Pro",
-        "customsFee": 18530000,
+        "customsFee": 17000000,
         "passportFee": 28000000
       },
       {
         "name": "iPhone 13",
-        "customsFee": 16510000,
+        "customsFee": 17000000,
         "passportFee": 28000000
       },
       {
-        "name": "iPhone 13 mini",
-        "customsFee": 19100000,
+        "name": "iPhone 13 Mini",
+        "customsFee": 19500000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 12 Pro Max",
+        "customsFee": 12000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 12 Pro",
+        "customsFee": 17500000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 12",
+        "customsFee": 12000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 12 Mini",
+        "customsFee": 12000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 11 Pro Max",
+        "customsFee": 10000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 11 Pro",
+        "customsFee": 8500000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone 11",
+        "customsFee": 8500000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone XS Max",
+        "customsFee": 8000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone XS",
+        "customsFee": 8000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone XR",
+        "customsFee": 8000000,
+        "passportFee": 28000000
+      },
+      {
+        "name": "iPhone X",
+        "customsFee": 8000000,
         "passportFee": 28000000
       }
     ]

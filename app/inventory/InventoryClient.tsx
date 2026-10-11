@@ -684,13 +684,7 @@ export default function InventoryClient({
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                 </span>
-                <span>ویترین آیفون‌های آکبند دانیفون</span>
-              </div>
-
-              <div className="flex items-center gap-1">
-                <span className="px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 font-bold text-[9px] backdrop-blur-md">
-                  Studio Wood Minimal
-                </span>
+                <span>ویترین آیفونهای آکبند دانیفون</span>
               </div>
             </div>
 

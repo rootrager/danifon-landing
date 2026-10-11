@@ -143,15 +143,19 @@ const IconPause = () => (
    Categories & Detection
    ═══════════════════════════════════════════════════════ */
 const CATEGORIES = [
-  { id: "all", label: "همه آیفون‌ها", Icon: IconAll },
+  { id: "all", label: "همه آیفونها", Icon: IconAll },
+  { id: "18", label: "سری 18", Icon: IconIPhone },
+  { id: "17", label: "سری 17", Icon: IconIPhone },
   { id: "16", label: "سری 16", Icon: IconIPhone },
   { id: "15", label: "سری 15", Icon: IconIPhone },
   { id: "13", label: "سری 13", Icon: IconIPhone },
 ];
 
 function detectCategory(item: InventoryItem): string {
-  if (item.series && ["16", "15", "13"].includes(item.series)) return item.series;
+  if (item.series && ["18", "17", "16", "15", "13"].includes(item.series)) return item.series;
   const text = `${item.model ?? ""}`.toLowerCase();
+  if (text.includes("18")) return "18";
+  if (text.includes("17")) return "17";
   if (text.includes("16")) return "16";
   if (text.includes("15")) return "15";
   if (text.includes("13")) return "13";

@@ -127,7 +127,7 @@ async function fetchInventory(): Promise<InventoryItem[]> {
     // Only keep brand new iPhones
     const newItems = list.filter((i: InventoryItem) => {
       const isNew = i.type === "new" || (i.condition && i.condition.includes("آکبند"));
-      const isIphone = !i.series || ["17", "16", "15", "14", "13", "12", "11"].includes(i.series) || (i.model && i.model.toLowerCase().includes("iphone"));
+      const isIphone = !i.series || ["18", "17", "16", "15", "14", "13", "12", "11"].includes(i.series) || (i.model && i.model.toLowerCase().includes("iphone"));
       return isNew && isIphone;
     });
     return newItems;

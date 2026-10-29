@@ -1,137 +1,64 @@
 @import "tailwindcss";
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInSlide {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.05);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-fadeInSlide {
-  animation: fadeInSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-floatSlow {
-  animation: floatSlow 4s ease-in-out infinite;
-}
-
-.animate-pulseGlow {
-  animation: pulseGlow 3s ease-in-out infinite;
-}
-
-.shimmer-text {
-  background: linear-gradient(90deg, #fff 0%, #cbd5e1 25%, #fff 50%, #94a3b8 75%, #fff 100%);
-  background-size: 200% auto;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shimmer 6s linear infinite;
+@theme {
+  --color-ink: #101012;
+  --color-ink-soft: #3c3c43;
+  --color-muted: #77777f;
+  --color-line: #e6e6eb;
+  --color-canvas: #fbfbfd;
+  --color-surface: #ffffff;
+  --color-accent: #0a84ff;
+  --color-ok: #1db954;
+  --font-sans: var(--font-vazir), ui-sans-serif, system-ui, sans-serif;
 }
 
 * {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Tabular numbers for clean prices and counters */
-.tabular-nums {
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #d6e9ff;
+  color: #06325f;
+}
+
+.tnum {
   font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
 }
 
-/* Sleek custom scrollbars */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+/* subtle entrance used sparingly — transform/opacity only */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
+  html { scroll-behavior: auto; }
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d9d9df; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #c4c4cc; }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 9999px;
-}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+/* thin focus ring, accessible but quiet */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 8px;
 }
-
-/* Hide scrollbar for clean horizontal chips */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Ambient Equalizer Bar Keyframes */
-@keyframes eqBar1 {
-  0%, 100% { height: 4px; }
-  50% { height: 14px; }
-}
-@keyframes eqBar2 {
-  0%, 100% { height: 14px; }
-  50% { height: 5px; }
-}
-@keyframes eqBar3 {
-  0%, 100% { height: 6px; }
-  50% { height: 15px; }
-}
-@keyframes eqBar4 {
-  0%, 100% { height: 12px; }
-  50% { height: 4px; }
-}
-
-.animate-eq-1 { animation: eqBar1 0.8s ease-in-out infinite; }
-.animate-eq-2 { animation: eqBar2 0.65s ease-in-out infinite 0.15s; }
-.animate-eq-3 { animation: eqBar3 0.9s ease-in-out infinite 0.05s; }
-.animate-eq-4 { animation: eqBar4 0.7s ease-in-out infinite 0.2s; }

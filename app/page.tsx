@@ -20,7 +20,13 @@ export default async function HomePage() {
   const inventory = await getInventory();
   const picks = featured(inventory, 8);
   const cheapest = Math.min(...inventory.map((i) => Number(i.price) || Infinity));
-  const models = [...new Set(inventory.map((i) => splitModel(i.model).name))].slice(0, 12);
+  const models = [
+    ...new Set(
+      [...inventory]
+        .sort((a, b) => Number(b.series) - Number(a.series))
+        .map((i) => splitModel(i.model).name),
+    ),
+  ].slice(0, 12);
   const heroItem = picks[0] ?? inventory[0];
 
   return (
@@ -211,7 +217,7 @@ export default async function HomePage() {
                   href={b.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-[18px] bg-canvas p-4 transition-colors hover:bg-[#f1f1f5]"
+                  className="rounded-[18px] border border-line bg-[#f7f7f9] p-4 transition-colors hover:bg-[#f1f1f5]"
                 >
                   <p className="text-[12.5px] font-bold">{b.title}</p>
                   <p className="mt-0.5 text-[11px] text-muted">{b.subtitle}</p>

@@ -287,7 +287,7 @@ function TechnicalInspectionSheet({
                       : "text-amber-300 bg-amber-500/20 border-amber-400/30"
                   }`}
                 >
-                  {isNew ? "آکبند نات‌اکتیو" : item.condition ?? "در حد نو"}
+                  {item.condition ?? (isNew ? "آکبند" : "در حد نو")}
                 </span>
               </div>
               <span className="text-xs text-neutral-400">

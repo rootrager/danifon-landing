@@ -78,21 +78,21 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
   return (
     <div className="w-full flex flex-col gap-4 animate-fadeInSlide" dir="rtl">
       {/* Header Info */}
-      <div className="flex items-center justify-between pb-2 border-b border-white/10">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center text-indigo-300 shadow-[0_0_12px_rgba(99,102,241,0.3)]">
-            <AppleLogoIcon className="w-4.5 h-4.5 fill-current text-indigo-300" />
+      <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-white/10">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center text-indigo-300 shadow-[0_0_12px_rgba(99,102,241,0.3)] shrink-0">
+            <AppleLogoIcon className="w-5 h-5 fill-current text-indigo-300" />
           </div>
-          <div className="flex flex-col">
-            <h3 className={`text-base font-black text-white ${lalezarClassName}`}>
+          <div className="flex flex-col min-w-0">
+            <h3 className={`text-base font-black text-white truncate ${lalezarClassName}`}>
               سفارش اپل‌آیدی اختصاصی و قانونی
             </h3>
-            <span className="text-[10px] text-neutral-300">
+            <span className="text-[10.5px] text-neutral-300 truncate">
               ثبت مستقیم روی جیمیل شخصی شما با امنیت 100%
             </span>
           </div>
         </div>
-        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center gap-1">
+        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center gap-1 whitespace-nowrap shrink-0">
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
           تحویل زیر 30 دقیقه
         </span>
@@ -100,7 +100,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
 
       {/* Feature Highlights Cards */}
       <div className="grid grid-cols-2 gap-2">
-        <div className="bg-black/30 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
+        <div className="bg-black/35 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
           <span className="text-base shrink-0">🔒</span>
           <div className="flex flex-col">
             <strong className="text-[11px] text-white font-bold">ایمیل 100% شخصی</strong>
@@ -108,7 +108,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
           </div>
         </div>
 
-        <div className="bg-black/30 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
+        <div className="bg-black/35 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
           <span className="text-base shrink-0">🇺🇸</span>
           <div className="flex flex-col">
             <strong className="text-[11px] text-white font-bold">ریجن معتبر آمریکا</strong>
@@ -116,7 +116,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
           </div>
         </div>
 
-        <div className="bg-black/30 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
+        <div className="bg-black/35 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
           <span className="text-base shrink-0">⚡</span>
           <div className="flex flex-col">
             <strong className="text-[11px] text-white font-bold">تحویل سریع</strong>
@@ -124,7 +124,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
           </div>
         </div>
 
-        <div className="bg-black/30 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
+        <div className="bg-black/35 border border-white/10 rounded-[18px] p-2.5 flex items-start gap-2">
           <span className="text-base shrink-0">🛡</span>
           <div className="flex flex-col">
             <strong className="text-[11px] text-white font-bold">بدون شماره مجازی</strong>
@@ -138,7 +138,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
         {/* Gmail Input */}
         <div className="flex flex-col gap-1">
           <label className="font-semibold text-neutral-200 flex items-center justify-between">
-            <span>1. آدرس جیمیل شما (جهت ثبت اپل آیدی):</span>
+            <span>۱. آدرس جیمیل شما (جهت ثبت اپل آیدی):</span>
             <span className="text-[10px] text-indigo-300 font-normal">الزامی</span>
           </label>
           <div className="relative">
@@ -148,9 +148,9 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@gmail.com"
-              className="w-full bg-black/40 border border-white/20 rounded-[16px] py-2.5 px-3.5 text-white font-semibold outline-none focus:border-indigo-400 transition-colors dir-ltr text-left placeholder:text-neutral-500 placeholder:text-xs"
+              className="w-full min-h-[46px] bg-black/45 border border-white/20 rounded-[16px] py-2.5 px-3.5 text-white font-semibold outline-none focus:border-indigo-400 transition-colors dir-ltr text-left placeholder:text-neutral-500 placeholder:text-xs"
             />
-            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-neutral-400">
+            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-neutral-400 pointer-events-none">
               ✉️
             </span>
           </div>
@@ -160,20 +160,20 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
         <div className="grid grid-cols-2 gap-2">
           <div className="flex flex-col gap-1">
             <label className="font-medium text-neutral-300 text-[11px]">
-              2. نام و نام خانوادگی:
+              ۲. نام و نام خانوادگی:
             </label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="مثال: دانیال کمالی"
-              className="w-full bg-black/40 border border-white/20 rounded-[14px] py-2 px-3 text-white outline-none focus:border-indigo-400 text-xs placeholder:text-neutral-500"
+              className="w-full min-h-[44px] bg-black/45 border border-white/20 rounded-[14px] py-2 px-3 text-white outline-none focus:border-indigo-400 text-xs placeholder:text-neutral-500"
             />
           </div>
 
           <div className="flex flex-col gap-1">
             <label className="font-medium text-neutral-300 text-[11px] flex justify-between">
-              <span>3. شماره تماس:</span>
+              <span>۳. شماره تماس:</span>
               <span className="text-[9px] text-indigo-300">الزامی</span>
             </label>
             <input
@@ -183,7 +183,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="09121234567"
-              className="w-full bg-black/40 border border-white/20 rounded-[14px] py-2 px-3 text-white font-bold outline-none focus:border-indigo-400 text-xs dir-ltr text-left placeholder:text-neutral-500"
+              className="w-full min-h-[44px] bg-black/45 border border-white/20 rounded-[14px] py-2 px-3 text-white font-bold outline-none focus:border-indigo-400 text-xs dir-ltr text-left placeholder:text-neutral-500"
             />
           </div>
         </div>
@@ -199,9 +199,9 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
         <div className="flex flex-col gap-2 mt-1">
           <button
             type="submit"
-            className={`w-full py-3.5 px-4 rounded-[18px] bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 hover:from-indigo-400 hover:to-purple-500 active:scale-[0.98] text-white font-bold text-sm shadow-[0_4px_20px_rgba(99,102,241,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer touch-manipulation ${lalezarClassName}`}
+            className={`min-h-[48px] w-full py-3.5 px-4 rounded-[18px] bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-600 hover:from-indigo-400 hover:to-purple-500 active:scale-[0.98] text-white font-bold text-sm shadow-[0_4px_20px_rgba(99,102,241,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer touch-manipulation ${lalezarClassName}`}
           >
-            <svg className="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 fill-current text-white shrink-0" viewBox="0 0 24 24">
               <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.799-1.185-.78-.415-1.21.258-1.91.176-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.892-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
             </svg>
             <span>ثبت سفارش اپل آیدی در تلگرام</span>
@@ -210,7 +210,7 @@ export default function AppleIdSection({ lalezarClassName = "" }: AppleIdSection
           <button
             type="button"
             onClick={handleCopyMessage}
-            className="w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/15 text-neutral-300 hover:text-white font-medium text-[11px] transition-colors border border-white/10 flex items-center justify-center gap-1.5 cursor-pointer"
+            className="min-h-[40px] w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/15 text-neutral-300 hover:text-white font-medium text-[11px] transition-colors border border-white/10 flex items-center justify-center gap-1.5 cursor-pointer touch-manipulation"
           >
             <span>{copied ? "✅ متن کپی شد" : "📋 کپی متن پیام سفارش"}</span>
           </button>

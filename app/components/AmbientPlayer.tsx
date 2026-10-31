@@ -87,62 +87,61 @@ export default function AmbientPlayer() {
         playsInline
       />
 
-      {/* Floating Glassmorphic Ambient Pill */}
+      {/* Floating Glassmorphic Ambient Pill - Compact on Mobile */}
       <aside 
         aria-label="کنترل موسیقی امبینت دانیفون"
-        className="fixed bottom-20 left-3.5 sm:bottom-5 sm:left-5 z-40 select-none animate-fadeIn"
+        className="fixed bottom-[82px] left-3 sm:bottom-5 sm:left-5 z-30 select-none animate-fadeIn"
       >
         <button
           type="button"
           onClick={togglePlay}
-          className={`group flex items-center gap-2 px-3 py-1.5 rounded-full border backdrop-blur-xl transition-all duration-300 cursor-pointer active:scale-95 shadow-lg ${
+          className={`group flex items-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2 rounded-full border backdrop-blur-xl transition-all duration-300 cursor-pointer active:scale-95 shadow-lg touch-manipulation ${
             isPlaying
-              ? "bg-black/65 border-indigo-400/35 text-white shadow-[0_4px_24px_rgba(99,102,241,0.25)] hover:bg-black/80 hover:border-indigo-400/50"
-              : "bg-black/50 border-white/10 text-neutral-400 hover:text-white hover:bg-black/70 hover:border-white/20"
+              ? "bg-black/75 border-indigo-400/40 text-white shadow-[0_4px_20px_rgba(99,102,241,0.25)] hover:bg-black/85"
+              : "bg-black/60 border-white/15 text-neutral-300 hover:text-white hover:bg-black/75"
           }`}
           title={isPlaying ? "توقف موزیک لایت" : "پخش موزیک لایت"}
+          aria-label={isPlaying ? "توقف موزیک لایت" : "پخش موزیک لایت"}
         >
           {/* Animated Equalizer Bars */}
-          <div className="flex items-end gap-[2.5px] h-3.5 w-3.5 shrink-0 justify-center">
+          <div className="flex items-end gap-[2px] h-3.5 w-3.5 shrink-0 justify-center">
             <span
               className={`w-[2.5px] rounded-full transition-all duration-300 ${
                 isPlaying
                   ? "bg-indigo-400 animate-eq-1 h-3"
-                  : "bg-neutral-500 h-1"
+                  : "bg-neutral-400 h-1"
               }`}
             />
             <span
               className={`w-[2.5px] rounded-full transition-all duration-300 ${
                 isPlaying
                   ? "bg-purple-400 animate-eq-2 h-3.5"
-                  : "bg-neutral-500 h-1.5"
+                  : "bg-neutral-400 h-1.5"
               }`}
             />
             <span
               className={`w-[2.5px] rounded-full transition-all duration-300 ${
                 isPlaying
                   ? "bg-indigo-300 animate-eq-3 h-2.5"
-                  : "bg-neutral-500 h-1"
+                  : "bg-neutral-400 h-1"
               }`}
             />
             <span
               className={`w-[2.5px] rounded-full transition-all duration-300 ${
                 isPlaying
                   ? "bg-purple-300 animate-eq-4 h-3"
-                  : "bg-neutral-500 h-1.5"
+                  : "bg-neutral-400 h-1.5"
               }`}
             />
           </div>
 
-          {/* Label Text */}
-          <div className="flex flex-col text-right pr-0.5">
-            <span className="text-[10px] font-bold tracking-tight leading-tight transition-colors">
-              {isPlaying ? "موزیک لایت" : "موزیک خاموش"}
-            </span>
-          </div>
+          {/* Label Text (Shown on sm+ or compact on mobile) */}
+          <span className="text-[10px] font-bold tracking-tight leading-none whitespace-nowrap">
+            {isPlaying ? "موزیک" : "موزیک"}
+          </span>
 
           {/* Minimal Play/Pause indicator icon */}
-          <span className="text-[9px] opacity-70 group-hover:opacity-100 transition-opacity">
+          <span className="text-[9px] opacity-80 group-hover:opacity-100 transition-opacity">
             {isPlaying ? "⏸" : "▶"}
           </span>
         </button>

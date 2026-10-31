@@ -112,8 +112,8 @@ export default function Calculators({
   }, []);
 
   const models = liveModels;
-  const [selectedSeries, setSelectedSeries] = useState<string>("15");
-  const [selectedModelName, setSelectedModelName] = useState<string>("iPhone 15 Pro");
+  const [selectedSeries, setSelectedSeries] = useState<string>("18");
+  const [selectedModelName, setSelectedModelName] = useState<string>("iPhone 18 Pro Max");
 
   // Filter models based on selected series pill
   const filteredModels = useMemo(() => {
@@ -181,48 +181,30 @@ export default function Calculators({
       {currentTab === "installment" && (
         <div className="flex flex-col gap-3.5">
           {/* Header Info */}
-          <div className="flex items-center justify-between pb-2 border-b border-white/10">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 text-lg shadow-[0_0_12px_rgba(56,189,248,0.3)]">
+          <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-white/10">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 text-lg shadow-[0_0_12px_rgba(56,189,248,0.3)] shrink-0">
                 📊
               </div>
-              <div className="flex flex-col">
-                <h3 className={`text-base font-black text-white ${lalezarClassName}`}>
+              <div className="flex flex-col min-w-0">
+                <h3 className={`text-base font-black text-white truncate ${lalezarClassName}`}>
                   محاسبه‌گر پیشرفته اقساط آیفون
                 </h3>
-                <span className="text-[10px] text-neutral-300">
+                <span className="text-[10.5px] text-neutral-300 truncate">
                   پرداخت با چک صیادی بنفش با کارمزد شفاف
                 </span>
               </div>
             </div>
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30 flex items-center gap-1">
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30 whitespace-nowrap shrink-0">
               سقف هر قسط 15 م
             </span>
           </div>
 
-          {/* Freeform Amount Input + Preset Chips */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between items-center">
-              <label className="text-xs font-semibold text-neutral-200">
-                مبلغ گوشی / درخواست اقساط:
-              </label>
-              <div className="flex items-center gap-1">
-                {PRESET_AMOUNTS.map((p) => (
-                  <button
-                    key={p.value}
-                    type="button"
-                    onClick={() => setAmountStr(String(p.value))}
-                    className={`px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
-                      parsedAmount === p.value
-                        ? "bg-sky-500 text-white shadow-sm border border-sky-400"
-                        : "bg-white/10 text-neutral-300 hover:bg-white/15 border border-white/5"
-                    }`}
-                  >
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+          {/* Freeform Amount Input + Full-Width Mobile Preset Chips */}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-neutral-200">
+              ۱. مبلغ گوشی / درخواست اقساط (تومان):
+            </label>
 
             <div className="relative">
               <input
@@ -234,8 +216,8 @@ export default function Calculators({
                   const raw = ascii.replace(/\D/g, "");
                   setAmountStr(raw);
                 }}
-                placeholder="مبلغ دلخواه را وارد کنید (مثلاً 50,000,000)"
-                className={`w-full bg-black/40 border rounded-[16px] py-2.5 pr-3.5 pl-14 text-white text-base font-bold outline-none transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] placeholder:text-neutral-500 placeholder:font-normal placeholder:text-xs ${
+                placeholder="مبلغ دلخواه (مثلاً 50,000,000)"
+                className={`w-full min-h-[46px] bg-black/45 border rounded-[16px] py-2.5 pr-3.5 pl-14 text-white text-base font-bold tabular-nums outline-none transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] placeholder:text-neutral-500 placeholder:font-normal placeholder:text-xs ${
                   isInvalidAmount
                     ? "border-amber-500/50 focus:border-amber-400"
                     : isMonthlyExceeded
@@ -247,34 +229,53 @@ export default function Calculators({
                 تومان
               </span>
             </div>
+
+            {/* 4-Column Quick Preset Buttons for Easy Mobile Tapping */}
+            <div className="grid grid-cols-4 gap-1.5">
+              {PRESET_AMOUNTS.map((p) => (
+                <button
+                  key={p.value}
+                  type="button"
+                  onClick={() => setAmountStr(String(p.value))}
+                  className={`min-h-[36px] py-1.5 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap touch-manipulation ${
+                    parsedAmount === p.value
+                      ? "bg-sky-500 text-white shadow-sm border border-sky-400"
+                      : "bg-white/10 text-neutral-200 hover:bg-white/15 border border-white/10"
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
             {isInvalidAmount && (
-              <p className="text-[10px] text-amber-300 font-medium mt-0.5">
+              <p className="text-[10.5px] text-amber-300 font-medium mt-0.5">
                 ⚠️ لطفاً مبلغ مورد نظر برای اقساط را به تومان وارد کنید.
               </p>
             )}
           </div>
 
-          {/* Months Selection (Segmented Quick Pills + Select) */}
-          <div className="flex flex-col gap-1.5">
+          {/* Months Selection (4-Column Mobile Grid for 1..12 Months) */}
+          <div className="flex flex-col gap-2">
             <div className="flex justify-between items-center">
               <label className="text-xs font-semibold text-neutral-200">
-                مدت زمان بازپرداخت (تعداد چک ماهانه):
+                ۲. مدت زمان بازپرداخت (تعداد چک ماهانه):
               </label>
-              <span className="text-[11px] font-bold text-sky-300">
+              <span className="px-2 py-0.5 rounded-lg bg-sky-500/20 border border-sky-400/30 text-[11px] font-bold text-sky-300">
                 {selectedMonths} ماهه
               </span>
             </div>
 
-            <div className="grid grid-cols-6 gap-1.5">
-              {[2, 3, 4, 6, 9, 12].map((m) => (
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
+              {(config.installment.monthsOptions || [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]).map((m) => (
                 <button
                   key={m}
                   type="button"
                   onClick={() => setSelectedMonths(m)}
-                  className={`py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  className={`min-h-[40px] py-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap touch-manipulation ${
                     selectedMonths === m
-                      ? "bg-sky-500 text-white shadow-[0_2px_8px_rgba(56,189,248,0.4)] border border-sky-400"
-                      : "bg-black/30 text-neutral-300 hover:bg-white/10 border border-white/10"
+                      ? "bg-sky-500 text-white shadow-[0_2px_10px_rgba(56,189,248,0.4)] border border-sky-400"
+                      : "bg-black/35 text-neutral-200 hover:bg-white/10 border border-white/10"
                   }`}
                 >
                   {m} ماه
@@ -284,23 +285,23 @@ export default function Calculators({
           </div>
 
           {/* Calculations Breakdown Card */}
-          <div className="bg-black/30 rounded-[20px] p-3.5 border border-white/10 flex flex-col gap-2 text-xs text-neutral-200">
+          <div className="bg-black/35 rounded-[20px] p-3.5 border border-white/10 flex flex-col gap-2.5 text-xs text-neutral-200">
             <div className="flex justify-between items-center pb-2 border-b border-white/10">
               <span className="text-neutral-300">مبلغ اولیه درخواستی:</span>
-              <span className="font-bold text-white text-xs">
+              <span className="font-bold text-white text-xs tabular-nums">
                 {formatCurrency(parsedAmount)} تومان
               </span>
             </div>
             <div className="flex justify-between items-center pb-2 border-b border-white/10">
               <span className="text-neutral-300">مجموع بازپرداخت ({selectedMonths} ماه):</span>
-              <span className="font-bold text-sky-300 text-xs">
+              <span className="font-bold text-sky-300 text-xs tabular-nums">
                 {formatCurrency(Math.round(totalPayback))} تومان
               </span>
             </div>
             <div className="flex justify-between items-center pt-0.5">
               <span className="font-bold text-neutral-200 text-xs">مبلغ هر قسط / چک ماهانه:</span>
               <span
-                className={`font-black text-sm drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] ${
+                className={`font-black text-sm sm:text-base tabular-nums drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] ${
                   isMonthlyExceeded
                     ? "text-rose-400 drop-shadow-[0_2px_8px_rgba(244,63,94,0.4)]"
                     : "text-emerald-400 drop-shadow-[0_2px_8px_rgba(52,211,153,0.3)]"
@@ -313,7 +314,7 @@ export default function Calculators({
 
           {/* 15M Limit Exceeded Warning Box */}
           {isMonthlyExceeded && (
-            <div className="bg-rose-950/40 border border-rose-500/40 rounded-[16px] p-2.5 text-[11px] text-rose-200 font-medium leading-relaxed flex items-start gap-2 backdrop-blur-md">
+            <div className="bg-rose-950/45 border border-rose-500/40 rounded-[16px] p-3 text-[11px] text-rose-200 font-medium leading-relaxed flex items-start gap-2 backdrop-blur-md">
               <span className="text-base shrink-0">⚠️</span>
               <div>
                 <strong className="block mb-0.5 text-rose-300">سقف مجاز هر قسط (15 میلیون):</strong>
@@ -327,7 +328,7 @@ export default function Calculators({
             <button
               type="button"
               disabled
-              className="w-full py-3 px-4 bg-neutral-800/80 text-neutral-400 font-bold rounded-[18px] cursor-not-allowed border border-white/10 text-xs text-center"
+              className="min-h-[48px] w-full py-3 px-4 bg-neutral-800/80 text-neutral-400 font-bold rounded-[18px] cursor-not-allowed border border-white/10 text-xs text-center"
             >
               <span className={lalezarClassName}>
                 {isInvalidAmount
@@ -342,9 +343,9 @@ export default function Calculators({
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className={`w-full py-3.5 px-4 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 active:scale-[0.98] text-white font-bold rounded-[18px] transition-all shadow-[0_4px_20px_rgba(56,189,248,0.3)] flex items-center justify-center gap-2 cursor-pointer touch-manipulation text-sm ${lalezarClassName}`}
+              className={`min-h-[48px] w-full py-3.5 px-4 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 active:scale-[0.98] text-white font-bold rounded-[18px] transition-all shadow-[0_4px_20px_rgba(56,189,248,0.3)] flex items-center justify-center gap-2 cursor-pointer touch-manipulation text-sm ${lalezarClassName}`}
             >
-              <svg className="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 fill-current text-white shrink-0" viewBox="0 0 24 24">
                 <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.799-1.185-.78-.415-1.21.258-1.91.176-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.892-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
               </svg>
               <span>ثبت درخواست اقساط در تلگرام</span>
@@ -357,21 +358,21 @@ export default function Calculators({
       {currentTab === "registry" && (
         <div className="flex flex-col gap-3.5">
           {/* Header Info */}
-          <div className="flex items-center justify-between pb-2 border-b border-white/10">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 text-lg shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+          <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-white/10">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 text-lg shadow-[0_0_12px_rgba(16,185,129,0.3)] shrink-0">
                 ⚙️
               </div>
-              <div className="flex flex-col">
-                <h3 className={`text-base font-black text-white ${lalezarClassName}`}>
+              <div className="flex flex-col min-w-0">
+                <h3 className={`text-base font-black text-white truncate ${lalezarClassName}`}>
                   استعلام هزینه رجیستری رسمی آیفون
                 </h3>
-                <span className="text-[10px] text-neutral-300">
+                <span className="text-[10.5px] text-neutral-300 truncate">
                   محاسبه دقیق تعرفه گمرک + ثبت قانونی مسافری
                 </span>
               </div>
             </div>
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 whitespace-nowrap shrink-0">
               تعرفه رسمی
             </span>
           </div>
@@ -379,7 +380,7 @@ export default function Calculators({
           {/* Series Quick-Filter Pills */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-neutral-200">
-              1. دسته‌بندی سری آیفون:
+              ۱. دسته‌بندی سری آیفون:
             </label>
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none no-scrollbar">
               {SERIES_FILTERS.map((s) => {
@@ -389,10 +390,10 @@ export default function Calculators({
                     key={s.id}
                     type="button"
                     onClick={() => handleSeriesChange(s.id)}
-                    className={`py-1.5 px-3 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer touch-manipulation ${
+                    className={`min-h-[38px] py-1.5 px-3.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer touch-manipulation ${
                       isSelected
                         ? "bg-emerald-500 text-white shadow-[0_2px_10px_rgba(16,185,129,0.4)] border border-emerald-400"
-                        : "bg-white/10 text-neutral-300 hover:text-white hover:bg-white/15 border border-white/10"
+                        : "bg-white/10 text-neutral-200 hover:text-white hover:bg-white/15 border border-white/10"
                     }`}
                   >
                     {s.label}
@@ -405,12 +406,12 @@ export default function Calculators({
           {/* iPhone Model Dropdown Select */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-semibold text-neutral-200">
-              2. انتخاب مدل دقیق:
+              ۲. انتخاب مدل دقیق:
             </label>
             <select
               value={selectedModelName}
               onChange={(e) => setSelectedModelName(e.target.value)}
-              className="w-full bg-black/40 border border-white/20 rounded-[16px] py-2.5 px-3.5 text-white text-sm font-bold outline-none focus:border-emerald-400/80 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] cursor-pointer dir-ltr text-right touch-manipulation"
+              className="w-full min-h-[46px] bg-black/45 border border-white/20 rounded-[16px] py-2.5 px-3.5 text-white text-sm font-bold outline-none focus:border-emerald-400/80 transition-colors drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] cursor-pointer dir-ltr text-right touch-manipulation"
             >
               {filteredModels.map((m) => (
                 <option key={m.name} value={m.name} className="bg-neutral-900 text-white py-1.5">
@@ -421,26 +422,26 @@ export default function Calculators({
           </div>
 
           {/* Calculations Breakdown Card */}
-          <div className="bg-black/30 rounded-[20px] p-3.5 border border-white/10 flex flex-col gap-2 text-xs text-neutral-200">
+          <div className="bg-black/35 rounded-[20px] p-3.5 border border-white/10 flex flex-col gap-2.5 text-xs text-neutral-200">
             <div className="flex justify-between items-center pb-2 border-b border-white/10">
               <span className="text-neutral-300">مدل انتخابی:</span>
               <span className="font-bold text-white text-xs dir-ltr">{currentModel.name}</span>
             </div>
             <div className="flex justify-between items-center pb-2 border-b border-white/10">
               <span className="text-neutral-300">هزینه گمرکی دستگاه:</span>
-              <span className="font-bold text-neutral-200 text-xs">
+              <span className="font-bold text-neutral-200 text-xs tabular-nums">
                 {formatCurrency(currentModel.customsFee)} تومان
               </span>
             </div>
             <div className="flex justify-between items-center pb-2 border-b border-white/10">
               <span className="text-neutral-300">ثبت رسمی و حق پاسپورت:</span>
-              <span className="font-bold text-amber-300 text-xs">
+              <span className="font-bold text-amber-300 text-xs tabular-nums">
                 {formatCurrency(passportFee)} تومان
               </span>
             </div>
             <div className="flex justify-between items-center pt-0.5">
               <span className="font-bold text-emerald-400 text-xs">مجموع کل هزینه رجیستری:</span>
-              <span className={`font-black text-emerald-400 text-sm drop-shadow-[0_2px_8px_rgba(52,211,153,0.3)] ${lalezarClassName}`}>
+              <span className={`font-black text-emerald-400 text-sm sm:text-base tabular-nums drop-shadow-[0_2px_8px_rgba(52,211,153,0.3)] ${lalezarClassName}`}>
                 {formatCurrency(totalRegistryFee)} تومان
               </span>
             </div>
@@ -455,9 +456,9 @@ export default function Calculators({
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`py-3 px-3 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-white font-bold rounded-[16px] transition-all shadow-[0_4px_16px_rgba(52,211,153,0.3)] flex items-center justify-center gap-1.5 cursor-pointer text-xs touch-manipulation ${lalezarClassName}`}
+                className={`min-h-[48px] py-3 px-3 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-white font-bold rounded-[16px] transition-all shadow-[0_4px_16px_rgba(52,211,153,0.3)] flex items-center justify-center gap-1.5 cursor-pointer text-xs touch-manipulation ${lalezarClassName}`}
               >
-                <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 fill-current text-white shrink-0" viewBox="0 0 24 24">
                   <path d="M12.031 0C5.383 0 0 5.383 0 12.031c0 2.12.552 4.17 1.599 5.986L.071 24l6.126-1.606c1.764.957 3.742 1.464 5.83 1.464 6.645 0 12.028-5.383 12.028-12.031S18.675 0 12.031 0zm0 21.849c-1.793 0-3.548-.482-5.086-1.393l-.365-.217-3.774.989 1.008-3.682-.238-.378a10.02 10.02 0 0 1-1.543-5.318C2.033 6.309 6.471 1.867 12.031 1.867c5.556 0 9.994 4.439 9.994 9.983s-4.438 9.999-9.994 9.999zm5.485-7.485c-.301-.151-1.782-.88-2.059-.982-.276-.1-.477-.151-.678.151-.201.301-.778.982-.954 1.183-.176.201-.351.226-.653.075-2.093-1.05-3.513-1.921-4.836-3.626-.176-.226-.019-.348.131-.498.136-.136.301-.351.452-.527.151-.176.201-.301.301-.502.1-.201.05-.376-.025-.527-.075-.151-.678-1.631-.929-2.233-.245-.588-.495-.508-.678-.518-.176-.008-.376-.011-.577-.011s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.911 1.229 3.112c.151.201 2.122 3.238 5.14 4.542 1.942.836 2.709.914 3.652.766.793-.125 2.457-1.004 2.802-1.97.345-.966.345-1.792.245-1.97-.101-.176-.376-.276-.678-.427z" />
                 </svg>
                 <span>پیام در واتساپ</span>
@@ -469,9 +470,9 @@ export default function Calculators({
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`py-3 px-3 bg-sky-500 hover:bg-sky-400 active:scale-[0.98] text-white font-bold rounded-[16px] transition-all shadow-[0_4px_16px_rgba(56,189,248,0.3)] flex items-center justify-center gap-1.5 cursor-pointer text-xs touch-manipulation ${lalezarClassName}`}
+                className={`min-h-[48px] py-3 px-3 bg-sky-500 hover:bg-sky-400 active:scale-[0.98] text-white font-bold rounded-[16px] transition-all shadow-[0_4px_16px_rgba(56,189,248,0.3)] flex items-center justify-center gap-1.5 cursor-pointer text-xs touch-manipulation ${lalezarClassName}`}
               >
-                <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 fill-current text-white shrink-0" viewBox="0 0 24 24">
                   <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.799-1.185-.78-.415-1.21.258-1.91.176-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.892-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
                 </svg>
                 <span>پیام در تلگرام</span>

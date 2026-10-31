@@ -66,6 +66,16 @@
         "passportFee": 35000000
       },
       {
+        "name": "iPhone 18 Air",
+        "customsFee": 159000000,
+        "passportFee": 35000000
+      },
+      {
+        "name": "iPhone 18",
+        "customsFee": 125000000,
+        "passportFee": 35000000
+      },
+      {
         "name": "iPhone 17 Pro Max",
         "customsFee": 156000000,
         "passportFee": 34000000
@@ -232,6 +242,7 @@
     "monthlyInterestRate": 0.05,
     "telegramUrl": "https://t.me/danikamalie",
     "monthsOptions": [
+      1,
       2,
       3,
       4,
@@ -260,9 +271,11 @@
     "storeName": "فروشگاه دانیفون",
     "addressText": "تهران، میدان آزادی، به سمت میدان انقلاب بعد از پمپ بنزین، نبش کوچه نوربخش (لاین سمت چپ متعلق به دانیفون)",
     "laneNote": "توجه: لاین سمت چپ فروشگاه متعلق به دانیفون است",
+    "lat": 35.6994973,
+    "lng": 51.3433422,
     "mapUrl": "https://maps.app.goo.gl/J8aKxnFcPB26iPZC9?g_st=ic",
-    "neshanUrl": "https://neshan.org/maps/search/فروشگاه+دانیفون+میدان+آزادی",
-    "baladUrl": "https://balad.ir/search?q=فروشگاه+دانیفون+میدان+آزادی",
-    "wazeUrl": "https://waze.com/ul?q=میدان+آزادی+تهران"
+    "neshanUrl": "https://nshn.ir/?lat=35.6994973&lng=51.3433422",
+    "baladUrl": "https://balad.ir/location?latitude=35.6994973&longitude=51.3433422&zoom=17",
+    "wazeUrl": "https://waze.com/ul?ll=35.6994973,51.3433422&navigate=yes"
   }
 }

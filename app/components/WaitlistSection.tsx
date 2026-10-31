@@ -18,6 +18,7 @@ function toAsciiDigits(str: string): string {
 
 const SERIES_TABS = [
   { id: "all", label: "همه" },
+  { id: "18", label: "سری 18" },
   { id: "17", label: "سری 17" },
   { id: "16", label: "سری 16" },
   { id: "15", label: "سری 15" },
@@ -60,8 +61,8 @@ export default function WaitlistSection({
   lalezarClassName = "",
 }: WaitlistSectionProps) {
   // Filter & Selection State
-  const [selectedSeries, setSelectedSeries] = useState<string>("17");
-  const [selectedPhoneName, setSelectedPhoneName] = useState<string>("iPhone 17 Pro Max");
+  const [selectedSeries, setSelectedSeries] = useState<string>("18");
+  const [selectedPhoneName, setSelectedPhoneName] = useState<string>("iPhone 18 Pro Max");
 
   // Model dynamic list
   const filteredPhones = useMemo(() => {
@@ -75,13 +76,13 @@ export default function WaitlistSection({
 
   // Selected specs
   const [selectedStorage, setSelectedStorage] = useState<string>("256GB");
-  const [selectedColor, setSelectedColor] = useState<string>("نارنجی");
+  const [selectedColor, setSelectedColor] = useState<string>("آلبالویی (زرشکی)");
   const [selectedCondition, setSelectedCondition] = useState<string>("آکبند (پلمپ)");
   const [selectedIntent, setSelectedIntent] = useState<number>(100);
 
-  // Available conditions rule: Akband only for series 17
+  // Available conditions rule: Akband only for series 18 & 17
   const availableConditions = useMemo(() => {
-    if (currentPhone.series === "17") {
+    if (currentPhone.series === "18" || currentPhone.series === "17") {
       return ["آکبند (پلمپ)", "در حد نو (کارکرده)", "فرقی ندارد"];
     }
     return ["در حد نو (کارکرده)", "فرقی ندارد"];
@@ -108,7 +109,7 @@ export default function WaitlistSection({
       setSelectedPhoneName(nextPhone.name);
       setSelectedStorage(nextPhone.storages[0] || "128GB");
       setSelectedColor(nextPhone.colors[0] || "مشکی");
-      if (nextPhone.series === "17") {
+      if (nextPhone.series === "18" || nextPhone.series === "17") {
         setSelectedCondition("آکبند (پلمپ)");
       } else {
         setSelectedCondition("در حد نو (کارکرده)");
@@ -123,7 +124,7 @@ export default function WaitlistSection({
     if (p) {
       setSelectedStorage(p.storages[0] || "128GB");
       setSelectedColor(p.colors[0] || "مشکی");
-      if (p.series === "17") {
+      if (p.series === "18" || p.series === "17") {
         setSelectedCondition("آکبند (پلمپ)");
       } else {
         setSelectedCondition("در حد نو (کارکرده)");
@@ -147,7 +148,8 @@ export default function WaitlistSection({
     const code = `DANI-${Math.floor(1000 + Math.random() * 9000)}`;
     const intentObj = INTENT_OPTIONS.find((i) => i.percent === selectedIntent);
 
-    const actualCondition = currentPhone.series === "17" ? selectedCondition : (selectedCondition === "آکبند (پلمپ)" ? "در حد نو (کارکرده)" : selectedCondition);
+    const isAkbandAllowed = currentPhone.series === "18" || currentPhone.series === "17";
+    const actualCondition = isAkbandAllowed ? selectedCondition : (selectedCondition === "آکبند (پلمپ)" ? "در حد نو (کارکرده)" : selectedCondition);
 
     const fullMessage = `سلام وقت بخیر، درخواست رزرو در صف انتظار VIP آیفون دارم.
 ━━━━━━━━━━━━━━━━━━━━
@@ -360,7 +362,7 @@ export default function WaitlistSection({
           {/* 1. Series Filter Tabs */}
           <div className="flex flex-col gap-1.5">
             <label className="font-semibold text-neutral-200">
-              1. سری آیفون مدنظر:
+              ۱. سری آیفون مدنظر:
             </label>
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none no-scrollbar">
               {SERIES_TABS.map((tab) => {
@@ -370,10 +372,10 @@ export default function WaitlistSection({
                     key={tab.id}
                     type="button"
                     onClick={() => handleSeriesChange(tab.id)}
-                    className={`py-1.5 px-3 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer touch-manipulation ${
+                    className={`min-h-[38px] py-1.5 px-3.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer touch-manipulation ${
                       active
                         ? "bg-amber-500 text-white shadow-[0_2px_10px_rgba(245,158,11,0.4)] border border-amber-400"
-                        : "bg-white/10 text-neutral-300 hover:text-white hover:bg-white/15 border border-white/10"
+                        : "bg-white/10 text-neutral-200 hover:text-white hover:bg-white/15 border border-white/10"
                     }`}
                   >
                     {tab.label}
@@ -386,12 +388,12 @@ export default function WaitlistSection({
           {/* 2. Model Dropdown */}
           <div className="flex flex-col gap-1.5">
             <label className="font-semibold text-neutral-200">
-              2. مدل دقیق دستگاه:
+              ۲. مدل دقیق دستگاه:
             </label>
             <select
               value={selectedPhoneName}
               onChange={(e) => handlePhoneChange(e.target.value)}
-              className="w-full bg-black/40 border border-white/20 rounded-[16px] py-2.5 px-3.5 text-white text-sm font-bold outline-none focus:border-amber-400 transition-colors cursor-pointer dir-ltr text-right"
+              className="w-full min-h-[46px] bg-black/45 border border-white/20 rounded-[16px] py-2.5 px-3.5 text-white text-sm font-bold outline-none focus:border-amber-400 transition-colors cursor-pointer dir-ltr text-right touch-manipulation"
             >
               {filteredPhones.map((p) => (
                 <option key={p.id} value={p.name} className="bg-neutral-900 text-white py-1.5">
@@ -401,65 +403,66 @@ export default function WaitlistSection({
             </select>
           </div>
 
-          {/* 3. Storage & Condition in 2 columns */}
-          <div className="grid grid-cols-2 gap-2">
-            {/* Storage */}
-            <div className="flex flex-col gap-1.5">
-              <label className="font-semibold text-neutral-200">
-                3. ظرفیت حافظه:
-              </label>
-              <div className="flex flex-wrap gap-1">
-                {currentPhone.storages.map((st) => {
-                  const active = selectedStorage === st;
-                  return (
-                    <button
-                      key={st}
-                      type="button"
-                      onClick={() => setSelectedStorage(st)}
-                      className={`py-1 px-2.5 rounded-xl font-bold text-[11px] transition-all cursor-pointer ${
-                        active
-                          ? "bg-amber-500 text-white border border-amber-400 shadow-sm"
-                          : "bg-black/30 text-neutral-300 hover:bg-white/10 border border-white/10"
-                      }`}
-                    >
-                      {st}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Condition */}
-            <div className="flex flex-col gap-1.5">
-              <label className="font-semibold text-neutral-200">
-                4. وضعیت دستگاه:
-              </label>
-              <div className="flex flex-col gap-1">
-                {availableConditions.map((cond) => {
-                  const active = selectedCondition === cond;
-                  return (
-                    <button
-                      key={cond}
-                      type="button"
-                      onClick={() => setSelectedCondition(cond)}
-                      className={`py-1 px-2 text-center rounded-xl font-bold text-[10px] transition-all cursor-pointer ${
-                        active
-                          ? "bg-amber-500/30 text-white border border-amber-400 shadow-sm"
-                          : "bg-black/30 text-neutral-400 hover:bg-white/10 border border-white/10"
-                      }`}
-                    >
-                      {cond}
-                    </button>
-                  );
-                })}
-              </div>
+          {/* 3. Storage (Full-Width Mobile Row) */}
+          <div className="flex flex-col gap-1.5">
+            <label className="font-semibold text-neutral-200">
+              ۳. ظرفیت حافظه:
+            </label>
+            <div className="grid grid-cols-4 gap-1.5">
+              {currentPhone.storages.map((st) => {
+                const active = selectedStorage === st;
+                return (
+                  <button
+                    key={st}
+                    type="button"
+                    onClick={() => setSelectedStorage(st)}
+                    className={`min-h-[38px] py-1.5 px-2 rounded-xl font-bold font-mono text-xs transition-all cursor-pointer touch-manipulation ${
+                      active
+                        ? "bg-amber-500 text-white border border-amber-400 shadow-sm"
+                        : "bg-black/35 text-neutral-200 hover:bg-white/10 border border-white/10"
+                    }`}
+                  >
+                    {st}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* 4. Color Swatches */}
+          {/* 4. Condition (Full-Width Mobile Row) */}
           <div className="flex flex-col gap-1.5">
             <label className="font-semibold text-neutral-200">
-              5. رنگ دلخواه:
+              ۴. وضعیت دستگاه:
+            </label>
+            <div
+              className={`grid gap-1.5 ${
+                availableConditions.length === 3 ? "grid-cols-3" : "grid-cols-2"
+              }`}
+            >
+              {availableConditions.map((cond) => {
+                const active = selectedCondition === cond;
+                return (
+                  <button
+                    key={cond}
+                    type="button"
+                    onClick={() => setSelectedCondition(cond)}
+                    className={`min-h-[38px] py-1.5 px-2 text-center rounded-xl font-bold text-[11px] transition-all cursor-pointer whitespace-nowrap touch-manipulation ${
+                      active
+                        ? "bg-amber-500/30 text-white border border-amber-400 shadow-sm"
+                        : "bg-black/35 text-neutral-300 hover:bg-white/10 border border-white/10"
+                    }`}
+                  >
+                    {cond}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 5. Color Swatches (Touch-Friendly Pills) */}
+          <div className="flex flex-col gap-1.5">
+            <label className="font-semibold text-neutral-200">
+              ۵. رنگ دلخواه:
             </label>
             <div className="flex flex-wrap gap-1.5">
               {currentPhone.colorItems?.map((col) => {
@@ -469,14 +472,14 @@ export default function WaitlistSection({
                     key={col.name}
                     type="button"
                     onClick={() => setSelectedColor(col.name)}
-                    className={`py-1 px-2.5 rounded-xl font-medium text-xs flex items-center gap-1.5 transition-all cursor-pointer ${
+                    className={`min-h-[38px] py-1.5 px-3 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer touch-manipulation ${
                       active
-                        ? "bg-white/25 text-white border border-white/40 shadow-sm"
-                        : "bg-black/30 text-neutral-300 hover:bg-white/10 border border-white/10"
+                        ? "bg-white/25 text-white border border-white/50 shadow-sm"
+                        : "bg-black/35 text-neutral-200 hover:bg-white/10 border border-white/10"
                     }`}
                   >
                     <span
-                      className="w-2.5 h-2.5 rounded-full shrink-0 border border-white/20"
+                      className="w-3 h-3 rounded-full shrink-0 border border-white/30"
                       style={{ backgroundColor: col.hex }}
                     />
                     <span>{col.name}</span>
@@ -486,10 +489,10 @@ export default function WaitlistSection({
               <button
                 type="button"
                 onClick={() => setSelectedColor("فرقی ندارد")}
-                className={`py-1 px-2.5 rounded-xl font-medium text-xs transition-all cursor-pointer ${
+                className={`min-h-[38px] py-1.5 px-3 rounded-xl font-bold text-xs transition-all cursor-pointer touch-manipulation ${
                   selectedColor === "فرقی ندارد"
-                    ? "bg-white/25 text-white border border-white/40 shadow-sm"
-                    : "bg-black/30 text-neutral-300 hover:bg-white/10 border border-white/10"
+                    ? "bg-white/25 text-white border border-white/50 shadow-sm"
+                    : "bg-black/35 text-neutral-200 hover:bg-white/10 border border-white/10"
                 }`}
               >
                 🌈 هر رنگی
@@ -497,11 +500,11 @@ export default function WaitlistSection({
             </div>
           </div>
 
-          {/* 5. Purchase Intent & Urgency */}
-          <div className="flex flex-col gap-1.5 p-3 bg-black/30 rounded-[18px] border border-white/10">
+          {/* 6. Purchase Intent & Urgency */}
+          <div className="flex flex-col gap-2 p-3 bg-black/35 rounded-[20px] border border-white/10">
             <div className="flex justify-between items-center">
               <label className="font-bold text-white text-xs">
-                6. درصد فوریت خرید شما:
+                ۶. درصد فوریت خرید شما:
               </label>
               <span className="text-[10px] font-bold text-amber-300">
                 (جهت اولویت‌بندی تماس)
@@ -515,24 +518,24 @@ export default function WaitlistSection({
                     key={opt.percent}
                     type="button"
                     onClick={() => setSelectedIntent(opt.percent)}
-                    className={`p-2 rounded-xl border text-right transition-all flex items-center justify-between cursor-pointer ${
+                    className={`min-h-[42px] p-2.5 rounded-xl border text-right transition-all flex items-center justify-between cursor-pointer touch-manipulation ${
                       active
                         ? `${opt.colorClass} shadow-md`
-                        : "border-white/5 bg-black/20 text-neutral-400 hover:bg-white/5"
+                        : "border-white/10 bg-black/25 text-neutral-300 hover:bg-white/5"
                     }`}
                   >
-                    <span className="text-[11px] font-semibold">{opt.badge}</span>
+                    <span className="text-xs font-bold">{opt.badge}</span>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* 6. Contact Info */}
-          <div className="flex flex-col gap-2">
+          {/* 7. Contact Info */}
+          <div className="flex flex-col gap-2.5">
             <div className="flex flex-col gap-1">
               <label className="font-semibold text-neutral-200">
-                7. شماره همراه شما (الزامی):
+                ۷. شماره همراه شما (الزامی):
               </label>
               <input
                 type="tel"
@@ -541,7 +544,7 @@ export default function WaitlistSection({
                 value={customerPhone}
                 onChange={(e) => setCustomerPhone(e.target.value)}
                 placeholder="مثال: 09121234567"
-                className="w-full bg-black/40 border border-white/20 rounded-[16px] py-2 px-3.5 text-white font-bold outline-none focus:border-amber-400 text-left dir-ltr"
+                className="w-full min-h-[46px] bg-black/45 border border-white/20 rounded-[16px] py-2.5 px-3.5 text-white font-bold outline-none focus:border-amber-400 text-left dir-ltr"
               />
             </div>
 
@@ -555,7 +558,7 @@ export default function WaitlistSection({
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   placeholder="نام شما"
-                  className="w-full bg-black/40 border border-white/20 rounded-[14px] py-2 px-3 text-white outline-none focus:border-amber-400 text-xs"
+                  className="w-full min-h-[44px] bg-black/45 border border-white/20 rounded-[14px] py-2 px-3 text-white outline-none focus:border-amber-400 text-xs"
                 />
               </div>
 
@@ -566,7 +569,7 @@ export default function WaitlistSection({
                 <select
                   value={contactMethod}
                   onChange={(e) => setContactMethod(e.target.value)}
-                  className="w-full bg-black/40 border border-white/20 rounded-[14px] py-2 px-2 text-white outline-none focus:border-amber-400 text-xs cursor-pointer"
+                  className="w-full min-h-[44px] bg-black/45 border border-white/20 rounded-[14px] py-2 px-2.5 text-white outline-none focus:border-amber-400 text-xs cursor-pointer touch-manipulation"
                 >
                   {CONTACT_METHODS.map((m) => (
                     <option key={m} value={m} className="bg-neutral-900 text-white">
@@ -589,7 +592,7 @@ export default function WaitlistSection({
           <button
             type="submit"
             disabled={status === "loading"}
-            className={`w-full py-3.5 px-4 rounded-[18px] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 active:scale-[0.98] text-white font-bold text-sm shadow-[0_4px_20px_rgba(245,158,11,0.35)] transition-all flex items-center justify-center gap-2 cursor-pointer mt-1 ${lalezarClassName}`}
+            className={`min-h-[48px] w-full py-3.5 px-4 rounded-[18px] bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 active:scale-[0.98] text-white font-bold text-sm shadow-[0_4px_20px_rgba(245,158,11,0.35)] transition-all flex items-center justify-center gap-2 cursor-pointer mt-1 touch-manipulation ${lalezarClassName}`}
           >
             {status === "loading" ? (
               <div className="flex items-center gap-2">

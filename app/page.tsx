@@ -109,31 +109,40 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>("waitlist");
   const [isVideoMuted, setIsVideoMuted] = useState(true);
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
+  const dashboardSectionRef = useRef<HTMLElement | null>(null);
 
   const toggleVideoMute = () => {
     setIsVideoMuted((prev) => !prev);
   };
 
+  const handleSelectTab = (tabId: TabType) => {
+    setActiveTab(tabId);
+    // Smoothly bring the active tool card into comfortable mobile view
+    setTimeout(() => {
+      dashboardSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 60);
+  };
+
   const currentTabObj = TABS.find((t) => t.id === activeTab) || TABS[0];
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen pt-8 pb-12 px-4.5 w-full relative">
+    <div className="flex flex-col items-center justify-start min-h-dvh pt-6 pb-14 px-3.5 sm:px-5 w-full relative">
       {/* Dynamic Ambient Background Glow that morphs with the active tab */}
       <div
-        className={`fixed top-0 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-gradient-to-b ${currentTabObj.glowClass} blur-[120px] rounded-full pointer-events-none transition-all duration-700 -z-10`}
+        className={`fixed top-0 left-1/2 -translate-x-1/2 w-[460px] h-[460px] bg-gradient-to-b ${currentTabObj.glowClass} blur-[120px] rounded-full pointer-events-none transition-all duration-700 -z-10`}
       />
 
       {/* BRAND HERO HEADER */}
-      <header className="flex flex-col items-center mb-5 text-center select-none w-full relative">
+      <header className="flex flex-col items-center mb-4 text-center select-none w-full relative">
         {/* Live Status Pill */}
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[10px] font-semibold text-neutral-200 shadow-sm mb-3.5">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[10.5px] font-semibold text-neutral-200 shadow-sm mb-3">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
           <span>فروشگاه تخصصی آیفون • خرید آنلاین و تحویل حضوری</span>
         </div>
 
         {/* Titanium Apple Emblem + Typography */}
         <div className="flex items-center justify-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl flex items-center justify-center text-white shadow-[0_8px_20px_rgba(0,0,0,0.3)] animate-floatSlow">
+          <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl flex items-center justify-center text-white shadow-[0_8px_20px_rgba(0,0,0,0.3)] animate-floatSlow shrink-0">
             <AppleLogoIcon className="w-6 h-6 fill-current text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" />
           </div>
           <div className="flex flex-col text-right" dir="ltr">
@@ -147,9 +156,9 @@ export default function Home() {
         </div>
       </header>
 
-      {/* BRAND NEW INVENTORY SHOWCASE (CINEMATIC VIDEO) */}
-      <section className="w-full mb-5 relative select-none" dir="rtl" aria-label="ویترین موجودی دستگاه‌های آکبند">
-        <div className="bg-white/[0.07] backdrop-blur-[24px] rounded-[26px] p-3.5 border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-3">
+      {/* BRAND NEW INVENTORY SHOWCASE (CINEMATIC VIDEO + STUDIO PREVIEW) */}
+      <section className="w-full mb-4 relative select-none" dir="rtl" aria-label="ویترین موجودی دستگاه‌های آکبند">
+        <div className="bg-white/[0.07] backdrop-blur-[24px] rounded-[26px] p-3 sm:p-3.5 border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex flex-col gap-3">
           
           {/* Video Container in Sleek Frame */}
           <div className="relative w-full aspect-video rounded-[20px] overflow-hidden bg-black/80 border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.4)] group">
@@ -166,26 +175,26 @@ export default function Home() {
             {/* Specular Ambient Edge Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
-            {/* Floating Top Controls: Live Tag & Sound Toggle */}
+            {/* Floating Top Controls: Live Tag & Mobile Touch Sound Toggle */}
             <div className="absolute top-2.5 right-2.5 left-2.5 flex items-center justify-between pointer-events-none">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-[10px] font-bold text-emerald-300 shadow-sm pointer-events-auto">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-md border border-white/15 text-[10px] font-bold text-emerald-300 shadow-sm pointer-events-auto">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <span>فقط کالاهای آکبند • پلمپ اصلی</span>
               </div>
 
               <button
                 type="button"
                 onClick={toggleVideoMute}
-                className="p-1.5 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/15 text-neutral-300 hover:text-white transition-all pointer-events-auto active:scale-95 cursor-pointer shadow-md"
+                className="w-9 h-9 rounded-full bg-black/65 hover:bg-black/85 backdrop-blur-md border border-white/20 text-neutral-200 hover:text-white flex items-center justify-center transition-all pointer-events-auto active:scale-95 cursor-pointer shadow-md touch-manipulation"
                 title={isVideoMuted ? "پخش صدای ویدیو" : "بی‌صدا کردن ویدیو"}
                 aria-label={isVideoMuted ? "پخش صدای ویدیو" : "بی‌صدا کردن ویدیو"}
               >
                 {isVideoMuted ? (
-                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
                   </svg>
                 ) : (
-                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
                   </svg>
                 )}
@@ -203,40 +212,57 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Glassmorphic Button to Enter Inventory */}
+          {/* High-Impact Mobile CTA Button with Real Studio Thumbnails */}
           <Link
             href="/inventory"
-            className="w-full py-3 px-4 rounded-[18px] bg-white/[0.08] hover:bg-white/[0.15] border border-white/15 hover:border-white/30 backdrop-blur-xl flex items-center justify-between transition-all duration-300 active:scale-[0.98] group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_28px_rgba(255,255,255,0.08)]"
+            className="min-h-[54px] w-full py-2.5 px-3.5 rounded-[18px] bg-gradient-to-r from-emerald-500/20 via-white/[0.09] to-white/[0.08] hover:from-emerald-500/30 hover:to-white/[0.15] border border-emerald-400/35 hover:border-emerald-400/60 backdrop-blur-xl flex items-center justify-between gap-2 transition-all duration-300 active:scale-[0.98] group cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.3)] touch-manipulation"
           >
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shrink-0">
-                <AppleLogoIcon className="w-4 h-4 fill-current" />
+            <div className="flex items-center gap-2.5 min-w-0">
+              {/* Studio Color Stack Preview */}
+              <div className="flex items-center -space-x-2 space-x-reverse shrink-0">
+                {["/models/iphone18-crimson.jpg", "/models/iphone18-blue.jpg", "/models/iphone18-white.jpg"].map(
+                  (src, idx) => (
+                    <div
+                      key={src}
+                      style={{ zIndex: 5 - idx }}
+                      className="w-7 h-9 rounded-lg overflow-hidden border border-white/30 bg-neutral-950 shadow-sm"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={src}
+                        alt="iPhone 18"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )
+                )}
               </div>
-              <span className={`text-xs sm:text-[13px] font-black text-white ${lalezar.className}`}>
-                مشاهده لیست و استعلام قیمت دستگاه‌های آکبند
+              <span className={`text-xs sm:text-[13.5px] font-black text-white truncate ${lalezar.className}`}>
+                مشاهده لیست و قیمت دستگاه‌های آکبند
               </span>
             </div>
-            <div className="flex items-center gap-1 text-emerald-300 group-hover:text-white shrink-0 transition-colors">
-              <span className="text-[11px] font-bold">ورود به انبار</span>
-              <span className="text-sm group-hover:-translate-x-1 transition-transform">←</span>
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-500/25 border border-emerald-400/30 text-emerald-200 group-hover:text-white shrink-0 transition-colors">
+              <span className="text-[11px] font-bold whitespace-nowrap">ورود به انبار</span>
+              <span className="text-xs group-hover:-translate-x-0.5 transition-transform">←</span>
             </div>
           </Link>
 
         </div>
       </section>
 
-      {/* 4-WAY GLASSMORPHISM SWITCHER MATRIX (2x2 Grid) */}
-      <nav className="w-full grid grid-cols-2 gap-2.5 mb-5 select-none" dir="rtl" aria-label="خدمات اصلی">
+      {/* 4-WAY GLASSMORPHISM SWITCHER MATRIX (2x2 Grid - Mobile Touch Optimized) */}
+      <nav className="w-full grid grid-cols-2 gap-2.5 mb-4 select-none" dir="rtl" aria-label="خدمات اصلی">
         {TABS.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
             <button
               key={tab.id}
               type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={`p-3 rounded-[22px] border flex items-center gap-2.5 text-right transition-all duration-300 cursor-pointer touch-manipulation relative overflow-hidden backdrop-blur-xl group ${
+              onClick={() => handleSelectTab(tab.id)}
+              className={`min-h-[62px] p-3 rounded-[22px] border flex items-center gap-2.5 text-right transition-all duration-300 cursor-pointer touch-manipulation relative overflow-hidden backdrop-blur-xl group ${
                 isActive
-                  ? `${tab.bgActive} ${tab.borderActive} scale-[1.02]`
+                  ? `${tab.bgActive} ${tab.borderActive} scale-[1.01]`
                   : "bg-white/[0.06] border-white/[0.10] hover:bg-white/10 hover:border-white/25 active:scale-[0.98]"
               }`}
             >
@@ -245,19 +271,19 @@ export default function Home() {
                 <span className="absolute top-2.5 left-2.5 w-2 h-2 rounded-full bg-current shadow-[0_0_8px_currentColor] animate-pulse"></span>
               )}
 
-              <div className={`w-9 h-9 rounded-[16px] shrink-0 flex items-center justify-center text-lg transition-transform duration-300 ${
-                isActive ? "bg-white/20 shadow-inner scale-110" : "bg-black/30 group-hover:scale-105"
+              <div className={`w-10 h-10 rounded-[16px] shrink-0 flex items-center justify-center text-lg transition-transform duration-300 ${
+                isActive ? "bg-white/20 shadow-inner scale-105" : "bg-black/30 group-hover:scale-105"
               }`}>
                 {tab.icon}
               </div>
 
               <div className="flex flex-col min-w-0">
-                <span className={`text-[13px] font-black leading-tight truncate ${
+                <span className={`text-[13.5px] font-black leading-tight truncate ${
                   isActive ? "text-white" : "text-neutral-200"
                 } ${lalezar.className}`}>
                   {tab.title}
                 </span>
-                <span className={`text-[9.5px] font-medium truncate mt-0.5 ${
+                <span className={`text-[10px] font-medium truncate mt-0.5 ${
                   isActive ? tab.accentColor : "text-neutral-400"
                 }`}>
                   {tab.subtitle}
@@ -269,8 +295,8 @@ export default function Home() {
       </nav>
 
       {/* ACTIVE DASHBOARD CONTAINER CARD */}
-      <section className="w-full relative z-20" dir="rtl">
-        <div className="bg-white/[0.08] backdrop-blur-[28px] rounded-[30px] p-4.5 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.35)] border border-white/[0.14] transition-all duration-500">
+      <section ref={dashboardSectionRef} id="waitlist" className="w-full relative z-20 scroll-mt-4" dir="rtl">
+        <div className="bg-white/[0.08] backdrop-blur-[28px] rounded-[28px] p-3.5 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.35)] border border-white/[0.14] transition-all duration-500">
           {activeTab === "waitlist" && (
             <WaitlistSection lalezarClassName={lalezar.className} />
           )}
@@ -298,9 +324,9 @@ export default function Home() {
       </section>
 
       {/* DIRECT CHANNELS & SOCIAL LINKS */}
-      <section className="w-full mt-6 flex flex-col gap-2.5" dir="rtl">
+      <section className="w-full mt-5 flex flex-col gap-2.5" dir="rtl">
         <div className="flex items-center justify-between px-1">
-          <span className="text-xs font-bold text-neutral-300">
+          <span className="text-xs font-bold text-neutral-200">
             کانال‌ها و ارتباط مستقیم با دانیفون:
           </span>
           <span className="text-[10px] text-neutral-400 font-mono">24/7 Support</span>
@@ -320,27 +346,27 @@ export default function Home() {
 
             const content = (
               <div
-                className={`py-2.5 px-3 rounded-[18px] bg-white/[0.06] backdrop-blur-lg border border-white/[0.10] flex items-center justify-between transition-all duration-300 ${
+                className={`min-h-[54px] py-2.5 px-3 rounded-[18px] bg-white/[0.06] backdrop-blur-lg border border-white/[0.10] flex items-center justify-between gap-1.5 transition-all duration-300 touch-manipulation ${
                   !btn.isActive
                     ? "opacity-50 grayscale cursor-not-allowed"
-                    : "hover:bg-white/15 hover:border-white/30 hover:scale-[1.02] active:scale-[0.97] cursor-pointer shadow-sm"
+                    : "hover:bg-white/15 hover:border-white/30 active:scale-[0.97] cursor-pointer shadow-sm"
                 }`}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 min-w-0">
                   <div className="shrink-0">{getButtonIcon()}</div>
-                  <div className="flex flex-col text-right">
-                    <span className={`text-xs font-bold text-white ${lalezar.className}`}>
+                  <div className="flex flex-col text-right min-w-0">
+                    <span className={`text-xs font-bold text-white truncate ${lalezar.className}`}>
                       {btn.title}
                     </span>
-                    <span className="text-[9.5px] text-neutral-400">
+                    <span className="text-[9.5px] text-neutral-400 truncate">
                       {btn.subtitle}
                     </span>
                   </div>
                 </div>
                 {btn.isActive ? (
-                  <span className="text-neutral-400 text-xs">↗</span>
+                  <span className="text-neutral-400 text-xs shrink-0">↗</span>
                 ) : (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-neutral-300">به‌زودی</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 shrink-0 whitespace-nowrap">به‌زودی</span>
                 )}
               </div>
             );
@@ -359,8 +385,8 @@ export default function Home() {
       </section>
 
       {/* STORE LOCATION & NATIVE NAVIGATION */}
-      <section className="w-full mt-6" dir="rtl">
-        <div className="bg-white/[0.08] backdrop-blur-[24px] rounded-[28px] p-4.5 shadow-[0_8px_32px_rgba(0,0,0,0.2)] border border-white/[0.12] flex flex-col gap-3.5">
+      <section className="w-full mt-5" dir="rtl">
+        <div className="bg-white/[0.08] backdrop-blur-[24px] rounded-[28px] p-4 sm:p-4.5 shadow-[0_8px_32px_rgba(0,0,0,0.2)] border border-white/[0.12] flex flex-col gap-3.5">
           <div className="flex items-start gap-2.5 text-white">
             <div className="mt-0.5 shrink-0">
               <LocationPinIcon />
@@ -374,61 +400,72 @@ export default function Home() {
                   ({config.business.nameEn})
                 </span>
               </div>
-              <span className="text-xs text-neutral-300 leading-relaxed">
+              <span className="text-xs text-neutral-200 leading-relaxed">
                 {config.location.addressText}
               </span>
-              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-bold">
+              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[11px] font-bold">
                 <span>👈</span>
                 <span>توجه: لاین سمت چپ فروشگاه متعلق به تیم دانیفون است</span>
               </div>
             </div>
           </div>
 
-          {/* Embedded Google Map */}
-          <div className="w-full aspect-video rounded-[18px] overflow-hidden relative border border-white/10 shadow-inner">
+          {/* Embedded Google Map pinned to exact store GPS coordinates */}
+          <div className="w-full aspect-video rounded-[18px] overflow-hidden relative border border-white/15 shadow-inner group">
             <iframe
-              title="موقعیت مکانی فروشگاه دانیفون روی نقشه"
-              src={`https://maps.google.com/maps?q=${encodeURIComponent(config.location.addressText)}&z=15&output=embed`}
-              className="w-full h-full border-0 brightness-[0.85] contrast-[1.05] pointer-events-none"
+              title="موقعیت مکانی دقیق فروشگاه دانیفون روی نقشه"
+              src={`https://maps.google.com/maps?q=${config.location.lat || 35.6994973},${config.location.lng || 51.3433422}&hl=fa&z=17&output=embed`}
+              className="w-full h-full border-0 brightness-[0.88] contrast-[1.05] pointer-events-none"
               allowFullScreen={false}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
+            <a
+              href={config.location.mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="باز کردن موقعیت دقیق فروشگاه دانیفون در گوگل مپ"
+              className="absolute inset-0 flex items-end justify-end p-2.5 bg-gradient-to-t from-black/50 via-transparent to-transparent"
+            >
+              <span className="px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white shadow-md">
+                📍 مشاهده پین دقیق روی نقشه ↗
+              </span>
+            </a>
           </div>
 
-          {/* Quick Routing Apps Row */}
+          {/* Quick Routing Apps Row (42px+ Mobile Touch Targets) */}
           <div className="flex flex-col gap-1.5">
-            <span className="text-[10px] text-neutral-400 font-medium">مسیریابی سریع با اپلیکیشن دلخواه:</span>
+            <span className="text-[10.5px] text-neutral-300 font-medium">مسیریابی مستقیم به لوکیشن دقیق فروشگاه:</span>
             <div className="grid grid-cols-4 gap-1.5">
               <a
                 href={config.location.mapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-2 px-1 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-center text-white text-[11px] font-bold transition-all border border-white/10"
+                className="min-h-[42px] py-2 px-1 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white text-[11px] font-bold transition-all border border-white/10 whitespace-nowrap touch-manipulation"
               >
                 🗺️ گوگل‌مپ
               </a>
               <a
-                href={config.location.neshanUrl || config.location.mapUrl}
+                href={config.location.neshanUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-2 px-1 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-center text-white text-[11px] font-bold transition-all border border-white/10"
+                className="min-h-[42px] py-2 px-1 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white text-[11px] font-bold transition-all border border-white/10 whitespace-nowrap touch-manipulation"
               >
                 🚗 نشان
               </a>
               <a
-                href={config.location.baladUrl || config.location.mapUrl}
+                href={config.location.baladUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-2 px-1 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-center text-white text-[11px] font-bold transition-all border border-white/10"
+                className="min-h-[42px] py-2 px-1 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white text-[11px] font-bold transition-all border border-white/10 whitespace-nowrap touch-manipulation"
               >
                 📍 بلد
               </a>
               <a
-                href={config.location.wazeUrl || config.location.mapUrl}
+                href={config.location.wazeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-2 px-1 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-center text-white text-[11px] font-bold transition-all border border-white/10"
+                className="min-h-[42px] py-2 px-1 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 flex items-center justify-center text-white text-[11px] font-bold transition-all border border-white/10 whitespace-nowrap touch-manipulation"
               >
                 🚙 ویز
               </a>
@@ -440,7 +477,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="mt-8 pt-4 pb-2 text-[10px] font-medium text-neutral-400 tracking-wider select-none text-center">
         &copy; {new Date().getFullYear()} {config.business.nameEn}. ALL RIGHTS RESERVED.
-        <div className="text-[9px] text-neutral-500 mt-0.5">تهران، فروشگاه تخصصی آیفون و خدمات اپل</div>
+        <div className="text-[9.5px] text-neutral-500 mt-0.5">تهران، فروشگاه تخصصی آیفون و خدمات اپل</div>
       </footer>
     </div>
   );

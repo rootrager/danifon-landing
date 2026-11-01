@@ -69,7 +69,6 @@ const IconAppleLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
    ═══════════════════════════════════════════════════════ */
 function parseModelAndColor(modelRaw: string | null, fallbackColor: string | null = null) {
   if (!modelRaw) return { modelName: "iPhone", extractedColor: fallbackColor || "مشخص نشده" };
-  // Non-greedy match up to the first opening parenthesis so nested "(آلبالویی (زرشکی))" parses cleanly
   const match = modelRaw.match(/^([^(]+)\s*\((.+)\)$/);
   if (match) {
     return {
@@ -80,35 +79,107 @@ function parseModelAndColor(modelRaw: string | null, fallbackColor: string | nul
   return { modelName: modelRaw.trim(), extractedColor: fallbackColor || "مشخص نشده" };
 }
 
-function getColorMeta(colorName: string | null): {
+function getModelImageSrc(modelName: string | null, colorName: string | null): string {
+  const m = (modelName || "").toLowerCase();
+  const c = (colorName || "").toLowerCase();
+
+  // 1. iPhone 17 Air (Single camera in horizontal bar)
+  if (m.includes("17 air") || m.includes("17air")) {
+    if (c.includes("آبی")) return "/models/iphone17air-blue.jpg";
+    if (c.includes("طلایی") || c.includes("زرد")) return "/models/iphone17air-gold.jpg";
+    return "/models/iphone17air-white.jpg";
+  }
+
+  // 2. iPhone 17e & iPhone 16e (Single circular camera lens in top-left corner)
+  if (m.includes("17e") || m.includes("16e")) {
+    if (c.includes("مشکی")) return "/models/iphone17e-black.jpg";
+    return "/models/iphone16e-white.jpg";
+  }
+
+  // 3. iPhone 17 Pro & 17 Pro Max (Triple camera in full-width plateau bar)
+  if (m.includes("17 pro")) {
+    if (c.includes("نارنجی")) return "/models/iphone17pro-orange.jpg";
+    if (c.includes("آبی")) return "/models/iphone17pro-blue.jpg";
+    return "/models/iphone17pro-white.jpg";
+  }
+
+  // 4. iPhone 16 Pro & 16 Pro Max (Triple camera in classic square top-left island)
+  if (m.includes("16 pro")) {
+    if (c.includes("مشکی")) return "/models/iphone16pro-black.jpg";
+    if (c.includes("نچرال") || c.includes("خاکستری")) return "/models/iphone16pro-natural.jpg";
+    return "/models/iphone16pro-white.jpg";
+  }
+
+  // 5. iPhone 15 & 15 Plus (Dual diagonal cameras in square top-left island)
+  if (m.includes("iphone 15")) {
+    if (c.includes("زرد") || c.includes("طلایی")) return "/models/iphone15-yellow.jpg";
+    if (c.includes("مشکی")) return "/models/iphone15-black.jpg";
+    return "/models/iphone15-blue.jpg";
+  }
+
+  // 6. iPhone 17 (Normal), iPhone 16 (Normal), iPhone 16 Plus (Dual vertical cameras in pill bump)
+  if (
+    m === "iphone 17" ||
+    m === "iphone 16" ||
+    m.includes("16 plus") ||
+    (m.includes("17") && !m.includes("pro") && !m.includes("air") && !m.includes("17e")) ||
+    (m.includes("16") && !m.includes("pro") && !m.includes("16e"))
+  ) {
+    if (c.includes("مشکی")) return "/models/iphone17-black.jpg";
+    if (c.includes("سبز")) return "/models/iphone17-green.jpg";
+    if (c.includes("آبی")) return "/models/iphone17-blue.jpg";
+    if (c.includes("بنفش")) return "/models/iphone17-purple.jpg";
+    if (c.includes("صورتی")) return "/models/iphone16-pink.jpg";
+    return "/models/iphone17-white.jpg";
+  }
+
+  // 7. Default / iPhone 18 Pro & 18 Pro Max (Triple camera in wide plateau bar)
+  if (c.includes("آلبالویی") || c.includes("زرشکی") || c.includes("قرمز")) {
+    return "/models/iphone18-crimson.jpg";
+  }
+  if (c.includes("آبی")) {
+    return "/models/iphone18-blue.jpg";
+  }
+  if (c.includes("مشکی")) {
+    return "/models/iphone18-black.jpg";
+  }
+  return "/models/iphone18-white.jpg";
+}
+
+function getColorMeta(
+  colorName: string | null,
+  modelName: string | null = null
+): {
   hex: string;
   shortName: string;
   compactName: string;
   imageSrc: string;
 } {
   const c = (colorName || "").toLowerCase();
+  const imageSrc = getModelImageSrc(modelName, colorName);
+
   if (c.includes("آلبالویی") || c.includes("زرشکی") || c.includes("قرمز")) {
     return {
       hex: "#9f1239",
       shortName: "آلبالویی (زرشکی)",
       compactName: "آلبالویی",
-      imageSrc: "/models/iphone18-crimson.jpg",
+      imageSrc,
     };
   }
   if (c.includes("آبی")) {
     return {
       hex: "#60a5fa",
-      shortName: colorName || "آبی",
+      shortName: "آبی",
       compactName: "آبی",
-      imageSrc: "/models/iphone18-blue.jpg",
+      imageSrc,
     };
   }
   if (c.includes("سفید") || c.includes("سیلور") || c.includes("نقره‌ای")) {
     return {
       hex: "#f1f5f9",
-      shortName: colorName || "سفید",
+      shortName: "سفید",
       compactName: "سفید",
-      imageSrc: "/models/iphone18-white.jpg",
+      imageSrc,
     };
   }
   if (c.includes("مشکی")) {
@@ -116,40 +187,90 @@ function getColorMeta(colorName: string | null): {
       hex: "#27272a",
       shortName: "مشکی",
       compactName: "مشکی",
-      imageSrc: "/models/iphone18-black.jpg",
+      imageSrc,
     };
   }
-  if (c.includes("دیزرت") || c.includes("صحرایی") || c.includes("طلایی")) {
+  if (c.includes("نارنجی")) {
     return {
-      hex: "#d6c5b3",
-      shortName: colorName || "دیزرت",
-      compactName: "دیزرت",
-      imageSrc: "/models/iphone18-white.jpg",
+      hex: "#fb923c",
+      shortName: "نارنجی",
+      compactName: "نارنجی",
+      imageSrc,
+    };
+  }
+  if (c.includes("سبز")) {
+    return {
+      hex: "#34d399",
+      shortName: "سبز",
+      compactName: "سبز",
+      imageSrc,
+    };
+  }
+  if (c.includes("بنفش")) {
+    return {
+      hex: "#c084fc",
+      shortName: "بنفش",
+      compactName: "بنفش",
+      imageSrc,
+    };
+  }
+  if (c.includes("صورتی")) {
+    return {
+      hex: "#f472b6",
+      shortName: "صورتی",
+      compactName: "صورتی",
+      imageSrc,
+    };
+  }
+  if (c.includes("طلایی") || c.includes("زرد") || c.includes("دیزرت") || c.includes("صحرایی")) {
+    return {
+      hex: "#facc15",
+      shortName: colorName || "طلایی",
+      compactName: colorName || "طلایی",
+      imageSrc,
     };
   }
   if (c.includes("نچرال") || c.includes("خاکستری")) {
     return {
-      hex: "#94a3b8",
-      shortName: colorName || "نچرال",
+      hex: "#a8a29e",
+      shortName: "نچرال",
       compactName: "نچرال",
-      imageSrc: "/models/iphone18-black.jpg",
+      imageSrc,
     };
   }
   return {
     hex: "#cbd5e1",
     shortName: colorName || "استاندارد",
     compactName: colorName || "استاندارد",
-    imageSrc: "/models/iphone18-white.jpg",
+    imageSrc,
   };
 }
 
 function getPartCountry(item: InventoryItem): { flag: string; code: string; label: string } {
   const combined = `${item.part ?? ""} ${item.sim ?? ""}`.toUpperCase();
+  if (combined.includes("5L")) {
+    return { flag: "🇸🇬", code: "ZA/A (5L)", label: "پارت سنگاپور (ZA/A - 5L)" };
+  }
+  if (combined.includes("5X")) {
+    return { flag: "🇸🇬", code: "ZA/A (5X)", label: "پارت سنگاپور (ZA/A - 5X)" };
+  }
   if (combined.includes("ZA/A") || combined.includes("ZA")) {
     return { flag: "🇸🇬", code: "ZA/A", label: "پارت سنگاپور (ZA/A)" };
   }
   if (combined.includes("CH/A") || combined.includes("CH")) {
     return { flag: "🇨🇳", code: "CH/A", label: "پارت چین (CH/A)" };
+  }
+  if (combined.includes("QN/A") || combined.includes("QN")) {
+    return { flag: "🇪🇺", code: "QN/A", label: "پارت اروپا (QN/A)" };
+  }
+  if (combined.includes("QL/A") || combined.includes("QL")) {
+    return { flag: "🇪🇺", code: "QL/A", label: "پارت اروپا (QL/A)" };
+  }
+  if (combined.includes("AH/A") || combined.includes("AH")) {
+    return { flag: "🇦🇪", code: "AH/A", label: "پارت امارات (AH/A)" };
+  }
+  if (combined.includes("HN/A") || combined.includes("HN")) {
+    return { flag: "🇮🇳", code: "HN/A", label: "پارت هند (HN/A)" };
   }
   if (combined.includes("LL/A") || combined.includes("LLA")) {
     return { flag: "🇺🇸", code: "LL/A", label: "پارت آمریکا (LL/A)" };
@@ -187,6 +308,26 @@ function getActivationMeta(conditionRaw: string | null): {
     label: conditionRaw || "آکبند پلمپ",
     shortLabel: "آکبند",
     isNotActive: true,
+  };
+}
+
+function getRegistryMeta(registryRaw: string | null): {
+  isRegistered: boolean;
+  shortLabel: string;
+  fullLabel: string;
+} {
+  const r = (registryRaw || "").toLowerCase();
+  if (r.includes("بدون") || r.includes("not")) {
+    return {
+      isRegistered: false,
+      shortLabel: "بدون رجیستری",
+      fullLabel: "بدون رجیستری (آنتن‌دهی طبق قوانین روز)",
+    };
+  }
+  return {
+    isRegistered: true,
+    shortLabel: "با رجیستری ✅",
+    fullLabel: "با رجیستری رسمی و کد فعال‌سازی همتا",
   };
 }
 
@@ -238,9 +379,10 @@ function TechnicalInspectionSheet({
 }) {
   const { formatted: priceFormatted } = formatPrice(item.price);
   const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
-  const colorMeta = getColorMeta(extractedColor);
+  const colorMeta = getColorMeta(extractedColor, modelName);
   const partInfo = getPartCountry(item);
   const actMeta = getActivationMeta(item.condition);
+  const regMeta = getRegistryMeta(item.registry);
 
   const prefilledMessage = `سلام دانیفون، درخواست بررسی و رزرو فوری این دستگاه از انبار را دارم:
 ━━━━━━━━━━━━━━━━━━━━
@@ -249,7 +391,7 @@ function TechnicalInspectionSheet({
 🎨 رنگ: ${colorMeta.shortName}
 📦 وضعیت: ${actMeta.label}
 ⚙️ پارت‌نامبر: ${partInfo.label} (${item.sim ?? "دو سیم‌کارت"})
-📋 رجیستری: ${item.registry ?? "بدون رجیستری"}
+📋 رجیستری: ${regMeta.shortLabel}
 💰 قیمت درج‌شده: ${priceFormatted}
 ━━━━━━━━━━━━━━━━━━━━
 📍 کد انبار: #${item.item_id}`;
@@ -286,9 +428,20 @@ function TechnicalInspectionSheet({
               </div>
 
               <div className="flex flex-col gap-1.5 min-w-0">
-                <span className="inline-flex items-center gap-1 self-start px-2.5 py-0.5 rounded-lg bg-emerald-500/20 border border-emerald-400/30 text-[10.5px] font-bold text-emerald-300">
-                  {actMeta.label}
-                </span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-emerald-500/20 border border-emerald-400/30 text-[10.5px] font-bold text-emerald-300">
+                    {actMeta.shortLabel}
+                  </span>
+                  <span
+                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10.5px] font-bold border ${
+                      regMeta.isRegistered
+                        ? "bg-amber-500/20 border-amber-400/40 text-amber-200"
+                        : "bg-white/10 border-white/15 text-neutral-300"
+                    }`}
+                  >
+                    {regMeta.shortLabel}
+                  </span>
+                </div>
                 <h3 className="text-base sm:text-lg font-black text-white leading-tight truncate" dir="ltr">
                   {modelName}
                 </h3>
@@ -325,16 +478,20 @@ function TechnicalInspectionSheet({
             </div>
 
             <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-3 flex flex-col gap-1">
-              <span className="text-[10px] text-neutral-400">پارت‌نامبر و سیم‌کارت</span>
-              <span className="font-bold text-white text-[11.5px]">
-                {partInfo.flag} {partInfo.code} ({item.sim?.includes("دو") ? "دو سیم" : item.sim || "دو سیم"})
+              <span className="text-[10px] text-neutral-400">پارت‌نامبر</span>
+              <span className="font-bold text-white text-[11.5px]" dir="ltr">
+                {partInfo.flag} {partInfo.code}
               </span>
             </div>
 
             <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-3 flex flex-col gap-1">
               <span className="text-[10px] text-neutral-400">وضعیت رجیستری</span>
-              <span className="font-bold text-amber-300 text-[11.5px]">
-                {item.registry || "بدون رجیستری"}
+              <span
+                className={`font-bold text-[11.5px] ${
+                  regMeta.isRegistered ? "text-amber-300" : "text-neutral-300"
+                }`}
+              >
+                {regMeta.shortLabel}
               </span>
             </div>
 
@@ -418,9 +575,10 @@ function VariantRow({
 }) {
   const { numOnly, isContact } = formatPrice(item.price);
   const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
-  const colorMeta = getColorMeta(extractedColor);
+  const colorMeta = getColorMeta(extractedColor, modelName);
   const partInfo = getPartCountry(item);
   const actMeta = getActivationMeta(item.condition);
+  const regMeta = getRegistryMeta(item.registry);
 
   return (
     <button
@@ -456,7 +614,7 @@ function VariantRow({
 
           {/* Line 2: Part Number + Activation Badge */}
           <div className="flex items-center gap-1.5 text-[11px] whitespace-nowrap">
-            <span className="text-neutral-200 font-bold">
+            <span className="text-neutral-200 font-bold" dir="ltr">
               {partInfo.flag} {partInfo.code}
             </span>
             <span className="text-neutral-500">•</span>
@@ -474,11 +632,17 @@ function VariantRow({
             </span>
           </div>
 
-          {/* Line 3: Registry & SIM concise status */}
-          <div className="text-[10px] text-neutral-400 font-medium truncate">
-            {item.sim?.includes("دو") ? "دو سیم‌کارت" : item.sim || "دو سیم‌کارت"}
-            {" • "}
-            {item.registry?.includes("بدون") ? "بدون رجیستری" : item.registry || "بدون رجیستری"}
+          {/* Line 3: Registry Badge */}
+          <div className="flex items-center gap-1.5">
+            <span
+              className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold border ${
+                regMeta.isRegistered
+                  ? "bg-amber-500/20 border-amber-400/40 text-amber-200"
+                  : "bg-white/[0.06] border-white/10 text-neutral-300"
+              }`}
+            >
+              {regMeta.shortLabel}
+            </span>
           </div>
         </div>
       </div>
@@ -514,6 +678,8 @@ export default function InventoryClient({
   items: InventoryItem[];
   fetchedAt: string;
 }) {
+  const [registryFilter, setRegistryFilter] = useState<"all" | "with-reg" | "no-reg">("all");
+  const [selectedSeriesFilter, setSelectedSeriesFilter] = useState<string>("all");
   const [selectedModelFilter, setSelectedModelFilter] = useState<string>("all");
   const [selectedCapacityFilter, setSelectedCapacityFilter] = useState<string>("all");
   const [selectedColorFilter, setSelectedColorFilter] = useState<string>("all");
@@ -522,17 +688,34 @@ export default function InventoryClient({
   const [searchQuery, setSearchQuery] = useState("");
   const [inspectedItem, setInspectedItem] = useState<InventoryItem | null>(null);
 
-  // Extract unique models dynamically from real inventory
+  // Count Registry totals
+  const registryCounts = useMemo(() => {
+    let withReg = 0;
+    let noReg = 0;
+    items.forEach((item) => {
+      if (getRegistryMeta(item.registry).isRegistered) withReg++;
+      else noReg++;
+    });
+    return { withReg, noReg };
+  }, [items]);
+
+  // Extract unique models dynamically (filtered by series & registry if active)
   const availableModels = useMemo(() => {
     const map = new Map<string, number>();
     items.forEach((item) => {
+      if (selectedSeriesFilter !== "all" && item.series !== selectedSeriesFilter) return;
+      if (registryFilter !== "all") {
+        const isReg = getRegistryMeta(item.registry).isRegistered;
+        if (registryFilter === "with-reg" && !isReg) return;
+        if (registryFilter === "no-reg" && isReg) return;
+      }
       const { modelName } = parseModelAndColor(item.model, item.color);
       map.set(modelName, (map.get(modelName) || 0) + 1);
     });
     return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
-  }, [items]);
+  }, [items, selectedSeriesFilter, registryFilter]);
 
-  // Extract unique capacities dynamically sorted (256GB -> 512GB -> 1TB)
+  // Extract unique capacities dynamically sorted (128GB -> 256GB -> 512GB -> 1TB)
   const availableCapacities = useMemo(() => {
     const set = new Set<string>();
     items.forEach((item) => {
@@ -545,8 +728,8 @@ export default function InventoryClient({
   const availableColors = useMemo(() => {
     const map = new Map<string, { compactName: string; hex: string; imageSrc: string }>();
     items.forEach((item) => {
-      const { extractedColor } = parseModelAndColor(item.model, item.color);
-      const meta = getColorMeta(extractedColor);
+      const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
+      const meta = getColorMeta(extractedColor, modelName);
       if (!map.has(meta.shortName)) {
         map.set(meta.shortName, {
           compactName: meta.compactName,
@@ -567,27 +750,40 @@ export default function InventoryClient({
   const filteredItems = useMemo(() => {
     let result = [...items];
 
-    // 1. Model filter
+    // 1. Registry filter
+    if (registryFilter !== "all") {
+      result = result.filter((i) => {
+        const isReg = getRegistryMeta(i.registry).isRegistered;
+        return registryFilter === "with-reg" ? isReg : !isReg;
+      });
+    }
+
+    // 2. Series filter
+    if (selectedSeriesFilter !== "all") {
+      result = result.filter((i) => i.series === selectedSeriesFilter);
+    }
+
+    // 3. Model filter
     if (selectedModelFilter !== "all") {
       result = result.filter(
         (i) => parseModelAndColor(i.model, i.color).modelName === selectedModelFilter
       );
     }
 
-    // 2. Capacity filter
+    // 4. Capacity filter
     if (selectedCapacityFilter !== "all") {
       result = result.filter((i) => i.capacity === selectedCapacityFilter);
     }
 
-    // 3. Color filter
+    // 5. Color filter
     if (selectedColorFilter !== "all") {
       result = result.filter((i) => {
-        const { extractedColor } = parseModelAndColor(i.model, i.color);
-        return getColorMeta(extractedColor).shortName === selectedColorFilter;
+        const { modelName, extractedColor } = parseModelAndColor(i.model, i.color);
+        return getColorMeta(extractedColor, modelName).shortName === selectedColorFilter;
       });
     }
 
-    // 4. Activation filter
+    // 6. Activation filter
     if (activationFilter !== "all") {
       result = result.filter((i) => {
         const meta = getActivationMeta(i.condition);
@@ -595,16 +791,16 @@ export default function InventoryClient({
       });
     }
 
-    // 5. Search query
+    // 7. Search query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       result = result.filter((i) => {
-        const text = `${i.model ?? ""} ${i.capacity ?? ""} ${i.part ?? ""} ${i.color ?? ""} ${i.condition ?? ""}`.toLowerCase();
+        const text = `${i.model ?? ""} ${i.capacity ?? ""} ${i.part ?? ""} ${i.color ?? ""} ${i.condition ?? ""} ${i.registry ?? ""}`.toLowerCase();
         return text.includes(q);
       });
     }
 
-    // 6. Sort by price
+    // 8. Sort by price
     result.sort((a, b) => {
       const priceA = formatPrice(a.price).rawNum;
       const priceB = formatPrice(b.price).rawNum;
@@ -614,6 +810,8 @@ export default function InventoryClient({
     return result;
   }, [
     items,
+    registryFilter,
+    selectedSeriesFilter,
     selectedModelFilter,
     selectedCapacityFilter,
     selectedColorFilter,
@@ -622,7 +820,7 @@ export default function InventoryClient({
     sortOption,
   ]);
 
-  // Group filtered items by Model Name for ultra-clean Apple Store presentation
+  // Group filtered items by Model Name
   const groupedByModel = useMemo(() => {
     const groups = new Map<
       string,
@@ -636,7 +834,7 @@ export default function InventoryClient({
 
     filteredItems.forEach((item) => {
       const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
-      const { imageSrc } = getColorMeta(extractedColor);
+      const { imageSrc } = getColorMeta(extractedColor, modelName);
       const priceNum = formatPrice(item.price).rawNum;
       const existing = groups.get(modelName);
       if (!existing) {
@@ -661,6 +859,8 @@ export default function InventoryClient({
   }, [filteredItems]);
 
   const hasActiveFilters =
+    registryFilter !== "all" ||
+    selectedSeriesFilter !== "all" ||
     selectedModelFilter !== "all" ||
     selectedCapacityFilter !== "all" ||
     selectedColorFilter !== "all" ||
@@ -668,6 +868,8 @@ export default function InventoryClient({
     searchQuery.trim() !== "";
 
   const resetAllFilters = () => {
+    setRegistryFilter("all");
+    setSelectedSeriesFilter("all");
     setSelectedModelFilter("all");
     setSelectedCapacityFilter("all");
     setSelectedColorFilter("all");
@@ -730,7 +932,7 @@ export default function InventoryClient({
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />
           <div className="absolute bottom-2.5 inset-x-3 flex items-center justify-between gap-2 text-[10.5px] text-white">
             <span className="font-bold drop-shadow truncate">
-              ✨ رنگ‌بندی کامل سری ۱۸ پرو و پرومکس
+              ✨ موجودی روز سری ۱۸، ۱۷، ۱۶ و ۱۵ (با رجیستر و بدون رجیستر)
             </span>
             <span className="px-2.5 py-0.5 rounded-lg bg-emerald-500/30 border border-emerald-400/40 text-emerald-200 font-bold backdrop-blur-md whitespace-nowrap shrink-0">
               ۱۰ روز مهلت تست
@@ -741,14 +943,14 @@ export default function InventoryClient({
 
       {/* ── 3. MOBILE-FIRST SMART FILTER PANEL (GLASS CARD) ── */}
       <section className="w-full mb-4 p-3.5 rounded-[26px] bg-white/[0.06] backdrop-blur-2xl border border-white/[0.12] shadow-[0_8px_30px_rgba(0,0,0,0.35)] flex flex-col gap-3 select-none">
-        {/* Search Input (44px height, 16px mobile font to prevent iOS zoom) */}
+        {/* Search Input (44px height) */}
         <div className="relative">
           <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none">
             <IconSearch />
           </div>
           <input
             type="text"
-            placeholder="جستجوی مدل، رنگ یا پارت (مثلاً ZA/A یا 512)..."
+            placeholder="جستجوی مدل، رنگ یا پارت (مثلاً 18، 17، ZA/A، نارنجی)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full min-h-[44px] py-2.5 pr-10 pl-9 rounded-2xl bg-black/45 border border-white/15 focus:border-emerald-400/70 text-xs text-white placeholder:text-neutral-400 outline-none transition-all"
@@ -764,10 +966,10 @@ export default function InventoryClient({
           )}
         </div>
 
-        {/* Filter Row 1: Models (Full-width touch pills) */}
+        {/* Filter Row 0: Registry Status (High-priority 3-column toggle) */}
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center justify-between text-[11px] text-neutral-300 px-0.5">
-            <span className="font-semibold">۱. انتخاب مدل:</span>
+            <span className="font-semibold">۱. وضعیت رجیستری:</span>
             {hasActiveFilters && (
               <button
                 type="button"
@@ -778,17 +980,98 @@ export default function InventoryClient({
               </button>
             )}
           </div>
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+          <div className="grid grid-cols-3 gap-1.5">
             <button
               type="button"
-              onClick={() => setSelectedModelFilter("all")}
-              className={`min-h-[38px] py-1.5 px-3.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border touch-manipulation ${
-                selectedModelFilter === "all"
+              onClick={() => {
+                setRegistryFilter("all");
+                setSelectedModelFilter("all");
+              }}
+              className={`min-h-[38px] py-1.5 px-2 rounded-xl text-xs font-bold border transition-all cursor-pointer touch-manipulation ${
+                registryFilter === "all"
                   ? "bg-white text-neutral-950 border-white shadow-sm"
-                  : "bg-black/35 text-neutral-200 border-white/10 hover:bg-white/10"
+                  : "bg-black/35 border-white/10 text-neutral-300 hover:text-white"
               }`}
             >
               همه ({items.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setRegistryFilter(registryFilter === "with-reg" ? "all" : "with-reg");
+                setSelectedModelFilter("all");
+              }}
+              className={`min-h-[38px] py-1.5 px-2 rounded-xl text-xs font-bold border transition-all cursor-pointer touch-manipulation ${
+                registryFilter === "with-reg"
+                  ? "bg-amber-500/25 border-amber-400 text-amber-200 shadow-sm"
+                  : "bg-black/35 border-white/10 text-neutral-200 hover:text-white"
+              }`}
+            >
+              با رجیستر ({registryCounts.withReg})
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setRegistryFilter(registryFilter === "no-reg" ? "all" : "no-reg");
+                setSelectedModelFilter("all");
+              }}
+              className={`min-h-[38px] py-1.5 px-2 rounded-xl text-xs font-bold border transition-all cursor-pointer touch-manipulation ${
+                registryFilter === "no-reg"
+                  ? "bg-emerald-500/25 border-emerald-400 text-emerald-200 shadow-sm"
+                  : "bg-black/35 border-white/10 text-neutral-200 hover:text-white"
+              }`}
+            >
+              بدون رجیستر ({registryCounts.noReg})
+            </button>
+          </div>
+        </div>
+
+        {/* Filter Row 1: Series Quick Selector (5-column grid) */}
+        <div className="flex flex-col gap-1.5 pt-2 border-t border-white/[0.08]">
+          <span className="text-[11px] text-neutral-300 font-semibold px-0.5">۲. انتخاب سری و مدل:</span>
+          <div className="grid grid-cols-5 gap-1.5">
+            {(
+              [
+                { id: "all", label: "همه" },
+                { id: "18", label: "سری ۱۸" },
+                { id: "17", label: "سری ۱۷" },
+                { id: "16", label: "سری ۱۶" },
+                { id: "15", label: "سری ۱۵" },
+              ] as const
+            ).map((s) => {
+              const active = selectedSeriesFilter === s.id;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedSeriesFilter(active && s.id !== "all" ? "all" : s.id);
+                    setSelectedModelFilter("all");
+                  }}
+                  className={`min-h-[36px] py-1 px-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer touch-manipulation ${
+                    active
+                      ? "bg-white text-neutral-950 border-white shadow-sm"
+                      : "bg-black/35 border-white/10 text-neutral-200 hover:text-white"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Specific Model Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1 pb-0.5">
+            <button
+              type="button"
+              onClick={() => setSelectedModelFilter("all")}
+              className={`min-h-[36px] py-1 px-3 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border touch-manipulation ${
+                selectedModelFilter === "all"
+                  ? "bg-white/20 text-white border-white/50"
+                  : "bg-black/35 text-neutral-300 border-white/10 hover:bg-white/10"
+              }`}
+            >
+              همه مدل‌ها
             </button>
             {availableModels.map((m) => {
               const active = selectedModelFilter === m.name;
@@ -797,7 +1080,7 @@ export default function InventoryClient({
                   key={m.name}
                   type="button"
                   onClick={() => setSelectedModelFilter(active ? "all" : m.name)}
-                  className={`min-h-[38px] py-1.5 px-3.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border flex items-center gap-1.5 touch-manipulation ${
+                  className={`min-h-[36px] py-1 px-3 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border flex items-center gap-1.5 touch-manipulation ${
                     active
                       ? "bg-white text-neutral-950 border-white shadow-sm"
                       : "bg-black/35 text-neutral-200 border-white/10 hover:bg-white/10"
@@ -818,14 +1101,14 @@ export default function InventoryClient({
           </div>
         </div>
 
-        {/* Filter Row 2: Capacity (Full-width 4-column grid on mobile - zero cramped scroll!) */}
+        {/* Filter Row 2: Capacity (5-column grid on mobile for 128/256/512/1TB) */}
         <div className="flex flex-col gap-1.5 pt-2 border-t border-white/[0.08]">
-          <span className="text-[11px] text-neutral-300 font-semibold px-0.5">۲. ظرفیت حافظه:</span>
-          <div className="grid grid-cols-4 gap-1.5">
+          <span className="text-[11px] text-neutral-300 font-semibold px-0.5">۳. ظرفیت حافظه:</span>
+          <div className="grid grid-cols-5 gap-1.5">
             <button
               type="button"
               onClick={() => setSelectedCapacityFilter("all")}
-              className={`min-h-[38px] py-1.5 px-2 rounded-xl text-xs font-bold border transition-all cursor-pointer touch-manipulation ${
+              className={`min-h-[36px] py-1 px-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer touch-manipulation ${
                 selectedCapacityFilter === "all"
                   ? "bg-emerald-500/25 border-emerald-400/70 text-emerald-200 shadow-sm"
                   : "bg-black/35 border-white/10 text-neutral-300 hover:text-white"
@@ -840,7 +1123,7 @@ export default function InventoryClient({
                   key={cap}
                   type="button"
                   onClick={() => setSelectedCapacityFilter(active ? "all" : cap)}
-                  className={`min-h-[38px] py-1.5 px-2 rounded-xl text-xs font-bold font-mono border transition-all cursor-pointer touch-manipulation ${
+                  className={`min-h-[36px] py-1 px-1.5 rounded-xl text-[11px] font-bold font-mono border transition-all cursor-pointer touch-manipulation ${
                     active
                       ? "bg-emerald-500/25 border-emerald-400/70 text-emerald-200 shadow-sm"
                       : "bg-black/35 border-white/10 text-neutral-200 hover:text-white"
@@ -853,14 +1136,14 @@ export default function InventoryClient({
           </div>
         </div>
 
-        {/* Filter Row 3: Color Swatch + Label Chips (Full-width touch row) */}
+        {/* Filter Row 3: Color Swatch + Label Chips */}
         <div className="flex flex-col gap-1.5 pt-2 border-t border-white/[0.08]">
-          <span className="text-[11px] text-neutral-300 font-semibold px-0.5">۳. رنگ بدنه:</span>
+          <span className="text-[11px] text-neutral-300 font-semibold px-0.5">۴. رنگ بدنه:</span>
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
             <button
               type="button"
               onClick={() => setSelectedColorFilter("all")}
-              className={`min-h-[38px] px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer whitespace-nowrap touch-manipulation ${
+              className={`min-h-[36px] px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer whitespace-nowrap touch-manipulation ${
                 selectedColorFilter === "all"
                   ? "bg-white/20 border-white/50 text-white"
                   : "bg-black/35 border-white/10 text-neutral-300"
@@ -875,7 +1158,7 @@ export default function InventoryClient({
                   key={col.name}
                   type="button"
                   onClick={() => setSelectedColorFilter(active ? "all" : col.name)}
-                  className={`min-h-[38px] px-3 rounded-xl text-xs font-bold border flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 touch-manipulation ${
+                  className={`min-h-[36px] px-3 rounded-xl text-xs font-bold border flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 touch-manipulation ${
                     active
                       ? "bg-white/20 border-emerald-400 text-white ring-1 ring-emerald-400/50"
                       : "bg-black/35 border-white/10 text-neutral-200 hover:bg-white/10"

@@ -684,7 +684,7 @@ export default function InventoryClient({
   const [selectedCapacityFilter, setSelectedCapacityFilter] = useState<string>("all");
   const [selectedColorFilter, setSelectedColorFilter] = useState<string>("all");
   const [activationFilter, setActivationFilter] = useState<"all" | "not-active" | "active">("all");
-  const [sortOption, setSortOption] = useState<"price-asc" | "price-desc">("price-asc");
+  const [sortOption, setSortOption] = useState<"default" | "price-asc" | "price-desc">("default");
   const [searchQuery, setSearchQuery] = useState("");
   const [inspectedItem, setInspectedItem] = useState<InventoryItem | null>(null);
 
@@ -791,21 +791,40 @@ export default function InventoryClient({
       });
     }
 
-    // 7. Search query
+    // 7. Search query (supports both Persian and English color/part terms)
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       result = result.filter((i) => {
-        const text = `${i.model ?? ""} ${i.capacity ?? ""} ${i.part ?? ""} ${i.color ?? ""} ${i.condition ?? ""} ${i.registry ?? ""}`.toLowerCase();
+        const c = (i.color ?? "").toLowerCase();
+        const enColorAlias =
+          c.includes("آلبالویی") || c.includes("زرشکی")
+            ? "burgundy crimson red"
+            : c.includes("آبی")
+            ? "blue glacier"
+            : c.includes("سفید")
+            ? "silver white"
+            : c.includes("مشکی")
+            ? "black blk"
+            : c.includes("نارنجی")
+            ? "orange"
+            : c.includes("بنفش")
+            ? "purple perpul"
+            : c.includes("سبز")
+            ? "sage green"
+            : "";
+        const text = `${i.model ?? ""} ${i.capacity ?? ""} ${i.part ?? ""} ${i.color ?? ""} ${enColorAlias} ${i.condition ?? ""} ${i.registry ?? ""}`.toLowerCase();
         return text.includes(q);
       });
     }
 
-    // 8. Sort by price
-    result.sort((a, b) => {
-      const priceA = formatPrice(a.price).rawNum;
-      const priceB = formatPrice(b.price).rawNum;
-      return sortOption === "price-asc" ? priceA - priceB : priceB - priceA;
-    });
+    // 8. Sort by price (when explicitly chosen; "default" preserves flagship list order)
+    if (sortOption !== "default") {
+      result.sort((a, b) => {
+        const priceA = formatPrice(a.price).rawNum;
+        const priceB = formatPrice(b.price).rawNum;
+        return sortOption === "price-asc" ? priceA - priceB : priceB - priceA;
+      });
+    }
 
     return result;
   }, [
@@ -932,7 +951,7 @@ export default function InventoryClient({
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none" />
           <div className="absolute bottom-2.5 inset-x-3 flex items-center justify-between gap-2 text-[10.5px] text-white">
             <span className="font-bold drop-shadow truncate">
-              ✨ موجودی روز سری ۱۸، ۱۷، ۱۶ و ۱۵ (با رجیستر و بدون رجیستر)
+              ✨ موجودی روز سری ۱۸، ۱۷ و ۱۶ (پلمپ نات‌اکتیو اصلی)
             </span>
             <span className="px-2.5 py-0.5 rounded-lg bg-emerald-500/30 border border-emerald-400/40 text-emerald-200 font-bold backdrop-blur-md whitespace-nowrap shrink-0">
               ۱۰ روز مهلت تست
@@ -1026,17 +1045,16 @@ export default function InventoryClient({
           </div>
         </div>
 
-        {/* Filter Row 1: Series Quick Selector (5-column grid) */}
+        {/* Filter Row 1: Series Quick Selector (4-column grid) */}
         <div className="flex flex-col gap-1.5 pt-2 border-t border-white/[0.08]">
           <span className="text-[11px] text-neutral-300 font-semibold px-0.5">۲. انتخاب سری و مدل:</span>
-          <div className="grid grid-cols-5 gap-1.5">
+          <div className="grid grid-cols-4 gap-1.5">
             {(
               [
                 { id: "all", label: "همه" },
                 { id: "18", label: "سری ۱۸" },
                 { id: "17", label: "سری ۱۷" },
                 { id: "16", label: "سری ۱۶" },
-                { id: "15", label: "سری ۱۵" },
               ] as const
             ).map((s) => {
               const active = selectedSeriesFilter === s.id;
@@ -1203,11 +1221,19 @@ export default function InventoryClient({
           <button
             type="button"
             onClick={() =>
-              setSortOption((prev) => (prev === "price-asc" ? "price-desc" : "price-asc"))
+              setSortOption((prev) =>
+                prev === "default" ? "price-asc" : prev === "price-asc" ? "price-desc" : "default"
+              )
             }
             className="min-h-[36px] py-1 px-3 rounded-xl bg-black/35 border border-white/15 text-neutral-200 hover:text-white font-bold flex items-center gap-1 cursor-pointer whitespace-nowrap shrink-0 touch-manipulation"
           >
-            <span>{sortOption === "price-asc" ? "ارزان‌ترین ↑" : "گران‌ترین ↓"}</span>
+            <span>
+              {sortOption === "default"
+                ? "چیدمان پرچمدار ⭐"
+                : sortOption === "price-asc"
+                ? "ارزان‌ترین ↑"
+                : "گران‌ترین ↓"}
+            </span>
           </button>
         </div>
       </section>

@@ -10,7 +10,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آلبالویی (زرشکی)",
-    "price": "462000000",
+    "price": "463000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -25,7 +25,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آبی",
-    "price": "457000000",
+    "price": "455000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -40,7 +40,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "سفید",
-    "price": "456000000",
+    "price": "452000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -55,7 +55,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "مشکی",
-    "price": "454000000",
+    "price": "450000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -85,7 +85,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آبی",
-    "price": "410000000",
+    "price": "407000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -100,7 +100,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "سفید",
-    "price": "392000000",
+    "price": "395000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -115,37 +115,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "مشکی",
-    "price": "392000000",
-    "condition": "not active (آکبند)",
-    "photo_id": null
-  },
-  {
-    "item_id": "item_18pm_256_cha_silver",
-    "type": "new",
-    "series": "18",
-    "model": "iPhone 18 Pro Max (سفید)",
-    "capacity": "256GB",
-    "part": "CH/A",
-    "sim": "دو سیم‌کارت فیزیکی",
-    "registry": "بدون رجیستری (NOT)",
-    "battery": "100%",
-    "color": "سفید",
-    "price": "422000000",
-    "condition": "not active (آکبند)",
-    "photo_id": null
-  },
-  {
-    "item_id": "item_18pm_256_cha_black",
-    "type": "new",
-    "series": "18",
-    "model": "iPhone 18 Pro Max (مشکی)",
-    "capacity": "256GB",
-    "part": "CH/A",
-    "sim": "دو سیم‌کارت فیزیکی",
-    "registry": "بدون رجیستری (NOT)",
-    "battery": "100%",
-    "color": "مشکی",
-    "price": "422000000",
+    "price": "395000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -175,7 +145,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "مشکی",
-    "price": "429000000",
+    "price": "425000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -190,23 +160,23 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آبی",
-    "price": "426000000",
+    "price": "422000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
   {
-    "item_id": "item_18p_512_zaa_silver",
+    "item_id": "item_18p_512_zaa_burgundy_active",
     "type": "new",
     "series": "18",
-    "model": "iPhone 18 Pro (سفید)",
+    "model": "iPhone 18 Pro (آلبالویی (زرشکی))",
     "capacity": "512GB",
     "part": "ZA/A",
     "sim": "دو سیم‌کارت فیزیکی",
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
-    "color": "سفید",
-    "price": "426000000",
-    "condition": "not active (آکبند)",
+    "color": "آلبالویی (زرشکی)",
+    "price": "406000000",
+    "condition": "active (آکبند)",
     "photo_id": null
   },
   {
@@ -220,7 +190,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آلبالویی (زرشکی)",
-    "price": "376000000",
+    "price": "377000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -250,7 +220,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "سفید",
-    "price": "375000000",
+    "price": "374000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -265,7 +235,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "مشکی",
-    "price": "376000000",
+    "price": "377000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -280,7 +250,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آبی",
-    "price": "406000000",
+    "price": "410000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -295,7 +265,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "نارنجی",
-    "price": "331000000",
+    "price": "329000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -310,7 +280,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آبی",
-    "price": "338000000",
+    "price": "334000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -325,7 +295,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "سفید",
-    "price": "384000000",
+    "price": "383000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -340,7 +310,22 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "سفید",
-    "price": "401000000",
+    "price": "400000000",
+    "condition": "not active (آکبند)",
+    "photo_id": null
+  },
+  {
+    "item_id": "item_17p_256_cha_silver",
+    "type": "new",
+    "series": "17",
+    "model": "iPhone 17 Pro (سفید)",
+    "capacity": "256GB",
+    "part": "CH/A",
+    "sim": "دو سیم‌کارت فیزیکی",
+    "registry": "بدون رجیستری (NOT)",
+    "battery": "100%",
+    "color": "سفید",
+    "price": "330000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -355,12 +340,12 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آبی",
-    "price": "336000000",
+    "price": "335000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
   {
-    "item_id": "item_17p_256_zaa_silver_1",
+    "item_id": "item_17p_256_zaa_silver",
     "type": "new",
     "series": "17",
     "model": "iPhone 17 Pro (سفید)",
@@ -375,21 +360,6 @@
     "photo_id": null
   },
   {
-    "item_id": "item_17p_256_zaa_silver_2",
-    "type": "new",
-    "series": "17",
-    "model": "iPhone 17 Pro (سفید)",
-    "capacity": "256GB",
-    "part": "ZA/A",
-    "sim": "دو سیم‌کارت فیزیکی",
-    "registry": "بدون رجیستری (NOT)",
-    "battery": "100%",
-    "color": "سفید",
-    "price": "335000000",
-    "condition": "not active (آکبند)",
-    "photo_id": null
-  },
-  {
     "item_id": "item_17_256_cha_black",
     "type": "new",
     "series": "17",
@@ -400,7 +370,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "مشکی",
-    "price": "250000000",
+    "price": "247000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -415,7 +385,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "سفید",
-    "price": "246000000",
+    "price": "245000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -430,7 +400,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "آبی",
-    "price": "247000000",
+    "price": "245000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },
@@ -445,7 +415,7 @@
     "registry": "بدون رجیستری (NOT)",
     "battery": "100%",
     "color": "بنفش",
-    "price": "243000000",
+    "price": "244000000",
     "condition": "not active (آکبند)",
     "photo_id": null
   },

@@ -1,66 +1,20 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { Pause, Play } from "lucide-react";
 
 export default function AmbientPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isInteracted, setIsInteracted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const pathname = usePathname();
+  const isInventory = pathname?.startsWith("/inventory");
 
-  useEffect(() => {
+  const togglePlay = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Target comfortable ambient lounge volume
     audio.volume = 0.22;
-
-    // Attempt direct autoplay
-    const promise = audio.play();
-    if (promise !== undefined) {
-      promise
-        .then(() => {
-          setIsPlaying(true);
-          setIsInteracted(true);
-        })
-        .catch(() => {
-          // Autoplay blocked by browser policy -> wait for first interaction
-          setIsPlaying(false);
-        });
-    }
-
-    const handleFirstGesture = () => {
-      if (!audioRef.current || isInteracted) return;
-      audioRef.current
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-          setIsInteracted(true);
-          cleanup();
-        })
-        .catch(() => {});
-    };
-
-    const cleanup = () => {
-      window.removeEventListener("click", handleFirstGesture);
-      window.removeEventListener("touchstart", handleFirstGesture);
-      window.removeEventListener("scroll", handleFirstGesture);
-      window.removeEventListener("keydown", handleFirstGesture);
-    };
-
-    window.addEventListener("click", handleFirstGesture, { once: true, passive: true });
-    window.addEventListener("touchstart", handleFirstGesture, { once: true, passive: true });
-    window.addEventListener("scroll", handleFirstGesture, { once: true, passive: true });
-    window.addEventListener("keydown", handleFirstGesture, { once: true, passive: true });
-
-    return () => {
-      cleanup();
-    };
-  }, [isInteracted]);
-
-  const togglePlay = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const audio = audioRef.current;
-    if (!audio) return;
 
     if (isPlaying) {
       audio.pause();
@@ -70,80 +24,75 @@ export default function AmbientPlayer() {
         .play()
         .then(() => {
           setIsPlaying(true);
-          setIsInteracted(true);
         })
-        .catch(() => {});
+        .catch(() => {
+          setIsPlaying(false);
+        });
     }
   };
 
   return (
     <>
-      {/* Hidden Global Audio Element */}
+      {/* Load audio on demand (preload="none") to save 6.8MB on initial page load */}
       <audio
         ref={audioRef}
         src="/danifon-ambient.mp3"
         loop
-        preload="auto"
+        preload="none"
         playsInline
       />
 
-      {/* Floating Glassmorphic Ambient Pill - Compact on Mobile */}
-      <aside 
-        aria-label="کنترل موسیقی امبینت دانیفون"
-        className="fixed bottom-[82px] left-3 sm:bottom-5 sm:left-5 z-30 select-none animate-fadeIn"
+      <aside
+        aria-label="کنترل موسیقی پس‌زمینه"
+        className={`fixed left-3 sm:left-5 z-30 select-none transition-transform duration-200 ${
+          isInventory ? "bottom-[84px] md:bottom-5" : "bottom-4 sm:bottom-5"
+        }`}
       >
         <button
           type="button"
           onClick={togglePlay}
-          className={`group flex items-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2 rounded-full border backdrop-blur-xl transition-all duration-300 cursor-pointer active:scale-95 shadow-lg touch-manipulation ${
+          className={`min-h-[40px] group flex items-center gap-2 px-3 py-2 rounded-full border backdrop-blur-xl transition-colors duration-200 cursor-pointer active:scale-95 shadow-lg touch-manipulation ${
             isPlaying
-              ? "bg-black/75 border-indigo-400/40 text-white shadow-[0_4px_20px_rgba(99,102,241,0.25)] hover:bg-black/85"
-              : "bg-black/60 border-white/15 text-neutral-300 hover:text-white hover:bg-black/75"
+              ? "bg-neutral-900/90 border-white/25 text-white"
+              : "bg-neutral-950/75 border-white/12 text-neutral-300 hover:text-white hover:border-white/25"
           }`}
-          title={isPlaying ? "توقف موزیک لایت" : "پخش موزیک لایت"}
-          aria-label={isPlaying ? "توقف موزیک لایت" : "پخش موزیک لایت"}
+          title={isPlaying ? "توقف موزیک پس‌زمینه" : "پخش موزیک لایت"}
+          aria-label={isPlaying ? "توقف موزیک پس‌زمینه" : "پخش موزیک لایت"}
+          aria-pressed={isPlaying}
         >
-          {/* Animated Equalizer Bars */}
-          <div className="flex items-end gap-[2px] h-3.5 w-3.5 shrink-0 justify-center">
+          {/* Equalizer Bars */}
+          <span className="flex items-end gap-[2px] h-3.5 w-3.5 shrink-0 justify-center" aria-hidden="true">
             <span
-              className={`w-[2.5px] rounded-full transition-all duration-300 ${
-                isPlaying
-                  ? "bg-indigo-400 animate-eq-1 h-3"
-                  : "bg-neutral-400 h-1"
+              className={`w-[2px] rounded-full transition-colors ${
+                isPlaying ? "bg-emerald-400 animate-eq-1 h-3" : "bg-neutral-400 h-1"
               }`}
             />
             <span
-              className={`w-[2.5px] rounded-full transition-all duration-300 ${
-                isPlaying
-                  ? "bg-purple-400 animate-eq-2 h-3.5"
-                  : "bg-neutral-400 h-1.5"
+              className={`w-[2px] rounded-full transition-colors ${
+                isPlaying ? "bg-emerald-300 animate-eq-2 h-3.5" : "bg-neutral-400 h-1.5"
               }`}
             />
             <span
-              className={`w-[2.5px] rounded-full transition-all duration-300 ${
-                isPlaying
-                  ? "bg-indigo-300 animate-eq-3 h-2.5"
-                  : "bg-neutral-400 h-1"
+              className={`w-[2px] rounded-full transition-colors ${
+                isPlaying ? "bg-emerald-400 animate-eq-3 h-2.5" : "bg-neutral-400 h-1"
               }`}
             />
             <span
-              className={`w-[2.5px] rounded-full transition-all duration-300 ${
-                isPlaying
-                  ? "bg-purple-300 animate-eq-4 h-3"
-                  : "bg-neutral-400 h-1.5"
+              className={`w-[2px] rounded-full transition-colors ${
+                isPlaying ? "bg-emerald-200 animate-eq-4 h-3" : "bg-neutral-400 h-1.5"
               }`}
             />
-          </div>
-
-          {/* Label Text (Shown on sm+ or compact on mobile) */}
-          <span className="text-[10px] font-bold tracking-tight leading-none whitespace-nowrap">
-            {isPlaying ? "موزیک" : "موزیک"}
           </span>
 
-          {/* Minimal Play/Pause indicator icon */}
-          <span className="text-[9px] opacity-80 group-hover:opacity-100 transition-opacity">
-            {isPlaying ? "⏸" : "▶"}
+          <span className="text-[11px] font-medium whitespace-nowrap">
+            {isPlaying ? "در حال پخش" : "موزیک لایت"}
           </span>
+
+          {isPlaying ? (
+            <Pause className="w-3 h-3 text-neutral-300 shrink-0" />
+          ) : (
+            <Play className="w-3 h-3 text-neutral-300 shrink-0" />
+          )}
         </button>
       </aside>
     </>

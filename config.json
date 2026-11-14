@@ -240,7 +240,7 @@
   "installment": {
     "baseFeeRate": 0.1,
     "monthlyInterestRate": 0.05,
-    "telegramUrl": "https://t.me/danikamalie",
+    "telegramUrl": "https://t.me/danikamali",
     "monthsOptions": [
       1,
       2,
@@ -257,7 +257,7 @@
     ]
   },
   "appleId": {
-    "telegramUrl": "https://t.me/danikamalie",
+    "telegramUrl": "https://t.me/danikamali",
     "deliveryTime": "زیر 30 دقیقه",
     "priceText": "شخصی و قانونی",
     "features": [

@@ -6,21 +6,13 @@ export default function InventoryLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      {/* Dedicated Fullscreen Wallpaper for Inventory Page */}
+    <div className="relative w-full flex-1 flex flex-col">
+      {/* Subtle top titanium radial highlight exclusive to inventory catalog */}
       <div
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat pointer-events-none -z-10"
-        style={{
-          backgroundImage: "url('/newback.jpeg')",
-        }}
-        aria-hidden="true"
-      />
-      {/* Ambient veil for contrast & Apple glass feel */}
-      <div
-        className="fixed inset-0 bg-black/45 backdrop-brightness-95 pointer-events-none -z-10"
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-[min(680px,100vw)] h-[360px] bg-gradient-to-b from-emerald-500/10 via-sky-500/5 to-transparent blur-[110px] rounded-full pointer-events-none -z-10"
         aria-hidden="true"
       />
       {children}
-    </>
+    </div>
   );
 }

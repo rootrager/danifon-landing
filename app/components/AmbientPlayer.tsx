@@ -52,8 +52,8 @@ export default function AmbientPlayer() {
           onClick={togglePlay}
           className={`min-h-[40px] group flex items-center gap-2 px-3.5 py-2 rounded-full border backdrop-blur-xl transition-colors duration-200 cursor-pointer active:scale-95 shadow-sm touch-manipulation ${
             isPlaying
-              ? "bg-slate-900 dark:bg-white border-slate-900 dark:border-white text-white dark:text-slate-950"
-              : "bg-white/95 dark:bg-[#12141a]/90 border-slate-200 dark:border-white/15 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-white/30"
+              ? "bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-400 text-white"
+              : "bg-white/95 dark:bg-[#0b101d]/90 border-blue-200 dark:border-blue-400/20 text-[#0a1628] dark:text-slate-100 hover:border-blue-400 dark:hover:border-blue-400/50"
           }`}
           title={isPlaying ? "توقف موزیک پس‌زمینه" : "پخش موزیک لایت"}
           aria-label={isPlaying ? "توقف موزیک پس‌زمینه" : "پخش موزیک لایت"}
@@ -63,29 +63,29 @@ export default function AmbientPlayer() {
             <span
               className={`w-[2px] rounded-full transition-colors ${
                 isPlaying
-                  ? "bg-emerald-400 dark:bg-emerald-600 animate-eq-1 h-3"
-                  : "bg-slate-400 dark:bg-slate-500 h-1"
+                  ? "bg-white animate-eq-1 h-3"
+                  : "bg-blue-500 dark:bg-blue-400 h-1"
               }`}
             />
             <span
               className={`w-[2px] rounded-full transition-colors ${
                 isPlaying
-                  ? "bg-emerald-300 dark:bg-emerald-500 animate-eq-2 h-3.5"
-                  : "bg-slate-400 dark:bg-slate-500 h-1.5"
+                  ? "bg-sky-200 animate-eq-2 h-3.5"
+                  : "bg-blue-500 dark:bg-blue-400 h-1.5"
               }`}
             />
             <span
               className={`w-[2px] rounded-full transition-colors ${
                 isPlaying
-                  ? "bg-emerald-400 dark:bg-emerald-600 animate-eq-3 h-2.5"
-                  : "bg-slate-400 dark:bg-slate-500 h-1"
+                  ? "bg-white animate-eq-3 h-2.5"
+                  : "bg-blue-500 dark:bg-blue-400 h-1"
               }`}
             />
             <span
               className={`w-[2px] rounded-full transition-colors ${
                 isPlaying
-                  ? "bg-emerald-200 dark:bg-emerald-400 animate-eq-4 h-3"
-                  : "bg-slate-400 dark:bg-slate-500 h-1.5"
+                  ? "bg-sky-200 animate-eq-4 h-3"
+                  : "bg-blue-500 dark:bg-blue-400 h-1.5"
               }`}
             />
           </span>
@@ -95,7 +95,7 @@ export default function AmbientPlayer() {
           </span>
 
           {isPlaying ? (
-            <Pause className="w-3.5 h-3.5 shrink-0 opacity-80" />
+            <Pause className="w-3.5 h-3.5 shrink-0 opacity-90" />
           ) : (
             <Play className="w-3.5 h-3.5 shrink-0 opacity-80" />
           )}

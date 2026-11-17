@@ -51,9 +51,9 @@ const TABS: TabItem[] = [
     desktopDesc: "ثبت رایگان مدل مدنظر با اولویت تحویل فوری",
     Icon: Target,
     activeCardClass:
-      "bg-white dark:bg-[#161922] border-amber-500 dark:border-amber-400/70 ring-1 ring-amber-500/20",
-    iconBgClass: "bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-300",
-    accentText: "text-amber-700 dark:text-amber-300",
+      "bg-white dark:bg-[#0e1526] border-blue-600 dark:border-blue-400 ring-1 ring-blue-500/20",
+    iconBgClass: "bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400",
+    accentText: "text-blue-700 dark:text-blue-300",
   },
   {
     id: "installment",
@@ -62,9 +62,9 @@ const TABS: TabItem[] = [
     desktopDesc: "محاسبه دقیق قسط ۱ تا ۱۲ ماهه پیش از خرید",
     Icon: Calculator,
     activeCardClass:
-      "bg-white dark:bg-[#161922] border-sky-500 dark:border-sky-400/70 ring-1 ring-sky-500/20",
-    iconBgClass: "bg-sky-50 dark:bg-sky-500/15 text-sky-600 dark:text-sky-300",
-    accentText: "text-sky-700 dark:text-sky-300",
+      "bg-white dark:bg-[#0e1526] border-blue-600 dark:border-blue-400 ring-1 ring-blue-500/20",
+    iconBgClass: "bg-sky-50 dark:bg-sky-500/15 text-sky-600 dark:text-sky-400",
+    accentText: "text-blue-700 dark:text-blue-300",
   },
   {
     id: "registry",
@@ -73,9 +73,9 @@ const TABS: TabItem[] = [
     desktopDesc: "مشاهده هزینه قانونی ثبت مسافری هر مدل آیفون",
     Icon: ShieldCheck,
     activeCardClass:
-      "bg-white dark:bg-[#161922] border-emerald-600 dark:border-emerald-400/70 ring-1 ring-emerald-500/20",
-    iconBgClass: "bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
-    accentText: "text-emerald-700 dark:text-emerald-300",
+      "bg-white dark:bg-[#0e1526] border-blue-600 dark:border-blue-400 ring-1 ring-blue-500/20",
+    iconBgClass: "bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300",
+    accentText: "text-blue-700 dark:text-blue-300",
   },
   {
     id: "appleid",
@@ -84,9 +84,9 @@ const TABS: TabItem[] = [
     desktopDesc: "تحویل زیر ۳۰ دقیقه روی ایمیل خودتان، ریجن آمریکا",
     Icon: KeyRound,
     activeCardClass:
-      "bg-white dark:bg-[#161922] border-indigo-600 dark:border-indigo-400/70 ring-1 ring-indigo-500/20",
+      "bg-white dark:bg-[#0e1526] border-blue-600 dark:border-blue-400 ring-1 ring-blue-500/20",
     iconBgClass: "bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-300",
-    accentText: "text-indigo-700 dark:text-indigo-300",
+    accentText: "text-blue-700 dark:text-blue-300",
   },
 ];
 
@@ -97,11 +97,11 @@ function getChannelIcon(iconKey: string) {
     case "whatsapp":
       return <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" strokeWidth={1.9} />;
     case "bale":
-      return <MessageSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" strokeWidth={1.9} />;
+      return <MessageSquare className="w-4 h-4 text-blue-600 dark:text-blue-400" strokeWidth={1.9} />;
     case "bot":
-      return <Bot className="w-4 h-4 text-rose-600 dark:text-rose-400" strokeWidth={1.9} />;
+      return <Bot className="w-4 h-4 text-indigo-600 dark:text-indigo-400" strokeWidth={1.9} />;
     default:
-      return <Send className="w-4 h-4 text-sky-600 dark:text-sky-400" strokeWidth={1.9} />;
+      return <Send className="w-4 h-4 text-blue-600 dark:text-blue-400" strokeWidth={1.9} />;
   }
 }
 
@@ -132,9 +132,9 @@ function HomeContent() {
 
       <div className="w-full px-4 sm:px-6 lg:px-8 pt-5 lg:pt-8 pb-16 flex flex-col gap-10 lg:gap-12 flex-1">
         {/* TOP UTILITY STRIP: Unboxed Store Marker + Theme Switcher */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-white/[0.08]">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-blue-100 dark:border-blue-400/15">
           <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-            <span className="font-semibold text-slate-900 dark:text-white">فروشگاه تخصصی آیفون دانیفون</span>
+            <span className="font-semibold text-[#0a1628] dark:text-white">فروشگاه تخصصی آیفون دانیفون</span>
             <span aria-hidden="true">·</span>
             <span>تهران، تحویل حضوری و ارسال فوری</span>
           </div>
@@ -142,15 +142,15 @@ function HomeContent() {
           <ThemeToggle />
         </div>
 
-        {/* SECTION 1: APPLE-CLEAN SPLIT STOREFRONT HERO */}
+        {/* SECTION 1: TECH-TRUST BLUE SPLIT STOREFRONT HERO */}
         <section
           aria-label="معرفی فروشگاه دانیفون و موجودی آکبند"
           className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-stretch"
         >
-          {/* Editorial Copy & Clear Actions for All Ages */}
+          {/* Editorial Copy & Clear Actions */}
           <div className="lg:col-span-6 flex flex-col justify-between gap-6 py-1">
             <div className="flex flex-col gap-4">
-              <h1 className="font-display text-3xl sm:text-4xl lg:text-[46px] text-slate-900 dark:text-white leading-[1.18] text-balance">
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-[46px] text-[#0a1628] dark:text-white leading-[1.18] text-balance">
                 مرجع تخصصی آیفون‌های پلمپ و خدمات اپل
               </h1>
 
@@ -158,18 +158,18 @@ function HomeContent() {
                 مشاهده قیمت روز و موجودی آیفون‌های پلمپ سری ۱۸، ۱۷ و ۱۶ به زبان ساده، محاسبه شفاف اقساط، استعلام تعرفه رجیستری و امکان خرید حضوری در فروشگاه دانیفون.
               </p>
 
-              {/* Quantitative Store Guarantees (Clean unboxed typography) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-200 dark:border-white/[0.08] mt-1">
-                <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-200 font-medium">
-                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" strokeWidth={2.5} />
+              {/* Quantitative Store Guarantees */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-blue-100 dark:border-blue-400/15 mt-1">
+                <div className="flex items-center gap-2 text-sm text-[#0a1628] dark:text-slate-200 font-medium">
+                  <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" strokeWidth={2.5} />
                   <span>۱۰ روز مهلت تست کتبی</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-200 font-medium">
-                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" strokeWidth={2.5} />
+                <div className="flex items-center gap-2 text-sm text-[#0a1628] dark:text-slate-200 font-medium">
+                  <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" strokeWidth={2.5} />
                   <span>پلمپ اصلی کارخانه</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-200 font-medium">
-                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" strokeWidth={2.5} />
+                <div className="flex items-center gap-2 text-sm text-[#0a1628] dark:text-slate-200 font-medium">
+                  <Check className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" strokeWidth={2.5} />
                   <span>تحویل زیر ۳۰ دقیقه تهران</span>
                 </div>
               </div>
@@ -179,7 +179,7 @@ function HomeContent() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Link
                 href="/inventory"
-                className="min-h-[56px] flex-1 py-3 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 active:scale-[0.985] text-white dark:text-slate-950 flex items-center justify-between gap-3 transition-all group cursor-pointer touch-manipulation"
+                className="min-h-[56px] flex-1 py-3 px-5 rounded-2xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 active:scale-[0.985] text-white flex items-center justify-between gap-3 transition-all group cursor-pointer touch-manipulation shadow-[0_10px_28px_rgba(11,99,246,0.22)] dark:shadow-[0_10px_28px_rgba(59,130,246,0.28)]"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="flex items-center -space-x-2 space-x-reverse shrink-0">
@@ -191,7 +191,7 @@ function HomeContent() {
                       <div
                         key={src}
                         style={{ zIndex: 5 - idx }}
-                        className="w-7 h-9 rounded-md overflow-hidden border border-white/40 dark:border-black/30 bg-slate-900"
+                        className="w-7 h-9 rounded-md overflow-hidden border border-white/40 bg-slate-900"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -211,17 +211,17 @@ function HomeContent() {
 
               <a
                 href={config.contact.phoneUrl}
-                className="min-h-[56px] px-5 py-3 rounded-2xl bg-white dark:bg-[#12141a] hover:bg-slate-100 dark:hover:bg-[#1a1d26] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0 touch-manipulation"
+                className="min-h-[56px] px-5 py-3 rounded-2xl bg-white dark:bg-[#0b101d] hover:bg-blue-50/70 dark:hover:bg-[#11192e] border border-blue-200 dark:border-blue-400/25 text-[#0a1628] dark:text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0 touch-manipulation"
               >
-                <PhoneCall className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <PhoneCall className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
                 <span className="tabular-nums">تماس مستقیم: {config.contact.phone}</span>
               </a>
             </div>
           </div>
 
-          {/* Clean Studio Video Showcase */}
-          <div className="lg:col-span-6 rounded-3xl bg-white dark:bg-[#12141a] border border-slate-200 dark:border-white/[0.10] p-3 flex flex-col">
-            <div className="relative w-full h-full min-h-[240px] sm:min-h-[300px] aspect-video lg:aspect-auto rounded-2xl overflow-hidden bg-slate-900 border border-slate-200/60 dark:border-white/10">
+          {/* Clean Studio Video Showcase with Blue Frame */}
+          <div className="lg:col-span-6 rounded-3xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/20 p-3 flex flex-col shadow-[0_8px_32px_rgba(11,99,246,0.06)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.45)]">
+            <div className="relative w-full h-full min-h-[240px] sm:min-h-[300px] aspect-video lg:aspect-auto rounded-2xl overflow-hidden bg-[#04060c] border border-blue-100/60 dark:border-blue-400/15">
               <video
                 ref={heroVideoRef}
                 src="/videoofiphone.mp4"
@@ -234,17 +234,17 @@ function HomeContent() {
                 className="w-full h-full object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/25 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#030712]/85 via-[#030712]/20 to-[#030712]/30 pointer-events-none" />
 
               <div className="absolute top-3.5 inset-x-4 flex items-center justify-between">
-                <span className="text-xs font-semibold text-white/95 drop-shadow">
+                <span className="text-xs font-semibold text-blue-100 drop-shadow">
                   ویترین موجودی آکبند فروشگاه
                 </span>
 
                 <button
                   type="button"
                   onClick={() => setIsVideoMuted((prev) => !prev)}
-                  className="min-w-[42px] min-h-[42px] rounded-full bg-black/65 hover:bg-black/85 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-colors cursor-pointer touch-manipulation"
+                  className="min-w-[42px] min-h-[42px] rounded-full bg-[#04060c]/70 hover:bg-[#04060c]/90 backdrop-blur-md border border-blue-300/25 text-white flex items-center justify-center transition-colors cursor-pointer touch-manipulation"
                   title={isVideoMuted ? "پخش صدای ویدیو" : "بی‌صدا کردن ویدیو"}
                   aria-label={isVideoMuted ? "پخش صدای ویدیو" : "بی‌صدا کردن ویدیو"}
                 >
@@ -257,7 +257,7 @@ function HomeContent() {
                   <span className="font-display text-xl sm:text-2xl text-white leading-snug">
                     آماده تحویل در تهران
                   </span>
-                  <span className="text-xs sm:text-sm text-slate-200">
+                  <span className="text-xs sm:text-sm text-blue-100/90">
                     تمامی رنگ‌بندی‌ها و ظرفیت‌های سری ۱۸، ۱۷ و ۱۶
                   </span>
                 </div>
@@ -278,7 +278,7 @@ function HomeContent() {
 
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
-              <h2 className="font-display text-2xl sm:text-3xl text-slate-900 dark:text-white">
+              <h2 className="font-display text-2xl sm:text-3xl text-[#0a1628] dark:text-white">
                 میز خدمات و محاسبه‌گر هوشمند
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
@@ -308,7 +308,7 @@ function HomeContent() {
                   className={`min-h-[84px] p-4 rounded-2xl border flex flex-col gap-2.5 text-right transition-colors cursor-pointer touch-manipulation ${
                     isActive
                       ? tab.activeCardClass
-                      : "bg-white dark:bg-[#12141a] border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-white/20"
+                      : "bg-white dark:bg-[#0b101d] border-blue-100 dark:border-blue-400/15 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-400/40"
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2 w-full">
@@ -325,7 +325,7 @@ function HomeContent() {
                   </div>
 
                   <div className="flex flex-col min-w-0">
-                    <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight truncate">
+                    <span className="text-sm sm:text-base font-bold text-[#0a1628] dark:text-white leading-tight truncate">
                       {tab.title}
                     </span>
                     <span className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed lg:hidden truncate">
@@ -346,7 +346,7 @@ function HomeContent() {
             role="tabpanel"
             id={`panel-${activeTab}`}
             aria-labelledby={`tab-${activeTab}`}
-            className="rounded-3xl bg-white dark:bg-[#12141a] border border-slate-200 dark:border-white/[0.10] p-5 sm:p-7 lg:p-8"
+            className="rounded-3xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/18 p-5 sm:p-7 lg:p-8 shadow-[0_6px_28px_rgba(11,99,246,0.04)] dark:shadow-none"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -387,9 +387,9 @@ function HomeContent() {
           className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch scroll-mt-20"
         >
           {/* Direct Channels */}
-          <div className="lg:col-span-5 rounded-3xl bg-white dark:bg-[#12141a] border border-slate-200 dark:border-white/[0.10] p-5 sm:p-6 flex flex-col justify-between gap-5">
+          <div className="lg:col-span-5 rounded-3xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/18 p-5 sm:p-6 flex flex-col justify-between gap-5">
             <div className="flex flex-col gap-1.5">
-              <h2 className="font-display text-2xl text-slate-900 dark:text-white">
+              <h2 className="font-display text-2xl text-[#0a1628] dark:text-white">
                 ارتباط مستقیم و پیام‌رسان‌ها
               </h2>
               <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -401,18 +401,18 @@ function HomeContent() {
               {config.buttons.map((btn) => {
                 const cardInner = (
                   <div
-                    className={`min-h-[72px] p-3.5 rounded-2xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] flex items-center justify-between gap-2 transition-colors touch-manipulation ${
+                    className={`min-h-[72px] p-3.5 rounded-2xl bg-blue-50/50 dark:bg-[#11192e]/70 border border-blue-100 dark:border-blue-400/15 flex items-center justify-between gap-2 transition-colors touch-manipulation ${
                       !btn.isActive
                         ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-slate-100 dark:hover:bg-white/[0.09] hover:border-slate-300 dark:hover:border-white/20 active:scale-[0.98] cursor-pointer"
+                        : "hover:bg-blue-50 dark:hover:bg-[#16203a] hover:border-blue-300 dark:hover:border-blue-400/40 active:scale-[0.98] cursor-pointer"
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="w-9 h-9 rounded-xl bg-white dark:bg-white/[0.06] border border-slate-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/15 flex items-center justify-center shrink-0">
                         {getChannelIcon(btn.icon)}
                       </div>
                       <div className="flex flex-col text-right min-w-0">
-                        <span className="text-sm font-bold text-slate-900 dark:text-white truncate">
+                        <span className="text-sm font-bold text-[#0a1628] dark:text-white truncate">
                           {btn.title}
                         </span>
                         <span className="text-xs text-slate-600 dark:text-slate-400 truncate">
@@ -421,7 +421,7 @@ function HomeContent() {
                       </div>
                     </div>
                     {btn.isActive ? (
-                      <ArrowUpLeft className="w-4 h-4 text-slate-400 shrink-0" />
+                      <ArrowUpLeft className="w-4 h-4 text-blue-500 dark:text-blue-400 shrink-0" />
                     ) : (
                       <span className="text-xs text-slate-400 whitespace-nowrap shrink-0">
                         به‌زودی
@@ -450,7 +450,7 @@ function HomeContent() {
 
             <a
               href={config.contact.phoneUrl}
-              className="min-h-[50px] w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 font-bold text-sm flex items-center justify-center gap-2 transition-colors touch-manipulation"
+              className="min-h-[50px] w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors touch-manipulation"
             >
               <PhoneCall className="w-4 h-4 shrink-0" />
               <span className="tabular-nums">تماس تلفنی با فروشگاه ({config.contact.phone})</span>
@@ -458,14 +458,14 @@ function HomeContent() {
           </div>
 
           {/* Store Location & Routing */}
-          <div className="lg:col-span-7 rounded-3xl bg-white dark:bg-[#12141a] border border-slate-200 dark:border-white/[0.10] p-5 sm:p-6 flex flex-col gap-4">
+          <div className="lg:col-span-7 rounded-3xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/18 p-5 sm:p-6 flex flex-col gap-4">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-500/15 border border-rose-200 dark:border-rose-400/25 flex items-center justify-center text-rose-600 dark:text-rose-300 shrink-0 mt-0.5">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/15 border border-blue-200 dark:border-blue-400/25 flex items-center justify-center text-blue-600 dark:text-blue-300 shrink-0 mt-0.5">
                 <MapPin className="w-5 h-5" strokeWidth={1.9} />
               </div>
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <h2 className="font-display text-2xl text-slate-900 dark:text-white">
+                  <h2 className="font-display text-2xl text-[#0a1628] dark:text-white">
                     {config.location.storeName}
                   </h2>
                   <span className="text-xs text-slate-500 dark:text-slate-400" dir="ltr">
@@ -475,13 +475,13 @@ function HomeContent() {
                 <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
                   {config.location.addressText}
                 </p>
-                <p className="text-xs sm:text-sm font-semibold text-amber-700 dark:text-amber-300 mt-0.5">
+                <p className="text-xs sm:text-sm font-semibold text-blue-700 dark:text-blue-300 mt-0.5">
                   نکته مراجعه حضوری: لاین سمت چپ فروشگاه متعلق به تیم دانیفون است.
                 </p>
               </div>
             </div>
 
-            <div className="w-full aspect-[16/9] lg:aspect-[21/9] rounded-2xl overflow-hidden relative border border-slate-200 dark:border-white/10">
+            <div className="w-full aspect-[16/9] lg:aspect-[21/9] rounded-2xl overflow-hidden relative border border-blue-100 dark:border-blue-400/20">
               <iframe
                 title="موقعیت مکانی دقیق فروشگاه دانیفون روی نقشه"
                 src={`https://maps.google.com/maps?q=${config.location.lat || 35.6994973},${config.location.lng || 51.3433422}&hl=fa&z=17&output=embed`}
@@ -495,11 +495,11 @@ function HomeContent() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="باز کردن موقعیت دقیق فروشگاه دانیفون در گوگل مپ"
-                className="absolute inset-0 flex items-end justify-end p-3 bg-gradient-to-t from-black/65 via-transparent to-transparent"
+                className="absolute inset-0 flex items-end justify-end p-3 bg-gradient-to-t from-[#04060c]/65 via-transparent to-transparent"
               >
-                <span className="px-3.5 py-2 rounded-xl bg-white/95 dark:bg-black/85 backdrop-blur-md border border-slate-200 dark:border-white/15 text-xs font-bold text-slate-900 dark:text-white inline-flex items-center gap-1.5 shadow-xs">
+                <span className="px-3.5 py-2 rounded-xl bg-white/95 dark:bg-[#0b101d]/90 backdrop-blur-md border border-blue-200 dark:border-blue-400/25 text-xs font-bold text-[#0a1628] dark:text-white inline-flex items-center gap-1.5 shadow-xs">
                   <span>مشاهده پین دقیق روی نقشه</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                 </span>
               </a>
             </div>
@@ -516,9 +516,9 @@ function HomeContent() {
                   href={navItem.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="min-h-[46px] py-2 px-3 rounded-xl bg-slate-100 dark:bg-white/[0.05] hover:bg-slate-200/80 dark:hover:bg-white/[0.11] active:scale-[0.98] border border-slate-200 dark:border-white/[0.09] text-slate-900 dark:text-white text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap touch-manipulation"
+                  className="min-h-[46px] py-2 px-3 rounded-xl bg-blue-50/70 dark:bg-[#11192e]/80 hover:bg-blue-100/80 dark:hover:bg-[#182442] active:scale-[0.98] border border-blue-100 dark:border-blue-400/18 text-[#0a1628] dark:text-white text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap touch-manipulation"
                 >
-                  <Navigation className="w-4 h-4 text-slate-600 dark:text-slate-300" />
+                  <Navigation className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span>{navItem.label}</span>
                 </a>
               ))}
@@ -527,7 +527,7 @@ function HomeContent() {
         </section>
 
         {/* QUIET FOOTER */}
-        <footer className="mt-2 pt-6 border-t border-slate-200 dark:border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 select-none">
+        <footer className="mt-2 pt-6 border-t border-blue-100 dark:border-blue-400/15 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 select-none">
           <span>تهران، فروشگاه تخصصی آیفون و خدمات اپل</span>
           <span dir="ltr">
             &copy; {new Date().getFullYear()} {config.business.nameEn}. All rights reserved.
@@ -540,7 +540,7 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={<div className="min-h-dvh bg-[#f8fafc] dark:bg-[#090a0d]" />}>
+    <Suspense fallback={<div className="min-h-dvh bg-[#f8fbff] dark:bg-[#04060c]" />}>
       <HomeContent />
     </Suspense>
   );

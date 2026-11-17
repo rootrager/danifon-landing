@@ -34,10 +34,10 @@ export default function InventoryCard({
       <button
         type="button"
         onClick={() => onInspect(item)}
-        className="group flex flex-col rounded-2xl bg-white dark:bg-[#161922] hover:bg-slate-50/70 dark:hover:bg-[#1c202b] border border-slate-200 dark:border-white/[0.09] hover:border-emerald-500/60 dark:hover:border-emerald-400/60 hover:-translate-y-0.5 active:scale-[0.985] transition-all duration-150 cursor-pointer text-right overflow-hidden touch-manipulation"
+        className="group flex flex-col rounded-2xl bg-white dark:bg-[#0e1526] hover:bg-blue-50/40 dark:hover:bg-[#131d35] border border-blue-100 dark:border-blue-400/15 hover:border-blue-500 dark:hover:border-blue-400/60 hover:-translate-y-0.5 active:scale-[0.985] transition-all duration-150 cursor-pointer text-right overflow-hidden touch-manipulation"
       >
-        {/* Studio Product Image Showcase (Neutral Studio Backdrop) */}
-        <div className="relative w-full aspect-[4/3] bg-slate-100 dark:bg-neutral-900 border-b border-slate-200 dark:border-white/[0.06] overflow-hidden flex items-center justify-center">
+        {/* Studio Product Image Showcase */}
+        <div className="relative w-full aspect-[4/3] bg-slate-50 dark:bg-[#060913] border-b border-blue-100/80 dark:border-blue-400/10 overflow-hidden flex items-center justify-center">
           {!imgError ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -48,7 +48,7 @@ export default function InventoryCard({
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
           ) : (
-            <Smartphone className="w-9 h-9 text-slate-400 dark:text-neutral-600" />
+            <Smartphone className="w-9 h-9 text-slate-400 dark:text-slate-600" />
           )}
         </div>
 
@@ -62,19 +62,19 @@ export default function InventoryCard({
                   style={{ backgroundColor: colorMeta.hex }}
                   aria-hidden="true"
                 />
-                <span className="text-base font-bold text-slate-900 dark:text-white truncate">
+                <span className="text-base font-bold text-[#0a1628] dark:text-white truncate">
                   {colorMeta.compactName}
                 </span>
               </div>
               {item.capacity && (
-                <span className="text-sm font-mono font-bold text-slate-800 dark:text-slate-200 tabular-nums shrink-0">
+                <span className="text-sm font-mono font-bold text-[#0a1628] dark:text-slate-200 tabular-nums shrink-0">
                   {item.capacity}
                 </span>
               )}
             </div>
 
             <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300">
-              <span className={actMeta.isNotActive ? "text-emerald-700 dark:text-emerald-300 font-semibold" : "text-sky-700 dark:text-sky-300 font-semibold"}>
+              <span className={actMeta.isNotActive ? "text-emerald-700 dark:text-emerald-300 font-semibold" : "text-blue-700 dark:text-blue-300 font-semibold"}>
                 {actMeta.isNotActive ? "پلمپ کارخانه" : "پلمپ اکتیو"}
               </span>
               <span className="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
@@ -91,13 +91,13 @@ export default function InventoryCard({
             </div>
           </div>
 
-          <div className="pt-3 border-t border-slate-200 dark:border-white/[0.08] flex items-end justify-between gap-2">
+          <div className="pt-3 border-t border-blue-100/80 dark:border-blue-400/12 flex items-end justify-between gap-2">
             {isContact ? (
               <span className="text-sm font-bold text-amber-700 dark:text-amber-300">استعلام قیمت</span>
             ) : (
               <div className="flex flex-col">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-base font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight">
+                  <span className="text-base font-extrabold text-[#0a1628] dark:text-white tabular-nums tracking-tight">
                     {numOnly}
                   </span>
                   <span className="text-xs text-slate-500 dark:text-slate-400">تومان</span>
@@ -109,7 +109,7 @@ export default function InventoryCard({
                 )}
               </div>
             )}
-            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-emerald-300 group-hover:text-emerald-800 dark:group-hover:text-emerald-200 whitespace-nowrap pb-0.5">
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 whitespace-nowrap pb-0.5">
               <span>بررسی و رزرو</span>
               <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             </span>
@@ -123,10 +123,10 @@ export default function InventoryCard({
     <button
       type="button"
       onClick={() => onInspect(item)}
-      className="w-full min-h-[84px] group flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-white dark:bg-[#161922] hover:bg-slate-50 dark:hover:bg-[#1c202b] border border-slate-200 dark:border-white/[0.09] hover:border-emerald-500/50 active:scale-[0.985] transition-all duration-150 cursor-pointer text-right touch-manipulation"
+      className="w-full min-h-[84px] group flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-white dark:bg-[#0e1526] hover:bg-blue-50/40 dark:hover:bg-[#131d35] border border-blue-100 dark:border-blue-400/15 hover:border-blue-500 active:scale-[0.985] transition-all duration-150 cursor-pointer text-right touch-manipulation"
     >
       <div className="flex items-center gap-3 min-w-0 flex-1">
-        <div className="relative w-16 h-[80px] rounded-xl overflow-hidden border border-slate-200 dark:border-white/15 bg-slate-100 dark:bg-neutral-900 shrink-0 flex items-center justify-center">
+        <div className="relative w-16 h-[80px] rounded-xl overflow-hidden border border-blue-100 dark:border-blue-400/20 bg-slate-50 dark:bg-[#060913] shrink-0 flex items-center justify-center">
           {!imgError ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -148,13 +148,13 @@ export default function InventoryCard({
               style={{ backgroundColor: colorMeta.hex }}
               aria-hidden="true"
             />
-            <span className="text-sm font-bold text-slate-900 dark:text-white truncate">
+            <span className="text-sm font-bold text-[#0a1628] dark:text-white truncate">
               {colorMeta.compactName}
             </span>
             {item.capacity && (
               <>
                 <span className="text-slate-300 dark:text-slate-600" aria-hidden="true">·</span>
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-mono tabular-nums whitespace-nowrap">
+                <span className="text-xs font-bold text-[#0a1628] dark:text-slate-200 font-mono tabular-nums whitespace-nowrap">
                   {item.capacity}
                 </span>
               </>
@@ -162,7 +162,7 @@ export default function InventoryCard({
           </div>
 
           <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 truncate">
-            <span className={actMeta.isNotActive ? "text-emerald-700 dark:text-emerald-300 font-semibold" : "text-sky-700 dark:text-sky-300 font-semibold"}>
+            <span className={actMeta.isNotActive ? "text-emerald-700 dark:text-emerald-300 font-semibold" : "text-blue-700 dark:text-blue-300 font-semibold"}>
               {actMeta.isNotActive ? "پلمپ کارخانه" : "پلمپ اکتیو"}
             </span>
             <span aria-hidden="true">·</span>
@@ -184,7 +184,7 @@ export default function InventoryCard({
           <span className="text-xs font-bold text-amber-700 dark:text-amber-300">استعلام قیمت</span>
         ) : (
           <div className="flex flex-col items-end">
-            <span className="text-sm font-extrabold text-slate-900 dark:text-white tabular-nums tracking-tight leading-none">
+            <span className="text-sm font-extrabold text-[#0a1628] dark:text-white tabular-nums tracking-tight leading-none">
               {numOnly}
             </span>
             <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
@@ -192,7 +192,7 @@ export default function InventoryCard({
             </span>
           </div>
         )}
-        <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 dark:text-emerald-300 whitespace-nowrap mt-0.5">
+        <span className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap mt-0.5">
           <span>جزئیات</span>
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
         </span>

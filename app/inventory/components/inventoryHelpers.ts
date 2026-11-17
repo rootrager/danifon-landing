@@ -91,7 +91,7 @@ export function getColorMeta(
     return { hex: "#60a5fa", shortName: "آبی", compactName: "آبی", imageSrc };
   }
   if (c.includes("سفید") || c.includes("سیلور") || c.includes("نقره‌ای")) {
-    return { hex: "#f1f5f9", shortName: "سفید", compactName: "سفید", imageSrc };
+    return { hex: "#e2e8f0", shortName: "سفید", compactName: "سفید", imageSrc };
   }
   if (c.includes("مشکی")) {
     return { hex: "#27272a", shortName: "مشکی", compactName: "مشکی", imageSrc };
@@ -127,62 +127,144 @@ export function getColorMeta(
   };
 }
 
-export function getPartCountry(item: InventoryItem): { flag: string; code: string; label: string } {
+export function getPartCountry(item: InventoryItem): {
+  flag: string;
+  code: string;
+  label: string;
+  plainSummary: string;
+} {
   const combined = `${item.part ?? ""} ${item.sim ?? ""}`.toUpperCase();
   if (combined.includes("5L")) {
-    return { flag: "🇸🇬", code: "ZA/A (5L)", label: "پارت سنگاپور (ZA/A - 5L)" };
+    return {
+      flag: "🇸🇬",
+      code: "ZA/A (5L)",
+      label: "پارت سنگاپور (ZA/A - 5L)",
+      plainSummary: "سفارش سنگاپور · دوسیم‌کارت",
+    };
   }
   if (combined.includes("5X")) {
-    return { flag: "🇸🇬", code: "ZA/A (5X)", label: "پارت سنگاپور (ZA/A - 5X)" };
+    return {
+      flag: "🇸🇬",
+      code: "ZA/A (5X)",
+      label: "پارت سنگاپور (ZA/A - 5X)",
+      plainSummary: "سفارش سنگاپور · دوسیم‌کارت",
+    };
   }
   if (combined.includes("ZA/A") || combined.includes("ZA")) {
-    return { flag: "🇸🇬", code: "ZA/A", label: "پارت سنگاپور (ZA/A)" };
+    return {
+      flag: "🇸🇬",
+      code: "ZA/A",
+      label: "پارت سنگاپور (ZA/A)",
+      plainSummary: "سفارش سنگاپور · دوسیم‌کارت",
+    };
   }
   if (combined.includes("CH/A") || combined.includes("CH")) {
-    return { flag: "🇨🇳", code: "CH/A", label: "پارت چین (CH/A)" };
+    return {
+      flag: "🇨🇳",
+      code: "CH/A",
+      label: "پارت چین (CH/A)",
+      plainSummary: "سفارش چین · دوسیم‌کارت فیزیکی",
+    };
   }
   if (combined.includes("QN/A") || combined.includes("QN")) {
-    return { flag: "🇪🇺", code: "QN/A", label: "پارت اروپا (QN/A)" };
+    return {
+      flag: "🇪🇺",
+      code: "QN/A",
+      label: "پارت اروپا (QN/A)",
+      plainSummary: "سفارش اروپا · سیم فیزیکی + eSIM",
+    };
   }
   if (combined.includes("QL/A") || combined.includes("QL")) {
-    return { flag: "🇪🇺", code: "QL/A", label: "پارت اروپا (QL/A)" };
+    return {
+      flag: "🇪🇺",
+      code: "QL/A",
+      label: "پارت اروپا (QL/A)",
+      plainSummary: "سفارش اروپا · سیم فیزیکی + eSIM",
+    };
   }
   if (combined.includes("AH/A") || combined.includes("AH")) {
-    return { flag: "🇦🇪", code: "AH/A", label: "پارت امارات (AH/A)" };
+    return {
+      flag: "🇦🇪",
+      code: "AH/A",
+      label: "پارت امارات (AH/A)",
+      plainSummary: "سفارش امارات · سیم فیزیکی + eSIM",
+    };
   }
   if (combined.includes("HN/A") || combined.includes("HN")) {
-    return { flag: "🇮🇳", code: "HN/A", label: "پارت هند (HN/A)" };
+    return {
+      flag: "🇮🇳",
+      code: "HN/A",
+      label: "پارت هند (HN/A)",
+      plainSummary: "سفارش هند · سیم فیزیکی + eSIM",
+    };
   }
   if (combined.includes("LL/A") || combined.includes("LLA")) {
-    return { flag: "🇺🇸", code: "LL/A", label: "پارت آمریکا (LL/A)" };
+    return {
+      flag: "🇺🇸",
+      code: "LL/A",
+      label: "پارت آمریکا (LL/A)",
+      plainSummary: "سفارش آمریکا · فقط eSIM",
+    };
   }
   if (combined.includes("JA/A") || combined.includes("JA")) {
-    return { flag: "🇯🇵", code: "JA/A", label: "پارت ژاپن (JA/A)" };
+    return {
+      flag: "🇯🇵",
+      code: "JA/A",
+      label: "پارت ژاپن (JA/A)",
+      plainSummary: "سفارش ژاپن · سیم فیزیکی + eSIM",
+    };
   }
   if (combined.includes("ZP/A") || combined.includes("ZP")) {
-    return { flag: "🇭🇰", code: "ZP/A", label: "پارت هنگ‌کنگ (ZP/A)" };
+    return {
+      flag: "🇭🇰",
+      code: "ZP/A",
+      label: "پارت هنگ‌کنگ (ZP/A)",
+      plainSummary: "سفارش هنگ‌کنگ · دوسیم‌کارت",
+    };
   }
-  return { flag: "🌐", code: item.part || "Global", label: item.part ? `پارت ${item.part}` : "پارت اصلی" };
+  return {
+    flag: "🌐",
+    code: item.part || "Global",
+    label: item.part ? `پارت ${item.part}` : "پارت اصلی",
+    plainSummary: "پارت اصلی بین‌المللی",
+  };
 }
 
 export function getActivationMeta(conditionRaw: string | null): {
   label: string;
   shortLabel: string;
+  plainSummary: string;
   isNotActive: boolean;
 } {
   const c = (conditionRaw || "").toLowerCase();
   if (c.includes("not active") || c.includes("نات")) {
-    return { label: "پلمپ نات‌اکتیو (Not Active)", shortLabel: "نات‌اکتیو", isNotActive: true };
+    return {
+      label: "پلمپ نات‌اکتیو (Not Active)",
+      shortLabel: "نات‌اکتیو",
+      plainSummary: "پلمپ کارخانه (تا الان روشن نشده)",
+      isNotActive: true,
+    };
   }
   if (c.includes("active")) {
-    return { label: "پلمپ اکتیو (Active)", shortLabel: "اکتیو", isNotActive: false };
+    return {
+      label: "پلمپ اکتیو (Active)",
+      shortLabel: "اکتیو",
+      plainSummary: "پلمپ شرکتی (گارانتی اپل فعال شده)",
+      isNotActive: false,
+    };
   }
-  return { label: conditionRaw || "آکبند پلمپ", shortLabel: "آکبند", isNotActive: true };
+  return {
+    label: conditionRaw || "آکبند پلمپ",
+    shortLabel: "آکبند",
+    plainSummary: "پلمپ کارخانه",
+    isNotActive: true,
+  };
 }
 
 export function getRegistryMeta(registryRaw: string | null): {
   isRegistered: boolean;
   shortLabel: string;
+  plainLabel: string;
   fullLabel: string;
 } {
   const r = (registryRaw || "").toLowerCase();
@@ -190,32 +272,66 @@ export function getRegistryMeta(registryRaw: string | null): {
     return {
       isRegistered: false,
       shortLabel: "بدون رجیستری",
+      plainLabel: "بدون رجیستری (نیاز به ثبت همتا)",
       fullLabel: "بدون رجیستری (آنتن‌دهی طبق قوانین روز)",
     };
   }
   return {
     isRegistered: true,
     shortLabel: "با رجیستری",
+    plainLabel: "رجیستر شده (آنتن دائمی آماده)",
     fullLabel: "با رجیستری رسمی و کد فعال‌سازی همتا",
   };
+}
+
+export function formatMillionHelper(rawNum: number): string {
+  if (!rawNum || isNaN(rawNum) || rawNum <= 0) return "";
+  const millions = rawNum / 1_000_000;
+  if (millions < 1) {
+    return `${Math.round(rawNum / 1000).toLocaleString("fa-IR")} هزار تومان`;
+  }
+  const rounded = Math.round(millions * 10) / 10;
+  const formatted = Number.isInteger(rounded)
+    ? rounded.toLocaleString("fa-IR")
+    : rounded.toLocaleString("fa-IR", { maximumFractionDigits: 1 });
+  return `معادل ${formatted} میلیون تومان`;
 }
 
 export function formatPrice(price: string | null): {
   formatted: string;
   numOnly: string;
+  millionHelper: string;
   isContact: boolean;
   rawNum: number;
 } {
   if (!price) {
-    return { formatted: "استعلام قیمت", numOnly: "استعلام", isContact: true, rawNum: 0 };
+    return {
+      formatted: "استعلام قیمت",
+      numOnly: "استعلام",
+      millionHelper: "",
+      isContact: true,
+      rawNum: 0,
+    };
   }
   const digits = price.replace(/\D/g, "");
   const n = parseInt(digits, 10);
   if (isNaN(n) || n === 0) {
-    return { formatted: price, numOnly: price, isContact: false, rawNum: 0 };
+    return {
+      formatted: price,
+      numOnly: price,
+      millionHelper: "",
+      isContact: false,
+      rawNum: 0,
+    };
   }
   const numOnly = n.toLocaleString("en-US");
-  return { formatted: `${numOnly} تومان`, numOnly, isContact: false, rawNum: n };
+  return {
+    formatted: `${numOnly} تومان`,
+    numOnly,
+    millionHelper: formatMillionHelper(n),
+    isContact: false,
+    rawNum: n,
+  };
 }
 
 export function capacityRank(cap: string | null): number {

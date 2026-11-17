@@ -21,9 +21,11 @@ import {
   Navigation,
   ExternalLink,
   Check,
+  PhoneCall,
 } from "lucide-react";
 import config from "../config.json";
 import TopNav from "./components/TopNav";
+import ThemeToggle from "./components/ThemeToggle";
 import Calculators from "./components/Calculators";
 import WaitlistSection from "./components/WaitlistSection";
 import AppleIdSection from "./components/AppleIdSection";
@@ -36,7 +38,8 @@ interface TabItem {
   subtitle: string;
   desktopDesc: string;
   Icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
-  activeClass: string;
+  activeCardClass: string;
+  iconBgClass: string;
   accentText: string;
 }
 
@@ -44,53 +47,61 @@ const TABS: TabItem[] = [
   {
     id: "waitlist",
     title: "صف انتظار VIP",
-    subtitle: "رزرو اولویت خرید",
-    desktopDesc: "ثبت رایگان مدل و رنگ دلخواه با بالاترین اولویت تحویل",
+    subtitle: "رزرو مدل و رنگ دلخواه",
+    desktopDesc: "ثبت رایگان مدل مدنظر با اولویت تحویل فوری",
     Icon: Target,
-    activeClass: "bg-amber-500/15 border-amber-400/60 text-white",
-    accentText: "text-amber-300",
+    activeCardClass:
+      "bg-white dark:bg-[#161922] border-amber-500 dark:border-amber-400/70 ring-1 ring-amber-500/20",
+    iconBgClass: "bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-300",
+    accentText: "text-amber-700 dark:text-amber-300",
   },
   {
     id: "installment",
     title: "محاسبه اقساط",
-    subtitle: "چک صیادی و کارمزد",
-    desktopDesc: "محاسبه شفاف اقساط ۱ تا ۱۲ ماهه با چک صیادی بنفش",
+    subtitle: "چک صیادی و کارمزد شفاف",
+    desktopDesc: "محاسبه دقیق قسط ۱ تا ۱۲ ماهه پیش از خرید",
     Icon: Calculator,
-    activeClass: "bg-sky-500/15 border-sky-400/60 text-white",
-    accentText: "text-sky-300",
+    activeCardClass:
+      "bg-white dark:bg-[#161922] border-sky-500 dark:border-sky-400/70 ring-1 ring-sky-500/20",
+    iconBgClass: "bg-sky-50 dark:bg-sky-500/15 text-sky-600 dark:text-sky-300",
+    accentText: "text-sky-700 dark:text-sky-300",
   },
   {
     id: "registry",
     title: "استعلام رجیستری",
-    subtitle: "گمرک و پاسپورت",
-    desktopDesc: "مشاهده تعرفه رسمی گمرکی و هزینه ثبت مسافری آیفون",
+    subtitle: "تعرفه گمرک و پاسپورت",
+    desktopDesc: "مشاهده هزینه قانونی ثبت مسافری هر مدل آیفون",
     Icon: ShieldCheck,
-    activeClass: "bg-emerald-500/15 border-emerald-400/60 text-white",
-    accentText: "text-emerald-300",
+    activeCardClass:
+      "bg-white dark:bg-[#161922] border-emerald-600 dark:border-emerald-400/70 ring-1 ring-emerald-500/20",
+    iconBgClass: "bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+    accentText: "text-emerald-700 dark:text-emerald-300",
   },
   {
     id: "appleid",
     title: "سفارش اپل‌آیدی",
-    subtitle: "تحویل روی جیمیل",
-    desktopDesc: "ساخت اپل‌آیدی قانونی ریجن آمریکا روی ایمیل شخصی شما",
+    subtitle: "ساخت روی جیمیل شخصی",
+    desktopDesc: "تحویل زیر ۳۰ دقیقه روی ایمیل خودتان، ریجن آمریکا",
     Icon: KeyRound,
-    activeClass: "bg-indigo-500/15 border-indigo-400/60 text-white",
-    accentText: "text-indigo-300",
+    activeCardClass:
+      "bg-white dark:bg-[#161922] border-indigo-600 dark:border-indigo-400/70 ring-1 ring-indigo-500/20",
+    iconBgClass: "bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-300",
+    accentText: "text-indigo-700 dark:text-indigo-300",
   },
 ];
 
 function getChannelIcon(iconKey: string) {
   switch (iconKey) {
     case "telegram":
-      return <Send className="w-4 h-4 text-sky-400" strokeWidth={1.8} />;
+      return <Send className="w-4 h-4 text-sky-600 dark:text-sky-400" strokeWidth={1.9} />;
     case "whatsapp":
-      return <MessageCircle className="w-4 h-4 text-emerald-400" strokeWidth={1.8} />;
+      return <MessageCircle className="w-4 h-4 text-emerald-600 dark:text-emerald-400" strokeWidth={1.9} />;
     case "bale":
-      return <MessageSquare className="w-4 h-4 text-indigo-400" strokeWidth={1.8} />;
+      return <MessageSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" strokeWidth={1.9} />;
     case "bot":
-      return <Bot className="w-4 h-4 text-rose-400" strokeWidth={1.8} />;
+      return <Bot className="w-4 h-4 text-rose-600 dark:text-rose-400" strokeWidth={1.9} />;
     default:
-      return <Send className="w-4 h-4 text-sky-400" strokeWidth={1.8} />;
+      return <Send className="w-4 h-4 text-sky-600 dark:text-sky-400" strokeWidth={1.9} />;
   }
 }
 
@@ -104,13 +115,13 @@ function HomeContent() {
 
   const [isVideoMuted, setIsVideoMuted] = useState(true);
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
-  const servicesSectionRef = useRef<HTMLElement | null>(null);
+  const servicesPanelRef = useRef<HTMLDivElement | null>(null);
 
   const handleSelectTab = (tabId: TabType) => {
     router.replace(`/?tab=${tabId}`, { scroll: false });
     if (typeof window !== "undefined" && window.innerWidth < 1024) {
       setTimeout(() => {
-        servicesSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        servicesPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
       }, 60);
     }
   };
@@ -119,51 +130,56 @@ function HomeContent() {
     <div className="flex flex-col min-h-dvh w-full" dir="rtl">
       <TopNav />
 
-      <div className="w-full px-4 sm:px-6 lg:px-8 pt-6 lg:pt-10 pb-14 flex flex-col gap-10 lg:gap-12 flex-1">
-        {/* SECTION 1: FLAGSHIP SPLIT STOREFRONT HERO (Full Desktop Presence) */}
+      <div className="w-full px-4 sm:px-6 lg:px-8 pt-5 lg:pt-8 pb-16 flex flex-col gap-10 lg:gap-12 flex-1">
+        {/* TOP UTILITY STRIP: Unboxed Store Marker + Theme Switcher */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-white/[0.08]">
+          <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+            <span className="font-semibold text-slate-900 dark:text-white">فروشگاه تخصصی آیفون دانیفون</span>
+            <span aria-hidden="true">·</span>
+            <span>تهران، تحویل حضوری و ارسال فوری</span>
+          </div>
+
+          <ThemeToggle />
+        </div>
+
+        {/* SECTION 1: APPLE-CLEAN SPLIT STOREFRONT HERO */}
         <section
           aria-label="معرفی فروشگاه دانیفون و موجودی آکبند"
-          className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-stretch"
         >
-          {/* Editorial Copy & Primary Storefront Actions */}
+          {/* Editorial Copy & Clear Actions for All Ages */}
           <div className="lg:col-span-6 flex flex-col justify-between gap-6 py-1">
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-2 text-xs text-neutral-400">
-                <span>فروشگاه تخصصی آیفون</span>
-                <span aria-hidden="true">·</span>
-                <span>تهران، تحویل حضوری و ارسال فوری</span>
-              </div>
-
-              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white leading-[1.18] text-balance">
+            <div className="flex flex-col gap-4">
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-[46px] text-slate-900 dark:text-white leading-[1.18] text-balance">
                 مرجع تخصصی آیفون‌های پلمپ و خدمات اپل
               </h1>
 
-              <p className="text-sm sm:text-[15px] text-neutral-300 leading-relaxed max-w-xl">
-                موجودی روز آیفون‌های نات‌اکتیو سری ۱۸، ۱۷ و ۱۶ با قیمت شفاف، مشاوره تخصصی خرید نقدی و اقساطی، استعلام تعرفه رجیستری و تحویل حضوری در فروشگاه دانیفون.
+              <p className="text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
+                مشاهده قیمت روز و موجودی آیفون‌های پلمپ سری ۱۸، ۱۷ و ۱۶ به زبان ساده، محاسبه شفاف اقساط، استعلام تعرفه رجیستری و امکان خرید حضوری در فروشگاه دانیفون.
               </p>
 
-              {/* Quantitative Store Guarantees (Unboxed Metadata) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-white/[0.08] mt-1">
-                <div className="flex items-center gap-2 text-xs text-neutral-200">
-                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+              {/* Quantitative Store Guarantees (Clean unboxed typography) */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-200 dark:border-white/[0.08] mt-1">
+                <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-200 font-medium">
+                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" strokeWidth={2.5} />
                   <span>۱۰ روز مهلت تست کتبی</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-neutral-200">
-                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>پلمپ اصلی نات‌اکتیو</span>
+                <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-200 font-medium">
+                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" strokeWidth={2.5} />
+                  <span>پلمپ اصلی کارخانه</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-neutral-200">
-                  <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div className="flex items-center gap-2 text-sm text-slate-800 dark:text-slate-200 font-medium">
+                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" strokeWidth={2.5} />
                   <span>تحویل زیر ۳۰ دقیقه تهران</span>
                 </div>
               </div>
             </div>
 
-            {/* Primary & Secondary Action Strip */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            {/* Primary & Direct Call Action Strip */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Link
                 href="/inventory"
-                className="min-h-[54px] flex-1 py-2.5 px-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.985] text-neutral-950 flex items-center justify-between gap-3 transition-all group cursor-pointer touch-manipulation"
+                className="min-h-[56px] flex-1 py-3 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 active:scale-[0.985] text-white dark:text-slate-950 flex items-center justify-between gap-3 transition-all group cursor-pointer touch-manipulation"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="flex items-center -space-x-2 space-x-reverse shrink-0">
@@ -175,7 +191,7 @@ function HomeContent() {
                       <div
                         key={src}
                         style={{ zIndex: 5 - idx }}
-                        className="w-7 h-9 rounded-md overflow-hidden border border-black/25 bg-neutral-900"
+                        className="w-7 h-9 rounded-md overflow-hidden border border-white/40 dark:border-black/30 bg-slate-900"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -187,25 +203,25 @@ function HomeContent() {
                       </div>
                     ))}
                   </div>
-                  <span className="text-sm font-extrabold truncate">مشاهده لیست و قیمت روز</span>
+                  <span className="text-sm sm:text-base font-bold truncate">مشاهده لیست قیمت و موجودی روز</span>
                 </div>
 
                 <ArrowLeft className="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" />
               </Link>
 
               <a
-                href="#services"
-                className="min-h-[54px] px-5 py-3 rounded-2xl bg-white/[0.06] hover:bg-white/[0.11] border border-white/12 text-white text-xs font-bold flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0 touch-manipulation"
+                href={config.contact.phoneUrl}
+                className="min-h-[56px] px-5 py-3 rounded-2xl bg-white dark:bg-[#12141a] hover:bg-slate-100 dark:hover:bg-[#1a1d26] border border-slate-300 dark:border-white/15 text-slate-900 dark:text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0 touch-manipulation"
               >
-                <Target className="w-4 h-4 text-amber-300" />
-                <span>خدمات و صف VIP</span>
+                <PhoneCall className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span className="tabular-nums">تماس مستقیم: {config.contact.phone}</span>
               </a>
             </div>
           </div>
 
-          {/* Cinematic Video Showcase */}
-          <div className="lg:col-span-6 rounded-3xl bg-white/[0.045] backdrop-blur-2xl border border-white/[0.10] p-3 flex flex-col">
-            <div className="relative w-full h-full min-h-[220px] sm:min-h-[280px] aspect-video lg:aspect-auto rounded-2xl overflow-hidden bg-neutral-950 border border-white/10">
+          {/* Clean Studio Video Showcase */}
+          <div className="lg:col-span-6 rounded-3xl bg-white dark:bg-[#12141a] border border-slate-200 dark:border-white/[0.10] p-3 flex flex-col">
+            <div className="relative w-full h-full min-h-[240px] sm:min-h-[300px] aspect-video lg:aspect-auto rounded-2xl overflow-hidden bg-slate-900 border border-slate-200/60 dark:border-white/10">
               <video
                 ref={heroVideoRef}
                 src="/videoofiphone.mp4"
@@ -218,17 +234,17 @@ function HomeContent() {
                 className="w-full h-full object-cover"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/25 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/25 pointer-events-none" />
 
-              <div className="absolute top-3 inset-x-3 flex items-center justify-between">
-                <span className="px-3 py-1 rounded-xl bg-black/65 backdrop-blur-md text-[11px] font-semibold text-emerald-300 border border-white/10">
-                  ویترین موجودی آکبند
+              <div className="absolute top-3.5 inset-x-4 flex items-center justify-between">
+                <span className="text-xs font-semibold text-white/95 drop-shadow">
+                  ویترین موجودی آکبند فروشگاه
                 </span>
 
                 <button
                   type="button"
                   onClick={() => setIsVideoMuted((prev) => !prev)}
-                  className="min-w-[42px] min-h-[42px] rounded-full bg-black/65 hover:bg-black/85 backdrop-blur-md border border-white/15 text-neutral-200 hover:text-white flex items-center justify-center transition-colors cursor-pointer touch-manipulation"
+                  className="min-w-[42px] min-h-[42px] rounded-full bg-black/65 hover:bg-black/85 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-colors cursor-pointer touch-manipulation"
                   title={isVideoMuted ? "پخش صدای ویدیو" : "بی‌صدا کردن ویدیو"}
                   aria-label={isVideoMuted ? "پخش صدای ویدیو" : "بی‌صدا کردن ویدیو"}
                 >
@@ -236,13 +252,13 @@ function HomeContent() {
                 </button>
               </div>
 
-              <div className="absolute bottom-3.5 inset-x-4 flex items-end justify-between gap-3 pointer-events-none">
-                <div className="flex flex-col">
-                  <span className="font-display text-lg sm:text-xl text-white leading-snug">
+              <div className="absolute bottom-4 inset-x-4 flex items-end justify-between gap-3 pointer-events-none">
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-display text-xl sm:text-2xl text-white leading-snug">
                     آماده تحویل در تهران
                   </span>
-                  <span className="text-xs text-neutral-300">
-                    تمامی رنگ‌بندی‌ها و ظرفیت‌های سری ۱۸ و ۱۷
+                  <span className="text-xs sm:text-sm text-slate-200">
+                    تمامی رنگ‌بندی‌ها و ظرفیت‌های سری ۱۸، ۱۷ و ۱۶
                   </span>
                 </div>
               </div>
@@ -250,116 +266,117 @@ function HomeContent() {
           </div>
         </section>
 
-        {/* SECTION 2: DESKTOP 2-COLUMN SERVICES STUDIO (Sidebar Rail on Desktop + Tabs on Mobile) */}
+        {/* SECTION 2: 4-CARD QUICK-START SERVICES + WORKBENCH */}
         <section
-          ref={servicesSectionRef}
           id="services"
           aria-label="خدمات و ابزارهای آنلاین دانیفون"
-          className="flex flex-col gap-4 scroll-mt-20"
+          className="flex flex-col gap-5 scroll-mt-20"
         >
           <span id="waitlist" className="sr-only">
             صف انتظار VIP
           </span>
 
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-1">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
-              <h2 className="font-display text-2xl sm:text-3xl text-white">
+              <h2 className="font-display text-2xl sm:text-3xl text-slate-900 dark:text-white">
                 میز خدمات و محاسبه‌گر هوشمند
               </h2>
-              <p className="text-xs sm:text-sm text-neutral-400 mt-0.5">
-                رزرو صف VIP، محاسبه دقیق چک اقساط، تعرفه رجیستری و سفارش اپل‌آیدی قانونی
+              <p className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+                یکی از گزینه‌های زیر را انتخاب کنید تا فرم مربوط به آن باز شود:
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-            {/* Desktop Vertical Service Rail / Mobile 2x2 Grid */}
-            <div
-              role="tablist"
-              aria-label="انتخاب سرویس"
-              className="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-2.5"
-            >
-              {TABS.map((tab) => {
-                const isActive = activeTab === tab.id;
-                const Icon = tab.Icon;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    role="tab"
-                    id={`tab-${tab.id}`}
-                    aria-selected={isActive}
-                    aria-controls={`panel-${tab.id}`}
-                    onClick={() => handleSelectTab(tab.id)}
-                    className={`min-h-[64px] lg:min-h-[82px] p-3.5 lg:p-4 rounded-2xl border flex items-center gap-3 text-right transition-colors cursor-pointer touch-manipulation ${
-                      isActive
-                        ? tab.activeClass
-                        : "bg-white/[0.035] border-white/[0.08] text-neutral-300 hover:bg-white/[0.08] hover:text-white"
-                    }`}
-                  >
-                    <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                        isActive ? "bg-white/10" : "bg-black/30"
-                      }`}
-                    >
-                      <Icon
-                        className={`w-5 h-5 ${isActive ? tab.accentText : "text-neutral-400"}`}
-                        strokeWidth={1.85}
-                      />
-                    </div>
-                    <div className="flex flex-col min-w-0 flex-1">
-                      <span className="text-xs sm:text-sm font-bold leading-tight truncate">
-                        {tab.title}
-                      </span>
-                      <span className="text-[11px] text-neutral-400 truncate mt-0.5 lg:hidden">
-                        {tab.subtitle}
-                      </span>
-                      <span className="hidden lg:block text-xs text-neutral-400 mt-1 leading-relaxed">
-                        {tab.desktopDesc}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Active Workspace Panel */}
-            <div
-              role="tabpanel"
-              id={`panel-${activeTab}`}
-              aria-labelledby={`tab-${activeTab}`}
-              className="lg:col-span-8 rounded-3xl bg-white/[0.045] backdrop-blur-2xl border border-white/[0.10] p-4 sm:p-6 lg:p-7"
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  transition={{ duration: 0.16 }}
+          {/* 4-Column Quick-Start Selector Row */}
+          <div
+            role="tablist"
+            aria-label="انتخاب سرویس"
+            className="grid grid-cols-2 lg:grid-cols-4 gap-3"
+          >
+            {TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              const Icon = tab.Icon;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  id={`tab-${tab.id}`}
+                  aria-selected={isActive}
+                  aria-controls={`panel-${tab.id}`}
+                  onClick={() => handleSelectTab(tab.id)}
+                  className={`min-h-[84px] p-4 rounded-2xl border flex flex-col gap-2.5 text-right transition-colors cursor-pointer touch-manipulation ${
+                    isActive
+                      ? tab.activeCardClass
+                      : "bg-white dark:bg-[#12141a] border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-white/20"
+                  }`}
                 >
-                  {activeTab === "waitlist" && <WaitlistSection lalezarClassName="font-display" />}
+                  <div className="flex items-center justify-between gap-2 w-full">
+                    <div
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${tab.iconBgClass}`}
+                    >
+                      <Icon className="w-5 h-5" strokeWidth={1.9} />
+                    </div>
+                    {isActive && (
+                      <span className={`text-xs font-bold ${tab.accentText} whitespace-nowrap`}>
+                        انتخاب‌شده
+                      </span>
+                    )}
+                  </div>
 
-                  {activeTab === "installment" && (
-                    <Calculators
-                      lalezarClassName="font-display"
-                      activeTab="installment"
-                      hideHeaderTabs={true}
-                    />
-                  )}
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight truncate">
+                      {tab.title}
+                    </span>
+                    <span className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed lg:hidden truncate">
+                      {tab.subtitle}
+                    </span>
+                    <span className="hidden lg:block text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                      {tab.desktopDesc}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
 
-                  {activeTab === "registry" && (
-                    <Calculators
-                      lalezarClassName="font-display"
-                      activeTab="registry"
-                      hideHeaderTabs={true}
-                    />
-                  )}
+          {/* Active Workspace Panel */}
+          <div
+            ref={servicesPanelRef}
+            role="tabpanel"
+            id={`panel-${activeTab}`}
+            aria-labelledby={`tab-${activeTab}`}
+            className="rounded-3xl bg-white dark:bg-[#12141a] border border-slate-200 dark:border-white/[0.10] p-5 sm:p-7 lg:p-8"
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.16 }}
+              >
+                {activeTab === "waitlist" && <WaitlistSection lalezarClassName="font-display" />}
 
-                  {activeTab === "appleid" && <AppleIdSection lalezarClassName="font-display" />}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                {activeTab === "installment" && (
+                  <Calculators
+                    lalezarClassName="font-display"
+                    activeTab="installment"
+                    hideHeaderTabs={true}
+                  />
+                )}
+
+                {activeTab === "registry" && (
+                  <Calculators
+                    lalezarClassName="font-display"
+                    activeTab="registry"
+                    hideHeaderTabs={true}
+                  />
+                )}
+
+                {activeTab === "appleid" && <AppleIdSection lalezarClassName="font-display" />}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </section>
 
@@ -370,11 +387,13 @@ function HomeContent() {
           className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch scroll-mt-20"
         >
           {/* Direct Channels */}
-          <div className="lg:col-span-5 rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.09] p-5 sm:p-6 flex flex-col justify-between gap-5">
-            <div className="flex flex-col gap-1">
-              <h2 className="font-display text-2xl text-white">ارتباط مستقیم و کانال‌ها</h2>
-              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                استعلام قیمت لحظه‌ای، ثبت سفارش و ارتباط با واحد همکاران دانیفون
+          <div className="lg:col-span-5 rounded-3xl bg-white dark:bg-[#12141a] border border-slate-200 dark:border-white/[0.10] p-5 sm:p-6 flex flex-col justify-between gap-5">
+            <div className="flex flex-col gap-1.5">
+              <h2 className="font-display text-2xl text-slate-900 dark:text-white">
+                ارتباط مستقیم و پیام‌رسان‌ها
+              </h2>
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                اگر نیاز به راهنمایی تلفنی یا استعلام سریع دارید، مستقیم پیام دهید یا تماس بگیرید.
               </p>
             </div>
 
@@ -382,27 +401,29 @@ function HomeContent() {
               {config.buttons.map((btn) => {
                 const cardInner = (
                   <div
-                    className={`min-h-[68px] p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-between gap-2 transition-colors touch-manipulation ${
+                    className={`min-h-[72px] p-3.5 rounded-2xl bg-slate-50 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] flex items-center justify-between gap-2 transition-colors touch-manipulation ${
                       !btn.isActive
                         ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-white/[0.09] hover:border-white/20 active:scale-[0.98] cursor-pointer"
+                        : "hover:bg-slate-100 dark:hover:bg-white/[0.09] hover:border-slate-300 dark:hover:border-white/20 active:scale-[0.98] cursor-pointer"
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="w-9 h-9 rounded-xl bg-white/[0.05] flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-white dark:bg-white/[0.06] border border-slate-200 dark:border-white/[0.08] flex items-center justify-center shrink-0">
                         {getChannelIcon(btn.icon)}
                       </div>
                       <div className="flex flex-col text-right min-w-0">
-                        <span className="text-xs sm:text-sm font-bold text-white truncate">
+                        <span className="text-sm font-bold text-slate-900 dark:text-white truncate">
                           {btn.title}
                         </span>
-                        <span className="text-[11px] text-neutral-400 truncate">{btn.subtitle}</span>
+                        <span className="text-xs text-slate-600 dark:text-slate-400 truncate">
+                          {btn.subtitle}
+                        </span>
                       </div>
                     </div>
                     {btn.isActive ? (
-                      <ArrowUpLeft className="w-4 h-4 text-neutral-400 shrink-0" />
+                      <ArrowUpLeft className="w-4 h-4 text-slate-400 shrink-0" />
                     ) : (
-                      <span className="text-[10px] text-neutral-400 whitespace-nowrap shrink-0">
+                      <span className="text-xs text-slate-400 whitespace-nowrap shrink-0">
                         به‌زودی
                       </span>
                     )}
@@ -426,35 +447,45 @@ function HomeContent() {
                 );
               })}
             </div>
+
+            <a
+              href={config.contact.phoneUrl}
+              className="min-h-[50px] w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-950 font-bold text-sm flex items-center justify-center gap-2 transition-colors touch-manipulation"
+            >
+              <PhoneCall className="w-4 h-4 shrink-0" />
+              <span className="tabular-nums">تماس تلفنی با فروشگاه ({config.contact.phone})</span>
+            </a>
           </div>
 
           {/* Store Location & Routing */}
-          <div className="lg:col-span-7 rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.09] p-5 sm:p-6 flex flex-col gap-4">
+          <div className="lg:col-span-7 rounded-3xl bg-white dark:bg-[#12141a] border border-slate-200 dark:border-white/[0.10] p-5 sm:p-6 flex flex-col gap-4">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-500/15 border border-rose-400/25 flex items-center justify-center text-rose-300 shrink-0 mt-0.5">
-                <MapPin className="w-4 h-4" strokeWidth={1.9} />
+              <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-500/15 border border-rose-200 dark:border-rose-400/25 flex items-center justify-center text-rose-600 dark:text-rose-300 shrink-0 mt-0.5">
+                <MapPin className="w-5 h-5" strokeWidth={1.9} />
               </div>
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <h2 className="font-display text-2xl text-white">{config.location.storeName}</h2>
-                  <span className="text-xs text-neutral-400" dir="ltr">
+                  <h2 className="font-display text-2xl text-slate-900 dark:text-white">
+                    {config.location.storeName}
+                  </h2>
+                  <span className="text-xs text-slate-500 dark:text-slate-400" dir="ltr">
                     {config.business.nameEn}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-neutral-200 leading-relaxed">
+                <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
                   {config.location.addressText}
                 </p>
-                <p className="text-xs font-semibold text-amber-300 mt-0.5">
+                <p className="text-xs sm:text-sm font-semibold text-amber-700 dark:text-amber-300 mt-0.5">
                   نکته مراجعه حضوری: لاین سمت چپ فروشگاه متعلق به تیم دانیفون است.
                 </p>
               </div>
             </div>
 
-            <div className="w-full aspect-[16/9] lg:aspect-[21/9] rounded-2xl overflow-hidden relative border border-white/10">
+            <div className="w-full aspect-[16/9] lg:aspect-[21/9] rounded-2xl overflow-hidden relative border border-slate-200 dark:border-white/10">
               <iframe
                 title="موقعیت مکانی دقیق فروشگاه دانیفون روی نقشه"
                 src={`https://maps.google.com/maps?q=${config.location.lat || 35.6994973},${config.location.lng || 51.3433422}&hl=fa&z=17&output=embed`}
-                className="w-full h-full border-0 brightness-[0.86] contrast-[1.05] pointer-events-none"
+                className="w-full h-full border-0 dark:brightness-[0.86] dark:contrast-[1.05] pointer-events-none"
                 allowFullScreen={false}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -466,14 +497,14 @@ function HomeContent() {
                 aria-label="باز کردن موقعیت دقیق فروشگاه دانیفون در گوگل مپ"
                 className="absolute inset-0 flex items-end justify-end p-3 bg-gradient-to-t from-black/65 via-transparent to-transparent"
               >
-                <span className="px-3 py-1.5 rounded-xl bg-black/80 backdrop-blur-md border border-white/15 text-xs font-semibold text-white inline-flex items-center gap-1.5">
+                <span className="px-3.5 py-2 rounded-xl bg-white/95 dark:bg-black/85 backdrop-blur-md border border-slate-200 dark:border-white/15 text-xs font-bold text-slate-900 dark:text-white inline-flex items-center gap-1.5 shadow-xs">
                   <span>مشاهده پین دقیق روی نقشه</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </span>
               </a>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {[
                 { label: "گوگل‌مپ", url: config.location.mapUrl },
                 { label: "نشان", url: config.location.neshanUrl },
@@ -485,9 +516,9 @@ function HomeContent() {
                   href={navItem.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="min-h-[44px] py-2 px-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.11] active:scale-[0.98] border border-white/[0.09] text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap touch-manipulation"
+                  className="min-h-[46px] py-2 px-3 rounded-xl bg-slate-100 dark:bg-white/[0.05] hover:bg-slate-200/80 dark:hover:bg-white/[0.11] active:scale-[0.98] border border-slate-200 dark:border-white/[0.09] text-slate-900 dark:text-white text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap touch-manipulation"
                 >
-                  <Navigation className="w-3.5 h-3.5 text-neutral-300" />
+                  <Navigation className="w-4 h-4 text-slate-600 dark:text-slate-300" />
                   <span>{navItem.label}</span>
                 </a>
               ))}
@@ -496,7 +527,7 @@ function HomeContent() {
         </section>
 
         {/* QUIET FOOTER */}
-        <footer className="mt-2 pt-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-neutral-400 select-none">
+        <footer className="mt-2 pt-6 border-t border-slate-200 dark:border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 select-none">
           <span>تهران، فروشگاه تخصصی آیفون و خدمات اپل</span>
           <span dir="ltr">
             &copy; {new Date().getFullYear()} {config.business.nameEn}. All rights reserved.
@@ -509,7 +540,7 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={<div className="min-h-dvh bg-[#08080a]" />}>
+    <Suspense fallback={<div className="min-h-dvh bg-[#f8fafc] dark:bg-[#090a0d]" />}>
       <HomeContent />
     </Suspense>
   );

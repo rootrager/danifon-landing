@@ -7,9 +7,8 @@ export default function InventoryLayout({
 }) {
   return (
     <div className="relative w-full flex-1 flex flex-col">
-      {/* Subtle top titanium radial highlight exclusive to inventory catalog */}
       <div
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[min(680px,100vw)] h-[360px] bg-gradient-to-b from-emerald-500/10 via-sky-500/5 to-transparent blur-[110px] rounded-full pointer-events-none -z-10"
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-[min(720px,100vw)] h-[320px] bg-gradient-to-b from-emerald-500/[0.06] via-sky-500/[0.03] to-transparent dark:from-emerald-500/10 dark:via-sky-500/5 blur-[110px] rounded-full pointer-events-none -z-10"
         aria-hidden="true"
       />
       {children}

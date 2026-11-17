@@ -33,7 +33,6 @@ export default function AmbientPlayer() {
 
   return (
     <>
-      {/* Load audio on demand (preload="none") to save 6.8MB on initial page load */}
       <audio
         ref={audioRef}
         src="/danifon-ambient.mp3"
@@ -51,47 +50,54 @@ export default function AmbientPlayer() {
         <button
           type="button"
           onClick={togglePlay}
-          className={`min-h-[40px] group flex items-center gap-2 px-3 py-2 rounded-full border backdrop-blur-xl transition-colors duration-200 cursor-pointer active:scale-95 shadow-lg touch-manipulation ${
+          className={`min-h-[40px] group flex items-center gap-2 px-3.5 py-2 rounded-full border backdrop-blur-xl transition-colors duration-200 cursor-pointer active:scale-95 shadow-sm touch-manipulation ${
             isPlaying
-              ? "bg-neutral-900/90 border-white/25 text-white"
-              : "bg-neutral-950/75 border-white/12 text-neutral-300 hover:text-white hover:border-white/25"
+              ? "bg-slate-900 dark:bg-white border-slate-900 dark:border-white text-white dark:text-slate-950"
+              : "bg-white/95 dark:bg-[#12141a]/90 border-slate-200 dark:border-white/15 text-slate-700 dark:text-slate-200 hover:border-slate-300 dark:hover:border-white/30"
           }`}
           title={isPlaying ? "توقف موزیک پس‌زمینه" : "پخش موزیک لایت"}
           aria-label={isPlaying ? "توقف موزیک پس‌زمینه" : "پخش موزیک لایت"}
           aria-pressed={isPlaying}
         >
-          {/* Equalizer Bars */}
           <span className="flex items-end gap-[2px] h-3.5 w-3.5 shrink-0 justify-center" aria-hidden="true">
             <span
               className={`w-[2px] rounded-full transition-colors ${
-                isPlaying ? "bg-emerald-400 animate-eq-1 h-3" : "bg-neutral-400 h-1"
+                isPlaying
+                  ? "bg-emerald-400 dark:bg-emerald-600 animate-eq-1 h-3"
+                  : "bg-slate-400 dark:bg-slate-500 h-1"
               }`}
             />
             <span
               className={`w-[2px] rounded-full transition-colors ${
-                isPlaying ? "bg-emerald-300 animate-eq-2 h-3.5" : "bg-neutral-400 h-1.5"
+                isPlaying
+                  ? "bg-emerald-300 dark:bg-emerald-500 animate-eq-2 h-3.5"
+                  : "bg-slate-400 dark:bg-slate-500 h-1.5"
               }`}
             />
             <span
               className={`w-[2px] rounded-full transition-colors ${
-                isPlaying ? "bg-emerald-400 animate-eq-3 h-2.5" : "bg-neutral-400 h-1"
+                isPlaying
+                  ? "bg-emerald-400 dark:bg-emerald-600 animate-eq-3 h-2.5"
+                  : "bg-slate-400 dark:bg-slate-500 h-1"
               }`}
             />
             <span
               className={`w-[2px] rounded-full transition-colors ${
-                isPlaying ? "bg-emerald-200 animate-eq-4 h-3" : "bg-neutral-400 h-1.5"
+                isPlaying
+                  ? "bg-emerald-200 dark:bg-emerald-400 animate-eq-4 h-3"
+                  : "bg-slate-400 dark:bg-slate-500 h-1.5"
               }`}
             />
           </span>
 
-          <span className="text-[11px] font-medium whitespace-nowrap">
+          <span className="text-xs font-medium whitespace-nowrap">
             {isPlaying ? "در حال پخش" : "موزیک لایت"}
           </span>
 
           {isPlaying ? (
-            <Pause className="w-3 h-3 text-neutral-300 shrink-0" />
+            <Pause className="w-3.5 h-3.5 shrink-0 opacity-80" />
           ) : (
-            <Play className="w-3 h-3 text-neutral-300 shrink-0" />
+            <Play className="w-3.5 h-3.5 shrink-0 opacity-80" />
           )}
         </button>
       </aside>

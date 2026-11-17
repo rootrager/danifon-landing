@@ -1,4 +1,36 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Astryx-inspired semantic surface & contrast tokens */
+:root {
+  --surface-canvas: #f8fafc;
+  --surface-card: #ffffff;
+  --surface-muted: #f1f5f9;
+  --surface-border: #e2e8f0;
+  --surface-border-strong: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706;
+  --accent-sky: #0284c7;
+  --accent-indigo: #4f46e5;
+}
+
+.dark {
+  --surface-canvas: #090a0d;
+  --surface-card: #12141a;
+  --surface-muted: #1a1d26;
+  --surface-border: rgba(255, 255, 255, 0.1);
+  --surface-border-strong: rgba(255, 255, 255, 0.2);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-sky: #38bdf8;
+  --accent-indigo: #818cf8;
+}
 
 @keyframes fadeIn {
   from {
@@ -8,15 +40,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
   }
 }
 
@@ -38,22 +61,13 @@
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-eq-1 { animation: eqBar1 0.8s ease-in-out infinite; }
 .animate-eq-2 { animation: eqBar2 0.65s ease-in-out infinite 0.15s; }
 .animate-eq-3 { animation: eqBar3 0.9s ease-in-out infinite 0.05s; }
 .animate-eq-4 { animation: eqBar4 0.7s ease-in-out infinite 0.2s; }
-
-.shimmer-text {
-  background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 30%, #ffffff 55%, #94a3b8 80%, #ffffff 100%);
-  background-size: 200% auto;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shimmer 8s linear infinite;
-}
 
 .font-display {
   font-family: var(--font-lalezar), var(--font-vazirmatn), sans-serif;
@@ -67,10 +81,10 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Custom sleek scrollbars */
+/* Custom sleek scrollbars adaptive to light and dark modes */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -78,11 +92,19 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(100, 116, 139, 0.28);
   border-radius: 9999px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+}
+
 ::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.48);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.32);
 }
 

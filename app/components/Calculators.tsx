@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect, useId } from "react";
 import { Calculator, ShieldCheck, Send, MessageCircle, AlertTriangle, ChevronDown } from "lucide-react";
 import config from "../../config.json";
+import { formatMillionHelper } from "../inventory/components/inventoryHelpers";
 
 interface CalculatorsProps {
   lalezarClassName?: string;
@@ -39,10 +40,10 @@ const SERIES_FILTERS = [
 ];
 
 const PRESET_AMOUNTS = [
-  { label: "۳۰ م", value: 30000000 },
-  { label: "۵۰ م", value: 50000000 },
-  { label: "۷۰ م", value: 70000000 },
-  { label: "۱۰۰ م", value: 100000000 },
+  { label: "۳۰ میلیون", value: 30000000 },
+  { label: "۵۰ میلیون", value: 50000000 },
+  { label: "۷۰ میلیون", value: 70000000 },
+  { label: "۱۰۰ میلیون", value: 100000000 },
 ];
 
 export default function Calculators({
@@ -140,30 +141,30 @@ export default function Calculators({
   return (
     <div className="w-full flex flex-col gap-5" dir="rtl">
       {!hideHeaderTabs && (
-        <div className="grid grid-cols-2 gap-1.5 bg-white/[0.04] p-1 rounded-xl border border-white/[0.08]">
+        <div className="grid grid-cols-2 gap-1.5 bg-slate-100 dark:bg-white/[0.04] p-1 rounded-xl border border-slate-200 dark:border-white/[0.08]">
           <button
             type="button"
             onClick={() => handleTabSwitch("installment")}
-            className={`min-h-[40px] py-2 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer touch-manipulation ${
+            className={`min-h-[42px] py-2 px-3 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer touch-manipulation ${
               currentTab === "installment"
-                ? "bg-white text-neutral-950"
-                : "text-neutral-300 hover:text-white"
+                ? "bg-white dark:bg-white text-slate-900 shadow-xs"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
-            <Calculator className="w-3.5 h-3.5" />
+            <Calculator className="w-4 h-4" />
             <span>محاسبه اقساط</span>
           </button>
 
           <button
             type="button"
             onClick={() => handleTabSwitch("registry")}
-            className={`min-h-[40px] py-2 px-3 rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer touch-manipulation ${
+            className={`min-h-[42px] py-2 px-3 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer touch-manipulation ${
               currentTab === "registry"
-                ? "bg-white text-neutral-950"
-                : "text-neutral-300 hover:text-white"
+                ? "bg-white dark:bg-white text-slate-900 shadow-xs"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
+            <ShieldCheck className="w-4 h-4" />
             <span>محاسبه رجیستری</span>
           </button>
         </div>
@@ -171,32 +172,39 @@ export default function Calculators({
 
       {/* TAB 1: INSTALLMENT CALCULATOR */}
       {currentTab === "installment" && (
-        <div className="flex flex-col gap-4 animate-fadeIn">
+        <div className="flex flex-col gap-5 animate-fadeIn">
           {/* Header */}
-          <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-white/[0.08]">
+          <div className="flex items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-white/[0.10]">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-xl bg-sky-500/15 border border-sky-400/30 flex items-center justify-center text-sky-300 shrink-0">
-                <Calculator className="w-5 h-5" strokeWidth={1.8} />
+              <div className="w-11 h-11 rounded-xl bg-sky-50 dark:bg-sky-500/15 border border-sky-200 dark:border-sky-400/30 flex items-center justify-center text-sky-600 dark:text-sky-300 shrink-0">
+                <Calculator className="w-5 h-5" strokeWidth={1.9} />
               </div>
               <div className="flex flex-col min-w-0">
-                <h3 className={`text-lg font-normal text-white truncate ${lalezarClassName}`}>
+                <h3 className={`text-xl font-normal text-slate-900 dark:text-white truncate ${lalezarClassName}`}>
                   محاسبه‌گر اقساط آیفون
                 </h3>
-                <p className="text-xs text-neutral-400 truncate">
-                  پرداخت با چک صیادی بنفش با کارمزد شفاف
+                <p className="text-sm text-slate-600 dark:text-slate-300 truncate">
+                  خرید با چک صیادی بنفش · محاسبه شفاف مبلغ هر قسط
                 </p>
               </div>
             </div>
-            <span className="text-[11px] font-medium text-sky-300 whitespace-nowrap shrink-0">
-              سقف هر قسط ۱۵ م
+            <span className="text-xs font-semibold text-sky-700 dark:text-sky-300 whitespace-nowrap shrink-0">
+              سقف هر چک ۱۵ میلیون
             </span>
           </div>
 
           {/* Amount Input */}
           <div className="flex flex-col gap-2">
-            <label htmlFor={`${uid}-amount`} className="text-xs font-semibold text-neutral-200">
-              مبلغ گوشی یا مانده اقساط (تومان)
-            </label>
+            <div className="flex items-center justify-between gap-2">
+              <label htmlFor={`${uid}-amount`} className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                مبلغ باقیمانده برای اقساط (تومان)
+              </label>
+              {parsedAmount > 0 && (
+                <span className="text-xs font-medium text-sky-700 dark:text-sky-300 tabular-nums">
+                  {formatMillionHelper(parsedAmount)}
+                </span>
+              )}
+            </div>
 
             <div className="relative">
               <input
@@ -211,29 +219,29 @@ export default function Calculators({
                   setAmountStr(raw);
                 }}
                 placeholder="50,000,000"
-                className={`w-full min-h-[48px] bg-black/50 border rounded-xl py-2.5 pr-4 pl-16 text-white text-base font-bold tabular-nums text-left outline-none transition-colors placeholder:text-neutral-500 placeholder:font-normal placeholder:text-xs ${
+                className={`w-full min-h-[52px] bg-slate-50 dark:bg-black/40 border rounded-xl py-2.5 pr-4 pl-16 text-slate-900 dark:text-white text-lg font-bold tabular-nums text-left outline-none transition-colors placeholder:text-slate-400 placeholder:font-normal placeholder:text-sm ${
                   isInvalidAmount
-                    ? "border-amber-500/50 focus:border-amber-400"
+                    ? "border-amber-500 focus:border-amber-600"
                     : isMonthlyExceeded
-                    ? "border-rose-500/70 focus:border-rose-400"
-                    : "border-white/15 focus:border-sky-400"
+                    ? "border-rose-500 focus:border-rose-600"
+                    : "border-slate-300 dark:border-white/15 focus:border-sky-500"
                 }`}
               />
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-medium text-neutral-400 pointer-events-none select-none">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-500 dark:text-slate-400 pointer-events-none select-none">
                 تومان
               </span>
             </div>
 
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {PRESET_AMOUNTS.map((p) => (
                 <button
                   key={p.value}
                   type="button"
                   onClick={() => setAmountStr(String(p.value))}
-                  className={`min-h-[38px] py-1.5 px-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap touch-manipulation border ${
+                  className={`min-h-[42px] py-2 px-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer whitespace-nowrap touch-manipulation border ${
                     parsedAmount === p.value
-                      ? "bg-sky-500 text-neutral-950 border-sky-400 font-bold"
-                      : "bg-white/[0.04] text-neutral-300 hover:bg-white/[0.08] border-white/[0.08]"
+                      ? "bg-sky-600 dark:bg-sky-500 text-white dark:text-slate-950 border-sky-600 dark:border-sky-400 font-bold"
+                      : "bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-white/[0.10] border-slate-200 dark:border-white/[0.08]"
                   }`}
                 >
                   {p.label}
@@ -242,8 +250,8 @@ export default function Calculators({
             </div>
 
             {isInvalidAmount && (
-              <p className="text-xs text-amber-300 flex items-center gap-1.5 mt-0.5">
-                <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+              <p className="text-sm text-amber-700 dark:text-amber-300 flex items-center gap-1.5 mt-0.5">
+                <AlertTriangle className="w-4 h-4 shrink-0" />
                 <span>لطفاً مبلغ مورد نظر برای اقساط را وارد کنید.</span>
               </p>
             )}
@@ -252,22 +260,24 @@ export default function Calculators({
           {/* Months Grid */}
           <div className="flex flex-col gap-2">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-semibold text-neutral-200">
-                مدت بازپرداخت (تعداد چک ماهانه)
+              <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                تعداد ماه بازپرداخت
               </span>
-              <span className="text-xs font-bold text-sky-300 tabular-nums">{selectedMonths} ماهه</span>
+              <span className="text-sm font-bold text-sky-700 dark:text-sky-300 tabular-nums">
+                {selectedMonths} ماهه
+              </span>
             </div>
 
-            <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
               {(config.installment.monthsOptions || [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]).map((m) => (
                 <button
                   key={m}
                   type="button"
                   onClick={() => setSelectedMonths(m)}
-                  className={`min-h-[40px] py-2 rounded-xl text-xs font-semibold tabular-nums transition-colors cursor-pointer whitespace-nowrap touch-manipulation border ${
+                  className={`min-h-[42px] py-2 rounded-xl text-xs sm:text-sm font-semibold tabular-nums transition-colors cursor-pointer whitespace-nowrap touch-manipulation border ${
                     selectedMonths === m
-                      ? "bg-sky-500 text-neutral-950 border-sky-400 font-bold"
-                      : "bg-white/[0.04] text-neutral-300 hover:bg-white/[0.08] border-white/[0.08]"
+                      ? "bg-sky-600 dark:bg-sky-500 text-white dark:text-slate-950 border-sky-600 dark:border-sky-400 font-bold"
+                      : "bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-white/[0.10] border-slate-200 dark:border-white/[0.08]"
                   }`}
                 >
                   {m} ماه
@@ -276,41 +286,52 @@ export default function Calculators({
             </div>
           </div>
 
-          {/* Breakdown (clean hairline dividers instead of nested box clutter) */}
-          <div className="border-t border-b border-white/[0.08] py-3.5 flex flex-col gap-2.5 text-xs">
+          {/* Breakdown */}
+          <div className="border-t border-b border-slate-200 dark:border-white/[0.08] py-4 flex flex-col gap-3 text-sm">
             <div className="flex justify-between items-center">
-              <span className="text-neutral-400">مبلغ اولیه درخواستی</span>
-              <span className="font-semibold text-white tabular-nums">
+              <span className="text-slate-600 dark:text-slate-400">مبلغ اولیه درخواستی</span>
+              <span className="font-semibold text-slate-900 dark:text-white tabular-nums">
                 {formatCurrency(parsedAmount)} تومان
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-neutral-400">مجموع بازپرداخت ({selectedMonths} ماه)</span>
-              <span className="font-semibold text-sky-300 tabular-nums">
+              <span className="text-slate-600 dark:text-slate-400">مجموع کل بازپرداخت ({selectedMonths} ماه)</span>
+              <span className="font-semibold text-sky-700 dark:text-sky-300 tabular-nums">
                 {formatCurrency(Math.round(totalPayback))} تومان
               </span>
             </div>
-            <div className="flex justify-between items-center pt-2 border-t border-white/[0.06]">
-              <span className="font-bold text-white">مبلغ هر چک ماهانه</span>
-              <span
-                className={`font-extrabold text-base sm:text-lg tabular-nums ${
-                  isMonthlyExceeded ? "text-rose-400" : "text-emerald-400"
-                }`}
-              >
-                {formatCurrency(Math.round(monthlyCheck))} تومان
-              </span>
+            <div className="flex justify-between items-center pt-3 border-t border-slate-200 dark:border-white/[0.08]">
+              <span className="font-bold text-slate-900 dark:text-white">مبلغ هر چک ماهانه</span>
+              <div className="flex flex-col items-end">
+                <span
+                  className={`font-extrabold text-xl sm:text-2xl tabular-nums ${
+                    isMonthlyExceeded
+                      ? "text-rose-600 dark:text-rose-400"
+                      : "text-emerald-700 dark:text-emerald-400"
+                  }`}
+                >
+                  {formatCurrency(Math.round(monthlyCheck))} تومان
+                </span>
+                {monthlyCheck > 0 && (
+                  <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    {formatMillionHelper(Math.round(monthlyCheck))}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
           {isMonthlyExceeded && (
             <div
               role="alert"
-              className="p-3 rounded-xl bg-rose-950/50 border border-rose-500/35 text-xs text-rose-200 leading-relaxed flex items-start gap-2"
+              className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-500/35 text-sm text-rose-800 dark:text-rose-200 leading-relaxed flex items-start gap-2.5"
             >
-              <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+              <AlertTriangle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
               <div>
-                <strong className="block mb-0.5 text-rose-300">سقف مجاز هر قسط (۱۵ میلیون تومان)</strong>
-                مبلغ قسط ماهانه از سقف مجاز بالاتر است. تعداد ماه‌ها را افزایش دهید یا مبلغ اولیه را کاهش دهید.
+                <strong className="block mb-0.5 text-rose-900 dark:text-rose-300">
+                  سقف مجاز هر چک (۱۵ میلیون تومان)
+                </strong>
+                مبلغ قسط ماهانه از ۱۵ میلیون تومان بیشتر شده است. لطفاً تعداد ماه‌ها را بیشتر کنید یا مبلغ پیش‌پرداخت را افزایش دهید.
               </div>
             </div>
           )}
@@ -319,7 +340,7 @@ export default function Calculators({
             <button
               type="button"
               disabled
-              className="min-h-[48px] w-full py-3 px-4 bg-white/[0.05] text-neutral-500 font-bold rounded-xl cursor-not-allowed border border-white/[0.08] text-xs text-center"
+              className="min-h-[52px] w-full py-3 px-4 bg-slate-100 dark:bg-white/[0.05] text-slate-400 dark:text-slate-500 font-bold rounded-xl cursor-not-allowed border border-slate-200 dark:border-white/[0.08] text-sm text-center"
             >
               {isInvalidAmount
                 ? "مبلغ اقساط را وارد کنید"
@@ -332,10 +353,10 @@ export default function Calculators({
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[48px] w-full py-3 px-4 bg-sky-500 hover:bg-sky-400 active:scale-[0.98] text-neutral-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer touch-manipulation text-sm"
+              className="min-h-[52px] w-full py-3 px-4 bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 active:scale-[0.99] text-white dark:text-slate-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer touch-manipulation text-base"
             >
               <Send className="w-4 h-4 shrink-0" />
-              <span>ثبت درخواست اقساط در تلگرام</span>
+              <span>ارسال شرایط اقساط به کارشناس</span>
             </a>
           )}
         </div>
@@ -343,28 +364,28 @@ export default function Calculators({
 
       {/* TAB 2: REGISTRY CALCULATOR */}
       {currentTab === "registry" && (
-        <div className="flex flex-col gap-4 animate-fadeIn">
-          <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-white/[0.08]">
+        <div className="flex flex-col gap-5 animate-fadeIn">
+          <div className="flex items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-white/[0.10]">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shrink-0">
-                <ShieldCheck className="w-5 h-5" strokeWidth={1.8} />
+              <div className="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-500/15 border border-emerald-200 dark:border-emerald-400/30 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                <ShieldCheck className="w-5 h-5" strokeWidth={1.9} />
               </div>
               <div className="flex flex-col min-w-0">
-                <h3 className={`text-lg font-normal text-white truncate ${lalezarClassName}`}>
+                <h3 className={`text-xl font-normal text-slate-900 dark:text-white truncate ${lalezarClassName}`}>
                   استعلام هزینه رجیستری آیفون
                 </h3>
-                <p className="text-xs text-neutral-400 truncate">
-                  محاسبه دقیق تعرفه گمرک + ثبت قانونی مسافری
+                <p className="text-sm text-slate-600 dark:text-slate-300 truncate">
+                  تعرفه رسمی گمرک + ثبت قانونی با پاسپورت
                 </p>
               </div>
             </div>
-            <span className="text-[11px] font-medium text-emerald-300 whitespace-nowrap shrink-0">
-              تعرفه رسمی
+            <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 whitespace-nowrap shrink-0">
+              به‌روزرسانی روزانه
             </span>
           </div>
 
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-semibold text-neutral-200">سری آیفون</span>
+            <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">۱. سری آیفون</span>
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
               {SERIES_FILTERS.map((s) => {
                 const isSelected = selectedSeries === s.id;
@@ -373,10 +394,10 @@ export default function Calculators({
                     key={s.id}
                     type="button"
                     onClick={() => handleSeriesChange(s.id)}
-                    className={`min-h-[38px] py-1.5 px-3.5 rounded-xl text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer touch-manipulation border ${
+                    className={`min-h-[40px] py-1.5 px-3.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer touch-manipulation border ${
                       isSelected
-                        ? "bg-emerald-500 text-neutral-950 border-emerald-400 font-bold"
-                        : "bg-white/[0.04] text-neutral-300 hover:text-white hover:bg-white/[0.08] border-white/[0.08]"
+                        ? "bg-emerald-600 dark:bg-emerald-500 text-white dark:text-slate-950 border-emerald-600 dark:border-emerald-400 font-bold"
+                        : "bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-white/[0.10] border-slate-200 dark:border-white/[0.08]"
                     }`}
                   >
                     {s.label}
@@ -387,8 +408,8 @@ export default function Calculators({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label htmlFor={`${uid}-reg-model`} className="text-xs font-semibold text-neutral-200">
-              انتخاب مدل دقیق
+            <label htmlFor={`${uid}-reg-model`} className="text-sm font-semibold text-slate-800 dark:text-slate-200">
+              ۲. انتخاب مدل دقیق گوشی
             </label>
             <div className="relative">
               <select
@@ -396,57 +417,62 @@ export default function Calculators({
                 dir="ltr"
                 value={selectedModelName}
                 onChange={(e) => setSelectedModelName(e.target.value)}
-                className="w-full min-h-[48px] appearance-none bg-black/50 border border-white/15 rounded-xl py-2.5 pl-9 pr-3.5 text-white text-sm font-semibold outline-none focus:border-emerald-400 transition-colors cursor-pointer text-right touch-manipulation"
+                className="w-full min-h-[48px] appearance-none bg-slate-50 dark:bg-black/40 border border-slate-300 dark:border-white/15 rounded-xl py-2.5 pl-10 pr-3.5 text-slate-900 dark:text-white text-sm font-semibold outline-none focus:border-emerald-500 transition-colors cursor-pointer text-right touch-manipulation"
               >
                 {filteredModels.map((m) => (
-                  <option key={m.name} value={m.name} className="bg-neutral-900 text-white">
+                  <option key={m.name} value={m.name} className="bg-white dark:bg-neutral-900 text-slate-900 dark:text-white">
                     {m.name}
                   </option>
                 ))}
               </select>
-              <ChevronDown className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
           </div>
 
           {/* Breakdown */}
-          <div className="border-t border-b border-white/[0.08] py-3.5 flex flex-col gap-2.5 text-xs">
+          <div className="border-t border-b border-slate-200 dark:border-white/[0.08] py-4 flex flex-col gap-3 text-sm">
             <div className="flex justify-between items-center">
-              <span className="text-neutral-400">مدل انتخابی</span>
-              <span className="font-semibold text-white" dir="ltr">
+              <span className="text-slate-600 dark:text-slate-400">مدل انتخابی</span>
+              <span className="font-semibold text-slate-900 dark:text-white" dir="ltr">
                 {currentModel.name}
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-neutral-400">هزینه گمرکی دستگاه</span>
-              <span className="font-semibold text-neutral-200 tabular-nums">
+              <span className="text-slate-600 dark:text-slate-400">هزینه گمرکی دستگاه</span>
+              <span className="font-semibold text-slate-900 dark:text-slate-200 tabular-nums">
                 {formatCurrency(currentModel.customsFee)} تومان
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-neutral-400">ثبت رسمی و حق پاسپورت</span>
-              <span className="font-semibold text-amber-300 tabular-nums">
+              <span className="text-slate-600 dark:text-slate-400">ثبت مسافری و حق پاسپورت</span>
+              <span className="font-semibold text-amber-700 dark:text-amber-300 tabular-nums">
                 {formatCurrency(passportFee)} تومان
               </span>
             </div>
-            <div className="flex justify-between items-center pt-2 border-t border-white/[0.06]">
-              <span className="font-bold text-white">مجموع کل هزینه رجیستری</span>
-              <span className="font-extrabold text-emerald-400 text-base sm:text-lg tabular-nums">
-                {formatCurrency(totalRegistryFee)} تومان
-              </span>
+            <div className="flex justify-between items-center pt-3 border-t border-slate-200 dark:border-white/[0.08]">
+              <span className="font-bold text-slate-900 dark:text-white">مجموع کل هزینه رجیستری</span>
+              <div className="flex flex-col items-end">
+                <span className="font-extrabold text-emerald-700 dark:text-emerald-400 text-xl sm:text-2xl tabular-nums">
+                  {formatCurrency(totalRegistryFee)} تومان
+                </span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  {formatMillionHelper(totalRegistryFee)}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <a
               href={`${config.registry.whatsappUrl}?text=${encodeURIComponent(
                 `سلام وقت بخیر، قصد انجام رجیستری دارم.\nمدل دستگاه: ${currentModel.name}\nهزینه گمرک: ${formatCurrency(currentModel.customsFee)} تومان\nمبلغ کل رجیستری: ${formatCurrency(totalRegistryFee)} تومان`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[48px] py-3 px-3 bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-neutral-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-xs touch-manipulation"
+              className="min-h-[50px] py-3 px-4 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 active:scale-[0.98] text-white dark:text-slate-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-sm touch-manipulation"
             >
               <MessageCircle className="w-4 h-4 shrink-0" />
-              <span>پیام در واتساپ</span>
+              <span>انجام رجیستری در واتساپ</span>
             </a>
 
             <a
@@ -455,10 +481,10 @@ export default function Calculators({
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-[48px] py-3 px-3 bg-sky-500 hover:bg-sky-400 active:scale-[0.98] text-neutral-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-xs touch-manipulation"
+              className="min-h-[50px] py-3 px-4 bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 active:scale-[0.98] text-white dark:text-slate-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer text-sm touch-manipulation"
             >
               <Send className="w-4 h-4 shrink-0" />
-              <span>پیام در تلگرام</span>
+              <span>انجام رجیستری در تلگرام</span>
             </a>
           </div>
         </div>

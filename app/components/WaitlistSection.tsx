@@ -43,25 +43,29 @@ const INTENT_OPTIONS = [
     percent: 100,
     short: "۱۰۰٪ فوری",
     label: "خرید نقدی و فوری به محض موجود شدن",
-    colorClass: "border-amber-400/70 bg-amber-500/15 text-amber-200",
+    colorClass:
+      "border-amber-500 bg-amber-50 dark:bg-amber-500/15 text-amber-900 dark:text-amber-200 font-bold",
   },
   {
     percent: 80,
     short: "۸۰٪ قطعی",
     label: "خرید قطعی تا چند روز آینده",
-    colorClass: "border-sky-400/70 bg-sky-500/15 text-sky-200",
+    colorClass:
+      "border-sky-500 bg-sky-50 dark:bg-sky-500/15 text-sky-900 dark:text-sky-200 font-bold",
   },
   {
     percent: 50,
     short: "۵۰٪ بررسی",
     label: "بررسی قیمت و خرید در این ماه",
-    colorClass: "border-emerald-400/70 bg-emerald-500/15 text-emerald-200",
+    colorClass:
+      "border-emerald-500 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-900 dark:text-emerald-200 font-bold",
   },
   {
     percent: 20,
     short: "۲۰٪ استعلام",
     label: "صرفاً استعلام قیمت و مشاوره",
-    colorClass: "border-white/30 bg-white/10 text-white",
+    colorClass:
+      "border-slate-400 dark:border-white/40 bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white font-bold",
   },
 ];
 
@@ -226,22 +230,22 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
   return (
     <div className="w-full flex flex-col gap-5" dir="rtl">
       {/* Header */}
-      <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-white/[0.08]">
+      <div className="flex items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-white/[0.10]">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center text-amber-300 shrink-0">
-            <Target className="w-5 h-5" strokeWidth={1.8} />
+          <div className="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-500/15 border border-amber-200 dark:border-amber-400/30 flex items-center justify-center text-amber-600 dark:text-amber-300 shrink-0">
+            <Target className="w-5 h-5" strokeWidth={1.9} />
           </div>
           <div className="flex flex-col min-w-0">
-            <h3 className={`text-lg font-normal text-white truncate ${lalezarClassName}`}>
+            <h3 className={`text-xl font-normal text-slate-900 dark:text-white truncate ${lalezarClassName}`}>
               صف انتظار VIP آیفون دلخواه
             </h3>
-            <p className="text-xs text-neutral-400 truncate">
-              رزرو کانفیگ مدنظر با بالاترین اولویت تحویل در فروشگاه
+            <p className="text-sm text-slate-600 dark:text-slate-300 truncate">
+              مدل مورد نظرتان را ثبت کنید تا به محض موجود شدن با شما تماس بگیریم
             </p>
           </div>
         </div>
-        <span className="text-[11px] font-medium text-amber-300 whitespace-nowrap shrink-0">
-          اولویت VIP
+        <span className="text-xs font-semibold text-amber-700 dark:text-amber-300 whitespace-nowrap shrink-0">
+          ثبت رایگان
         </span>
       </div>
 
@@ -253,52 +257,52 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col items-center text-center py-6 px-4 rounded-2xl bg-white/[0.03] border border-emerald-500/30 gap-4"
+            className="flex flex-col items-center text-center py-6 px-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/25 border border-emerald-200 dark:border-emerald-500/30 gap-4"
           >
-            <div className="w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-400/40 flex items-center justify-center text-emerald-300">
-              <CheckCircle2 className="w-6 h-6" strokeWidth={1.8} />
+            <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300">
+              <CheckCircle2 className="w-6 h-6" strokeWidth={1.9} />
             </div>
             <div className="space-y-1">
-              <h4 className={`text-lg text-white ${lalezarClassName}`}>
+              <h4 className={`text-xl text-slate-900 dark:text-white ${lalezarClassName}`}>
                 درخواست شما با موفقیت ثبت شد
               </h4>
-              <p className="text-xs text-neutral-300 leading-relaxed max-w-sm">
-                به محض موجود شدن این کانفیگ، کارشناسان دانیفون با شما تماس خواهند گرفت.
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-md">
+                به محض موجود شدن این گوشی با مشخصات دلخواه شما، همکاران دانیفون با شما تماس می‌گیرند.
               </p>
             </div>
 
-            <div className="py-2 px-4 rounded-xl bg-white/[0.05] border border-white/10 flex items-center gap-2 text-xs">
-              <span className="text-neutral-400">کد رهگیری:</span>
-              <strong className="text-emerald-300 font-mono font-bold text-sm tracking-wider" dir="ltr">
+            <div className="py-2 px-4 rounded-xl bg-white dark:bg-black/30 border border-slate-200 dark:border-white/10 flex items-center gap-2 text-sm">
+              <span className="text-slate-600 dark:text-slate-400">کد پیگیری:</span>
+              <strong className="text-emerald-700 dark:text-emerald-300 font-mono font-bold text-base tracking-wider" dir="ltr">
                 #{trackingCode}
               </strong>
             </div>
 
-            <div className="w-full max-w-sm border-t border-white/[0.08] pt-3 text-xs text-neutral-300 space-y-1 text-right">
+            <div className="w-full max-w-sm border-t border-slate-200 dark:border-white/[0.10] pt-3 text-sm text-slate-700 dark:text-slate-300 space-y-1.5 text-right">
               <div className="flex justify-between">
-                <span className="text-neutral-400">دستگاه:</span>
-                <span className="font-semibold text-white" dir="ltr">
+                <span className="text-slate-500 dark:text-slate-400">مدل گوشی:</span>
+                <span className="font-semibold text-slate-900 dark:text-white" dir="ltr">
                   {currentPhone.name} · {selectedStorage}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-400">رنگ و وضعیت:</span>
-                <span className="font-medium text-white">
+                <span className="text-slate-500 dark:text-slate-400">رنگ و وضعیت:</span>
+                <span className="font-medium text-slate-900 dark:text-white">
                   {selectedColor} · {selectedCondition}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-neutral-400">فوریت خرید:</span>
-                <span className="font-medium text-amber-300 tabular-nums">{selectedIntent}%</span>
+                <span className="text-slate-500 dark:text-slate-400">اولویت خرید:</span>
+                <span className="font-semibold text-amber-700 dark:text-amber-300 tabular-nums">{selectedIntent}%</span>
               </div>
             </div>
 
             <button
               type="button"
               onClick={handleReset}
-              className="min-h-[44px] w-full max-w-sm py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-colors cursor-pointer inline-flex items-center justify-center gap-2"
+              className="min-h-[46px] w-full max-w-sm py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-950 hover:opacity-90 font-semibold text-sm transition-opacity cursor-pointer inline-flex items-center justify-center gap-2"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4 h-4" />
               <span>ثبت درخواست جدید</span>
             </button>
           </motion.div>
@@ -311,33 +315,33 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col items-center text-center py-6 px-4 rounded-2xl bg-white/[0.03] border border-amber-500/35 gap-4"
+            className="flex flex-col items-center text-center py-6 px-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-500/35 gap-4"
           >
-            <div className="w-12 h-12 rounded-full bg-amber-500/15 border border-amber-400/40 flex items-center justify-center text-amber-300">
-              <Target className="w-6 h-6" strokeWidth={1.8} />
+            <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300">
+              <Target className="w-6 h-6" strokeWidth={1.9} />
             </div>
             <div className="space-y-1">
-              <h4 className={`text-lg text-white ${lalezarClassName}`}>
+              <h4 className={`text-xl text-slate-900 dark:text-white ${lalezarClassName}`}>
                 درخواست شما آماده ارسال است
               </h4>
-              <p className="text-xs text-neutral-300 leading-relaxed max-w-sm">
-                برای ثبت فوری در صف اولویت VIP، پیام آماده زیر را با یک لمس در تلگرام یا واتساپ ارسال کنید.
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-md">
+                برای ثبت سریع‌تر در صف VIP، یکی از دکمه‌های زیر را بزنید تا متن آماده مستقیماً برای کارشناس ما ارسال شود.
               </p>
             </div>
 
-            <div className="py-1.5 px-3.5 rounded-xl bg-white/[0.05] border border-white/10 flex items-center gap-2 text-xs">
-              <span className="text-neutral-400">کد رهگیری:</span>
-              <strong className="text-amber-300 font-mono font-bold text-sm" dir="ltr">
+            <div className="py-1.5 px-4 rounded-xl bg-white dark:bg-black/30 border border-slate-200 dark:border-white/10 flex items-center gap-2 text-sm">
+              <span className="text-slate-600 dark:text-slate-400">کد پیگیری:</span>
+              <strong className="text-amber-700 dark:text-amber-300 font-mono font-bold text-base" dir="ltr">
                 #{trackingCode}
               </strong>
             </div>
 
-            <div className="w-full max-w-sm flex flex-col gap-2">
+            <div className="w-full max-w-sm flex flex-col gap-2.5">
               <a
                 href={directTelegramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[46px] w-full py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-400 active:scale-[0.98] text-neutral-950 font-bold text-xs transition-all flex items-center justify-center gap-2"
+                className="min-h-[48px] w-full py-3 px-4 rounded-xl bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-400 active:scale-[0.98] text-white dark:text-slate-950 font-bold text-sm transition-all flex items-center justify-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 <span>ارسال درخواست در تلگرام</span>
@@ -347,7 +351,7 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                 href={directWhatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="min-h-[46px] w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] text-neutral-950 font-bold text-xs transition-all flex items-center justify-center gap-2"
+                className="min-h-[48px] w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 active:scale-[0.98] text-white dark:text-slate-950 font-bold text-sm transition-all flex items-center justify-center gap-2"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>ارسال درخواست در واتساپ</span>
@@ -356,18 +360,18 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
               <button
                 type="button"
                 onClick={handleCopy}
-                className="min-h-[42px] w-full py-2.5 px-4 rounded-xl bg-white/[0.07] hover:bg-white/[0.12] text-neutral-200 text-xs font-semibold transition-colors border border-white/10 flex items-center justify-center gap-2 cursor-pointer"
+                className="min-h-[44px] w-full py-2.5 px-4 rounded-xl bg-white dark:bg-white/[0.08] hover:bg-slate-100 dark:hover:bg-white/[0.14] text-slate-800 dark:text-slate-100 text-sm font-semibold transition-colors border border-slate-200 dark:border-white/15 flex items-center justify-center gap-2 cursor-pointer"
               >
-                {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                {copied ? <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> : <Copy className="w-4 h-4" />}
                 <span>{copied ? "متن پیام کپی شد" : "کپی متن کامل درخواست"}</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleReset}
-                className="mt-1 py-2 text-xs text-neutral-400 hover:text-white transition-colors cursor-pointer"
+                className="mt-1 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
               >
-                ویرایش اطلاعات فرم
+                بازگشت و ویرایش فرم
               </button>
             </div>
           </motion.div>
@@ -379,11 +383,13 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 text-xs"
+            className="flex flex-col gap-5 text-sm"
           >
-            {/* Series Filter Tabs */}
+            {/* Step 1: Series Filter Tabs */}
             <div className="flex flex-col gap-2">
-              <span className="font-semibold text-neutral-200">سری آیفون</span>
+              <span className="font-semibold text-slate-800 dark:text-slate-200">
+                ۱. انتخاب سری گوشی
+              </span>
               <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
                 {SERIES_TABS.map((tab) => {
                   const active = selectedSeries === tab.id;
@@ -392,10 +398,10 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                       key={tab.id}
                       type="button"
                       onClick={() => handleSeriesChange(tab.id)}
-                      className={`min-h-[38px] py-1.5 px-3.5 rounded-xl text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer touch-manipulation border ${
+                      className={`min-h-[40px] py-1.5 px-3.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer touch-manipulation border ${
                         active
-                          ? "bg-amber-500 text-neutral-950 border-amber-400 font-bold"
-                          : "bg-white/[0.04] text-neutral-300 hover:text-white hover:bg-white/[0.08] border-white/[0.08]"
+                          ? "bg-amber-500 text-white dark:text-slate-950 border-amber-500 font-bold"
+                          : "bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-white/[0.10] border-slate-200 dark:border-white/[0.08]"
                       }`}
                     >
                       {tab.label}
@@ -405,11 +411,11 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
               </div>
             </div>
 
-            {/* Model + Storage in clean 2-col desktop / stacked mobile */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            {/* Step 2: Model + Storage */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <label htmlFor={`${uid}-model`} className="font-semibold text-neutral-200">
-                  مدل دستگاه
+                <label htmlFor={`${uid}-model`} className="font-semibold text-slate-800 dark:text-slate-200">
+                  ۲. مدل دقیق گوشی
                 </label>
                 <div className="relative">
                   <select
@@ -417,20 +423,20 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                     dir="ltr"
                     value={selectedPhoneName}
                     onChange={(e) => handlePhoneChange(e.target.value)}
-                    className="w-full min-h-[46px] appearance-none bg-black/50 border border-white/15 rounded-xl py-2.5 pl-9 pr-3.5 text-white text-sm font-semibold outline-none focus:border-amber-400 transition-colors cursor-pointer text-right touch-manipulation"
+                    className="w-full min-h-[48px] appearance-none bg-slate-50 dark:bg-black/40 border border-slate-300 dark:border-white/15 rounded-xl py-2.5 pl-10 pr-3.5 text-slate-900 dark:text-white text-sm font-semibold outline-none focus:border-amber-500 transition-colors cursor-pointer text-right touch-manipulation"
                   >
                     {filteredPhones.map((p) => (
-                      <option key={p.id} value={p.name} className="bg-neutral-900 text-white">
+                      <option key={p.id} value={p.name} className="bg-white dark:bg-neutral-900 text-slate-900 dark:text-white">
                         {p.name}
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <span className="font-semibold text-neutral-200">ظرفیت حافظه</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">حافظه دستگاه</span>
                 <div className="grid grid-cols-4 gap-1.5">
                   {currentPhone.storages.map((st) => {
                     const active = selectedStorage === st;
@@ -439,10 +445,10 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                         key={st}
                         type="button"
                         onClick={() => setSelectedStorage(st)}
-                        className={`min-h-[46px] py-2 px-1.5 rounded-xl font-bold font-mono text-xs transition-colors cursor-pointer touch-manipulation border whitespace-nowrap ${
+                        className={`min-h-[48px] py-2 px-1.5 rounded-xl font-bold font-mono text-xs sm:text-sm transition-colors cursor-pointer touch-manipulation border whitespace-nowrap ${
                           active
-                            ? "bg-amber-500 text-neutral-950 border-amber-400"
-                            : "bg-white/[0.04] text-neutral-300 hover:bg-white/[0.08] border-white/[0.08]"
+                            ? "bg-amber-500 text-white dark:text-slate-950 border-amber-500"
+                            : "bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-white/[0.10] border-slate-200 dark:border-white/[0.08]"
                         }`}
                       >
                         {st}
@@ -453,11 +459,11 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
               </div>
             </div>
 
-            {/* Condition */}
+            {/* Step 3: Condition */}
             <div className="flex flex-col gap-1.5">
-              <span className="font-semibold text-neutral-200">وضعیت دستگاه</span>
+              <span className="font-semibold text-slate-800 dark:text-slate-200">وضعیت دستگاه</span>
               <div
-                className={`grid gap-1.5 ${
+                className={`grid gap-2 ${
                   availableConditions.length === 3 ? "grid-cols-3" : "grid-cols-2"
                 }`}
               >
@@ -468,10 +474,10 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                       key={cond}
                       type="button"
                       onClick={() => setSelectedCondition(cond)}
-                      className={`min-h-[42px] py-2 px-2 text-center rounded-xl font-semibold text-xs transition-colors cursor-pointer whitespace-nowrap truncate touch-manipulation border ${
+                      className={`min-h-[44px] py-2 px-2 text-center rounded-xl font-semibold text-xs sm:text-sm transition-colors cursor-pointer whitespace-nowrap truncate touch-manipulation border ${
                         active
-                          ? "bg-amber-500/20 text-amber-200 border-amber-400/70"
-                          : "bg-white/[0.04] text-neutral-300 hover:bg-white/[0.08] border-white/[0.08]"
+                          ? "bg-amber-50 dark:bg-amber-500/20 text-amber-900 dark:text-amber-200 border-amber-500 dark:border-amber-400/70"
+                          : "bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-white/[0.10] border-slate-200 dark:border-white/[0.08]"
                       }`}
                     >
                       {cond}
@@ -481,10 +487,10 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
               </div>
             </div>
 
-            {/* Color Swatches */}
+            {/* Step 4: Color Swatches */}
             <div className="flex flex-col gap-1.5">
-              <span className="font-semibold text-neutral-200">رنگ دلخواه</span>
-              <div className="flex flex-wrap gap-1.5">
+              <span className="font-semibold text-slate-800 dark:text-slate-200">رنگ دلخواه</span>
+              <div className="flex flex-wrap gap-2">
                 {currentPhone.colorItems?.map((col) => {
                   const active = selectedColor === col.name;
                   return (
@@ -492,14 +498,14 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                       key={col.name}
                       type="button"
                       onClick={() => setSelectedColor(col.name)}
-                      className={`min-h-[40px] py-1.5 px-3 rounded-xl font-medium text-xs flex items-center gap-2 transition-colors cursor-pointer touch-manipulation border whitespace-nowrap ${
+                      className={`min-h-[42px] py-1.5 px-3.5 rounded-xl font-medium text-xs sm:text-sm flex items-center gap-2 transition-colors cursor-pointer touch-manipulation border whitespace-nowrap ${
                         active
-                          ? "bg-white/15 text-white border-white/50"
-                          : "bg-white/[0.04] text-neutral-300 hover:bg-white/[0.08] border-white/[0.08]"
+                          ? "bg-slate-900 dark:bg-white text-white dark:text-slate-950 border-slate-900 dark:border-white font-semibold"
+                          : "bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-white/[0.10] border-slate-200 dark:border-white/[0.08]"
                       }`}
                     >
                       <span
-                        className="w-3 h-3 rounded-full shrink-0 border border-white/30"
+                        className="w-3.5 h-3.5 rounded-full shrink-0 border border-black/20 dark:border-white/30"
                         style={{ backgroundColor: col.hex }}
                       />
                       <span>{col.name}</span>
@@ -509,10 +515,10 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                 <button
                   type="button"
                   onClick={() => setSelectedColor("فرقی ندارد")}
-                  className={`min-h-[40px] py-1.5 px-3 rounded-xl font-medium text-xs transition-colors cursor-pointer touch-manipulation border whitespace-nowrap ${
+                  className={`min-h-[42px] py-1.5 px-3.5 rounded-xl font-medium text-xs sm:text-sm transition-colors cursor-pointer touch-manipulation border whitespace-nowrap ${
                     selectedColor === "فرقی ندارد"
-                      ? "bg-white/15 text-white border-white/50"
-                      : "bg-white/[0.04] text-neutral-300 hover:bg-white/[0.08] border-white/[0.08]"
+                      ? "bg-slate-900 dark:bg-white text-white dark:text-slate-950 border-slate-900 dark:border-white font-semibold"
+                      : "bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-white/[0.10] border-slate-200 dark:border-white/[0.08]"
                   }`}
                 >
                   هر رنگی
@@ -520,13 +526,13 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
               </div>
             </div>
 
-            {/* Purchase Intent & Urgency */}
-            <div className="flex flex-col gap-2 pt-3 border-t border-white/[0.08]">
-              <div className="flex justify-between items-center gap-2">
-                <span className="font-semibold text-neutral-200">درصد فوریت خرید</span>
-                <span className="text-[11px] text-amber-300 truncate">{activeIntentObj.label}</span>
+            {/* Purchase Intent */}
+            <div className="flex flex-col gap-2 pt-4 border-t border-slate-200 dark:border-white/[0.08]">
+              <div className="flex flex-wrap justify-between items-center gap-2">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">زمان و قصد خرید</span>
+                <span className="text-xs text-amber-700 dark:text-amber-300 font-medium">{activeIntentObj.label}</span>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {INTENT_OPTIONS.map((opt) => {
                   const active = selectedIntent === opt.percent;
                   return (
@@ -534,10 +540,10 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                       key={opt.percent}
                       type="button"
                       onClick={() => setSelectedIntent(opt.percent)}
-                      className={`min-h-[42px] px-2.5 py-2 rounded-xl border text-center transition-colors cursor-pointer touch-manipulation text-xs font-semibold tabular-nums whitespace-nowrap ${
+                      className={`min-h-[44px] px-3 py-2 rounded-xl border text-center transition-colors cursor-pointer touch-manipulation text-xs sm:text-sm font-semibold tabular-nums whitespace-nowrap ${
                         active
                           ? opt.colorClass
-                          : "border-white/[0.08] bg-white/[0.04] text-neutral-300 hover:bg-white/[0.08]"
+                          : "border-slate-200 dark:border-white/[0.08] bg-slate-100 dark:bg-white/[0.05] text-slate-700 dark:text-slate-300 hover:bg-slate-200/70 dark:hover:bg-white/[0.10]"
                       }`}
                     >
                       {opt.short}
@@ -548,11 +554,11 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
             </div>
 
             {/* Contact Info */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-3 border-t border-white/[0.08]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-slate-200 dark:border-white/[0.08]">
               <div className="flex flex-col gap-1.5">
-                <label htmlFor={`${uid}-phone`} className="font-semibold text-neutral-200 flex items-center justify-between">
-                  <span>شماره همراه</span>
-                  <span className="text-[11px] font-normal text-amber-300">الزامی</span>
+                <label htmlFor={`${uid}-phone`} className="font-semibold text-slate-800 dark:text-slate-200 flex items-center justify-between">
+                  <span>شماره موبایل</span>
+                  <span className="text-xs font-medium text-amber-700 dark:text-amber-300">الزامی</span>
                 </label>
                 <input
                   id={`${uid}-phone`}
@@ -563,42 +569,42 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
                   placeholder="09121234567"
-                  className="w-full min-h-[46px] bg-black/50 border border-white/15 rounded-xl py-2.5 px-3.5 text-white font-semibold tabular-nums outline-none focus:border-amber-400 text-left placeholder:text-neutral-500"
+                  className="w-full min-h-[48px] bg-slate-50 dark:bg-black/40 border border-slate-300 dark:border-white/15 rounded-xl py-2.5 px-3.5 text-slate-900 dark:text-white font-semibold tabular-nums outline-none focus:border-amber-500 text-left placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor={`${uid}-name`} className="font-medium text-neutral-300">
-                  نام (اختیاری)
+                <label htmlFor={`${uid}-name`} className="font-medium text-slate-700 dark:text-slate-300">
+                  نام و نام خانوادگی (اختیاری)
                 </label>
                 <input
                   id={`${uid}-name`}
                   type="text"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  placeholder="نام و نام خانوادگی"
-                  className="w-full min-h-[46px] bg-black/50 border border-white/15 rounded-xl py-2.5 px-3.5 text-white outline-none focus:border-amber-400 placeholder:text-neutral-500"
+                  placeholder="مثلاً: علی رضایی"
+                  className="w-full min-h-[48px] bg-slate-50 dark:bg-black/40 border border-slate-300 dark:border-white/15 rounded-xl py-2.5 px-3.5 text-slate-900 dark:text-white outline-none focus:border-amber-500 placeholder:text-slate-400 dark:placeholder:text-slate-500"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor={`${uid}-method`} className="font-medium text-neutral-300">
-                  روش ارتباط
+                <label htmlFor={`${uid}-method`} className="font-medium text-slate-700 dark:text-slate-300">
+                  چطور با شما تماس بگیریم؟
                 </label>
                 <div className="relative">
                   <select
                     id={`${uid}-method`}
                     value={contactMethod}
                     onChange={(e) => setContactMethod(e.target.value)}
-                    className="w-full min-h-[46px] appearance-none bg-black/50 border border-white/15 rounded-xl py-2.5 pl-8 pr-3 text-white outline-none focus:border-amber-400 cursor-pointer touch-manipulation"
+                    className="w-full min-h-[48px] appearance-none bg-slate-50 dark:bg-black/40 border border-slate-300 dark:border-white/15 rounded-xl py-2.5 pl-9 pr-3.5 text-slate-900 dark:text-white outline-none focus:border-amber-500 cursor-pointer touch-manipulation"
                   >
                     {CONTACT_METHODS.map((m) => (
-                      <option key={m} value={m} className="bg-neutral-900 text-white">
+                      <option key={m} value={m} className="bg-white dark:bg-neutral-900 text-slate-900 dark:text-white">
                         {m}
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="w-4 h-4 text-neutral-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
             </div>
@@ -606,9 +612,9 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
             {errorMessage && (
               <div
                 role="alert"
-                className="p-3 rounded-xl bg-rose-950/60 border border-rose-500/40 text-xs text-rose-200 flex items-center gap-2"
+                className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-500/40 text-sm text-rose-800 dark:text-rose-200 flex items-center gap-2"
               >
-                <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
                 <span>{errorMessage}</span>
               </div>
             )}
@@ -616,15 +622,15 @@ export default function WaitlistSection({ lalezarClassName = "" }: WaitlistSecti
             <button
               type="submit"
               disabled={status === "loading"}
-              className="min-h-[48px] w-full py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 active:scale-[0.98] disabled:opacity-60 text-neutral-950 font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer touch-manipulation"
+              className="min-h-[52px] w-full py-3 px-5 rounded-xl bg-amber-500 hover:bg-amber-600 dark:hover:bg-amber-400 active:scale-[0.99] disabled:opacity-60 text-white dark:text-slate-950 font-bold text-base transition-all flex items-center justify-center gap-2 cursor-pointer touch-manipulation"
             >
               {status === "loading" ? (
                 <>
-                  <span className="w-4 h-4 border-2 border-neutral-950 border-t-transparent rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
                   <span>در حال ثبت درخواست...</span>
                 </>
               ) : (
-                <span>ثبت در صف انتظار VIP</span>
+                <span>ثبت رایگان در صف انتظار VIP</span>
               )}
             </button>
           </motion.form>

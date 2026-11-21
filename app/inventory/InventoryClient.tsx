@@ -909,103 +909,106 @@ export default function InventoryClient({
                   </Link>
                 </div>
               </div>
-            ) : viewMode === "table" ? (
-              /* DESKTOP COMPARISON TABLE VIEW */
-              <div className="hidden md:block w-full rounded-3xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/18 overflow-hidden animate-fadeIn">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-right border-collapse">
-                    <thead>
-                      <tr className="border-b border-blue-100 dark:border-blue-400/15 text-xs font-bold text-slate-600 dark:text-slate-300 bg-blue-50/60 dark:bg-[#11192e]/70">
-                        <th className="py-3.5 px-4">مدل و رنگ</th>
-                        <th className="py-3.5 px-3">ظرفیت</th>
-                        <th className="py-3.5 px-3">سفارش / پارت</th>
-                        <th className="py-3.5 px-3">وضعیت پلمپ</th>
-                        <th className="py-3.5 px-3">رجیستری</th>
-                        <th className="py-3.5 px-3">قیمت نقدی</th>
-                        <th className="py-3.5 px-4 text-left">اقدام</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-blue-100/70 dark:divide-blue-400/10 text-sm">
-                      {filteredItems.map((item) => {
-                        const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
-                        const colorMeta = getColorMeta(extractedColor, modelName);
-                        const partInfo = getPartCountry(item);
-                        const actMeta = getActivationMeta(item.condition);
-                        const regMeta = getRegistryMeta(item.registry);
-                        const { formatted, millionHelper } = formatPrice(item.price);
-
-                        return (
-                          <tr
-                            key={item.item_id}
-                            onClick={() => setInspectedItem(item)}
-                            className="hover:bg-blue-50/40 dark:hover:bg-[#11192e]/60 transition-colors cursor-pointer group"
-                          >
-                            <td className="py-3.5 px-4">
-                              <div className="flex items-center gap-3">
-                                <span
-                                  className="w-3 h-3 rounded-full border border-black/15 dark:border-white/30 shrink-0"
-                                  style={{ backgroundColor: colorMeta.hex }}
-                                />
-                                <div className="flex flex-col">
-                                  <span className="font-bold text-[#0a1628] dark:text-white" dir="ltr">
-                                    {modelName}
-                                  </span>
-                                  <span className="text-xs text-slate-500 dark:text-slate-400">
-                                    {colorMeta.compactName}
-                                  </span>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="py-3.5 px-3 font-mono font-bold text-[#0a1628] dark:text-slate-200 tabular-nums">
-                              {item.capacity}
-                            </td>
-                            <td className="py-3.5 px-3 text-slate-700 dark:text-slate-300 text-xs">
-                              <span>{partInfo.flag} {partInfo.code}</span>
-                              <span className="block text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                {partInfo.plainSummary}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-3">
-                              <span className={actMeta.isNotActive ? "text-emerald-700 dark:text-emerald-300 font-semibold text-xs" : "text-blue-700 dark:text-blue-300 font-semibold text-xs"}>
-                                {actMeta.isNotActive ? "پلمپ کارخانه" : "پلمپ اکتیو"}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-3">
-                              <span className={regMeta.isRegistered ? "text-amber-700 dark:text-amber-300 font-semibold text-xs" : "text-slate-500 dark:text-slate-400 text-xs"}>
-                                {regMeta.shortLabel}
-                              </span>
-                            </td>
-                            <td className="py-3.5 px-3 whitespace-nowrap">
-                              <span className="font-extrabold text-[#0a1628] dark:text-white tabular-nums block">
-                                {formatted}
-                              </span>
-                              {millionHelper && (
-                                <span className="text-[11px] text-slate-500 dark:text-slate-400 tabular-nums">
-                                  {millionHelper}
-                                </span>
-                              )}
-                            </td>
-                            <td className="py-3.5 px-4 text-left">
-                              <span className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap">
-                                <span>بررسی و رزرو</span>
-                                <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             ) : (
-              /* GROUPED CATALOG */
-              <div className="flex flex-col gap-5">
-                {groupedByModel.map((group) => (
-                  <article
-                    key={group.modelName}
-                    className="w-full rounded-3xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/18 p-4 sm:p-5 flex flex-col gap-4 animate-fadeIn"
-                  >
+              <>
+                {viewMode === "table" && (
+                  /* DESKTOP COMPARISON TABLE VIEW */
+                  <div className="hidden md:block w-full rounded-3xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/18 overflow-hidden animate-fadeIn">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-right border-collapse">
+                        <thead>
+                          <tr className="border-b border-blue-100 dark:border-blue-400/15 text-xs font-bold text-slate-600 dark:text-slate-300 bg-blue-50/60 dark:bg-[#11192e]/70">
+                            <th className="py-3.5 px-4">مدل و رنگ</th>
+                            <th className="py-3.5 px-3">ظرفیت</th>
+                            <th className="py-3.5 px-3">سفارش / پارت</th>
+                            <th className="py-3.5 px-3">وضعیت پلمپ</th>
+                            <th className="py-3.5 px-3">رجیستری</th>
+                            <th className="py-3.5 px-3">قیمت نقدی</th>
+                            <th className="py-3.5 px-4 text-left">اقدام</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-blue-100/70 dark:divide-blue-400/10 text-sm">
+                          {filteredItems.map((item) => {
+                            const { modelName, extractedColor } = parseModelAndColor(item.model, item.color);
+                            const colorMeta = getColorMeta(extractedColor, modelName);
+                            const partInfo = getPartCountry(item);
+                            const actMeta = getActivationMeta(item.condition);
+                            const regMeta = getRegistryMeta(item.registry);
+                            const { formatted, millionHelper } = formatPrice(item.price);
+
+                            return (
+                              <tr
+                                key={item.item_id}
+                                onClick={() => setInspectedItem(item)}
+                                className="hover:bg-blue-50/40 dark:hover:bg-[#11192e]/60 transition-colors cursor-pointer group"
+                              >
+                                <td className="py-3.5 px-4">
+                                  <div className="flex items-center gap-3">
+                                    <span
+                                      className="w-3 h-3 rounded-full border border-black/15 dark:border-white/30 shrink-0"
+                                      style={{ backgroundColor: colorMeta.hex }}
+                                    />
+                                    <div className="flex flex-col">
+                                      <span className="font-bold text-[#0a1628] dark:text-white" dir="ltr">
+                                        {modelName}
+                                      </span>
+                                      <span className="text-xs text-slate-500 dark:text-slate-400">
+                                        {colorMeta.compactName}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="py-3.5 px-3 font-mono font-bold text-[#0a1628] dark:text-slate-200 tabular-nums">
+                                  {item.capacity}
+                                </td>
+                                <td className="py-3.5 px-3 text-slate-700 dark:text-slate-300 text-xs">
+                                  <span>{partInfo.flag} {partInfo.code}</span>
+                                  <span className="block text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                    {partInfo.plainSummary}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 px-3">
+                                  <span className={actMeta.isNotActive ? "text-emerald-700 dark:text-emerald-300 font-semibold text-xs" : "text-blue-700 dark:text-blue-300 font-semibold text-xs"}>
+                                    {actMeta.isNotActive ? "پلمپ کارخانه" : "پلمپ اکتیو"}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 px-3">
+                                  <span className={regMeta.isRegistered ? "text-amber-700 dark:text-amber-300 font-semibold text-xs" : "text-slate-500 dark:text-slate-400 text-xs"}>
+                                    {regMeta.shortLabel}
+                                  </span>
+                                </td>
+                                <td className="py-3.5 px-3 whitespace-nowrap">
+                                  <span className="font-extrabold text-[#0a1628] dark:text-white tabular-nums block">
+                                    {formatted}
+                                  </span>
+                                  {millionHelper && (
+                                    <span className="text-[11px] text-slate-500 dark:text-slate-400 tabular-nums">
+                                      {millionHelper}
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="py-3.5 px-4 text-left">
+                                  <span className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap">
+                                    <span>بررسی و رزرو</span>
+                                    <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* GROUPED CATALOG (always visible on mobile, and on desktop when cards mode is active) */}
+                <div className={`flex flex-col gap-5 ${viewMode === "table" ? "md:hidden" : ""}`}>
+                  {groupedByModel.map((group) => (
+                    <article
+                      key={group.modelName}
+                      className="w-full rounded-3xl bg-white dark:bg-[#0b101d] border border-blue-100 dark:border-blue-400/18 p-4 sm:p-5 flex flex-col gap-4 animate-fadeIn"
+                    >
                     <div className="flex items-center justify-between pb-3.5 border-b border-blue-100 dark:border-blue-400/15 gap-3">
                       <div className="flex items-center gap-3 min-w-0">
                         <div className="flex items-center -space-x-2 space-x-reverse shrink-0">
@@ -1077,7 +1080,8 @@ export default function InventoryClient({
                     </div>
                   </article>
                 ))}
-              </div>
+                </div>
+              </>
             )}
           </div>
         </div>
@@ -1136,6 +1140,7 @@ export default function InventoryClient({
       <AnimatePresence>
         {inspectedItem && (
           <TechnicalInspectionSheet
+            key={inspectedItem.item_id}
             item={inspectedItem}
             onClose={() => setInspectedItem(null)}
           />

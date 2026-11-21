@@ -1,63 +1,59 @@
-# Danifon 2026 Design System & Frontend Tokens
+# Danifon Design System & Frontend Tokens
 
 ## 1. Visual Direction & Design Philosophy
-- **Aesthetic**: Obsidian Glassmorphism 2.0 (Frosted deep dark surfaces, specular hairline borders, Apple Hardware minimalism).
-- **Brand Identity**: Danifon (Premium iPhone & Apple Retail Store in Tehran, Iran).
+- **Aesthetic**: Tech-Trust Dual Theme — Crisp Cobalt Blue & White (Light / Day mode) and Luminous Cobalt Blue & Obsidian Black (Dark / Night mode).
+- **Brand Identity**: Danifon — Specialist sealed iPhone & Apple services storefront in Tehran.
 - **Core Principles**:
-  - **No AI Defaults**: Reject generic acid-green or purple gradients. Use tailored titanium metallic accents, frosted sapphire/emerald status indicators, and clean obsidian surfaces.
-  - **Legibility & Precision**: Tabular numerals for prices, strict typographic hierarchy with Vazirmatn & Lalezar for display, high-contrast WCAG 2.1 AA text on dark glass.
-  - **Tactile Ergonomics**: Generous 44px+ touch targets, instant feedback, haptic-feeling micro-animations without layout thrashing.
+  - **High-Trust Legibility**: Clear Persian RTL hierarchy with `Lalezar` for display headlines, `Vazirmatn` for UI/body text, and `tabular-nums` for prices and installment breakdowns.
+  - **Dual-Mode Ergonomics**: Seamless day/night toggle persisted via `ThemeProvider` (`danifon-theme`), with WCAG AA contrast across cards, inputs, and badges in both themes.
+  - **Tactile Touch Targets**: Generous 42px–56px touch targets, responsive desktop split layouts, and mobile bottom sheets.
 
 ---
 
 ## 2. Color Palette & Surface Tokens
 ```css
---surface-bg:        #08080a;        /* True deep dark background */
---surface-card:      rgba(255, 255, 255, 0.05); /* Frosted glass cards */
---surface-card-hover:rgba(255, 255, 255, 0.08); /* Hover glass brightness */
---surface-border:    rgba(255, 255, 255, 0.10); /* Hairline frosted border */
---surface-border-subtle: rgba(255, 255, 255, 0.06);
+/* Day Mode (Blue & White) */
+:root {
+  --surface-canvas: #f8fbff;
+  --surface-card: #ffffff;
+  --surface-muted: #eff6ff;
+  --surface-border: #dbeafe;
+  --surface-border-strong: #bfdbfe;
+  --text-primary: #0a1628;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --accent-primary: #0b63f6;
+  --accent-sky: #0284c7;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706;
+}
 
-/* Semantic Accents */
---accent-titanium:   #e2e8f0;        /* Natural Titanium tone */
---accent-emerald:    #10b981;        /* In-stock, authentic, battery >= 85% */
---accent-amber:      #f59e0b;        /* VIP queue, battery < 85%, used condition */
---accent-sky:        #38bdf8;        /* Calculators, Telegram actions */
---accent-indigo:     #6366f1;        /* Apple ID, inventory flagship highlight */
---text-primary:      #ffffff;
---text-secondary:    #94a3b8;
---text-muted:        #64748b;
+/* Night Mode (Blue & Black) */
+.dark {
+  --surface-canvas: #04060c;
+  --surface-card: #0b101d;
+  --surface-muted: #11192e;
+  --surface-border: rgba(96, 165, 250, 0.16);
+  --surface-border-strong: rgba(96, 165, 250, 0.34);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --accent-primary: #3b82f6;
+  --accent-sky: #38bdf8;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+}
 ```
 
 ---
 
 ## 3. Typography Hierarchy
-- **Body & Controls**: `Vazirmatn` (Weights: 400 Regular, 500 Medium, 700 Bold, 900 Black).
-- **Brand & Display Headlines**: `Lalezar` (For main product headlines & brand markers).
-- **Numbers & Metrics**: Tabular numbers (`font-variant-numeric: tabular-nums`) with Persian digit conversion where appropriate.
+- **Body & Controls**: `Vazirmatn` (`--font-vazirmatn`).
+- **Brand & Display Headlines**: `Lalezar` (`--font-lalezar`, `.font-display`).
+- **Numbers & Prices**: `tabular-nums` with plain-language million-Toman helpers (`formatMillionHelper`).
 
 ---
 
-## 4. Component Design: Inventory Showcase (`/inventory`)
-- **Search & Quick Triage**:
-  - Floating pill search bar with real-time query matching and instant clear.
-  - Category segmented switcher: `همه` • `آیفون` • `اپل واچ` • `ایرپاد` • `اکسسوری`.
-- **Filtering & Sorting Controls**:
-  - Condition: `همه` • `آکبند` • `کارکرده (در حد نو)`.
-  - Registry: `همه` • `با رجیستری` • `بدون رجیستری`.
-  - Sort: `جدیدترین` • `ارزان‌ترین` • `گران‌ترین` • `بالاترین سلامت باتری`.
-  - View Toggle: `نمای کارتی تفصیلی` (Showcase Cards) vs `نمای لیستی فشرده` (Compact Table).
-- **Inventory Cards**:
-  - Hardware silhouette avatar / category badge.
-  - Condition chip with semantic color (Emerald: آکبند / Amber: در حد نو).
-  - Dynamic iOS Battery Health gauge indicator.
-  - Origin Part Number badge with flag indicator (`🇨🇳 CH/A` / `🇦🇪 ZA/A` / `🇺🇸 LLA`).
-  - Clear price tag (`۷۴,۰۰۰,۰۰۰ تومان`) in natural RTL alignment.
-  - Interactive tap: Opens detailed Technical Inspection Bottom Sheet with pre-filled WhatsApp & Telegram checkout.
-
----
-
-## 5. Motion Guidelines (Emil Kowalski Philosophy)
-- Avoid `transition: all`. Target only `transform`, `opacity`, `background-color`, `border-color`.
-- Easing: `cubic-bezier(0.16, 1, 0.3, 1)` (spring-like deceleration).
-- Active touch feedback: `active:scale-[0.98]` on cards and buttons.
+## 4. Core Views
+- **Storefront Home (`/`)**: Split hero with live showcase video, 4-tab services workbench (VIP Waitlist, Installment Calculator, Registry Fee Estimator, Apple ID Order), direct messaging channels, and Tehran store map & navigation links.
+- **Inventory Catalog (`/inventory`)**: Sticky desktop filter sidebar and collapsible mobile filter drawer (search, registry status, series, exact model, capacity, body color, sealed activation status), card & desktop comparison table views, and a quick-view Technical Inspection Sheet with pre-filled Telegram/WhatsApp/phone booking.
